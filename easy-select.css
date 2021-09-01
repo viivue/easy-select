@@ -1,0 +1,82 @@
+/****************************
+ * Easy Select Core (no edit)
+****************************/
+.easy-select {position:relative; z-index:1; cursor:pointer;}
+.easy-select * {box-sizing:border-box;}
+
+/* keep select tag invisible over the current text, but still clickable */
+.easy-select-native select {
+    position:absolute; top:0; left:0; width:100%; height:100%; z-index:2;
+    opacity:0;
+}
+
+/* this will handle the visual display */
+.easy-select-current {
+    position:relative; z-index:1;
+    transition:all .3s ease;
+    user-select:none;
+}
+
+/* custom dropdown */
+.easy-select:not(.show-dropdown) .easy-select-dropdown {opacity:0; visibility:hidden; transform:scale(.9);}
+.easy-select-dropdown {
+    position:absolute; top:calc(100% + 1px); left:0; z-index:2;
+    transition:all .2s ease;
+    transform-origin:top left;
+}
+.easy-select-dropdown ul {margin:0; list-style:none;}
+.easy-select-dropdown ul li {padding:0;}
+
+
+/****************************
+ * Easy Select - Default theme
+****************************/
+.easy-select.theme-default {width:100%; max-width:300px;}
+
+/* select */
+.easy-select.theme-default .easy-select-current {
+    display:flex; align-items:center;
+    min-height:40px; line-height:1.1;
+    border:1px solid #ccc; border-radius:5px;
+    padding:5px 45px 5px 15px;
+}
+.easy-select.theme-default .easy-select-current:after {
+    position:absolute; top:50%; right:15px;
+    transform:translateY(-50%);
+    content:"\e931"; font-family:"icomoon", fantasy; font-size:.8em;
+    display:inline-block; margin-left:10px;
+    transition:all .3s ease;
+}
+.easy-select.theme-default:hover .easy-select-current {border-color:#000;}
+
+/* dropdown */
+.easy-select.theme-default .easy-select-dropdown {width:100%; max-width:300px;}
+.easy-select.theme-default .easy-select-dropdown ul {
+    background:#fff; border:1px solid #ccc;
+    border-radius:5px; margin:0; padding:0;
+}
+.easy-select.theme-default .easy-select-dropdown ul li {}
+.easy-select.theme-default .easy-select-dropdown ul li:not(:last-child) {border-bottom:1px solid rgba(0, 0, 0, .1);}
+.easy-select.theme-default .easy-select-dropdown ul li a {
+    display:flex; align-items:center;
+    min-height:40px; line-height:1.1;
+    text-decoration:none; padding:10px 15px;
+    transition:all .3s ease;
+}
+
+/* dropdown hover */
+.easy-select.theme-default .easy-select-dropdown ul:hover li a.active,
+.easy-select.theme-default .easy-select-dropdown ul li a {color:#333; background:transparent;}
+
+.easy-select.theme-default .easy-select-dropdown ul:hover li a.active:hover,
+.easy-select.theme-default .easy-select-dropdown ul li a:hover,
+.easy-select.theme-default .easy-select-dropdown ul li a.active {color:#fff; background:#0d95e8;}
+
+/* dropdown showing */
+.easy-select.theme-default.show-dropdown {z-index:2;}
+.easy-select.theme-default.show-dropdown .easy-select-current:after {transform:translateY(-50%) rotate(180deg);}
+
+
+/****************************
+ * Easy Select - More Theme
+****************************/

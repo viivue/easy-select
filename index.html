@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Select - Test</title>
+    <link rel="stylesheet" href="easy-select.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        body {
+            display:flex; align-items:center; justify-content:center; min-height:100vh;
+            font-family:"Inconsolata", monospace;
+        }
+        body .easy-select .easy-select-current:after {content:"v" !important;}
+
+        .option-color {display:flex; align-items:center;}
+        .option-color .color {
+            display:inline-block; width:20px; height:20px; font-size:0; margin-right:10px;
+            box-shadow:0 0 0 1px #ccc; border-radius:4px;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h1>Easy Select v2.1</h1>
+    <div>Custom dropdown</div>
+    <br>
+    <select data-easy-select>
+        <option value="bmw">BMW</option>
+        <option value="audi">Audi</option>
+        <option value="vinfast">Vinfast</option>
+        <option value="lamborghini">Lamborghini</option>
+    </select>
+    <br>
+    <br>
+    <div>Native dropdown</div>
+    <br>
+    <select id="native-dropdown">
+        <option value="apple">Apple</option>
+        <option value="samsung" selected>Samsung</option>
+        <option value="sony">Sony</option>
+        <option value="lg">LG</option>
+    </select>
+    <br>
+    <br>
+    <div>Custom dropdown item</div>
+    <br>
+<select id="custom-options">
+    <option value="apple" data-color="red">Apple</option>
+    <option value="samsung" data-color="blue" selected>Samsung</option>
+    <option value="sony" data-color="#000">Sony</option>
+    <option value="lg" data-color="#fff">LG</option>
+</select>
+</div>
+
+<script src="easy-select.js"></script>
+<script>
+    $('#native-dropdown').easySelect({
+        customDropdown: false
+    });
+    $('#custom-options').easySelect({
+        customOptions: true,
+        customDropdownItem: (option) => {
+            const colorCode = option.el.data('color');
+
+            let html = '<div class="option-color">';
+            html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
+            html += `<span>${option.name}</span>`;
+            html += '</div>';
+
+            return html;
+        }
+    });
+</script>
+</body>
+</html>
