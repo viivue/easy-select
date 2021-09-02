@@ -1,30 +1,45 @@
-# Easy Select v2.1
+# Easy Select v2.1.0
 
 > Easy Select has been converted to a jQuery plugin.
 
-Features:
+See [Demo](https://viivue.github.io/easy-select/)
 
-1. Replace default `<select>` with a custom `<div>` for easy styling. However, the default dropdown will remain the
-   same.
-2. Replace default dropdown with a custom dropdown (like NiceSelect), because sometimes the default dropdown is anoying.
+## Getting started
 
-## Options
+### Download
 
-| Option | Type | Default | Description |
-| ------ | ------ | ------ | ------ |
-| target | jQuery element | `$("[data-easy-select]")` | Target to `<select>` |
-| theme | string | `"default"` | Add theme class for multiple styling. Return a class like `theme-${your-theme}` |
-| classes | string | `""` | Add classes |
-| customDropdown | boolean | `false` | Add custom dropdown |
-| customDropdownItem | function | `undefined` | Custom dropdown item's HTML |
-| closeOnChange | boolean | `false` | For `customDropdown` only, close the dropdown when value is changed |
+You can get the latest version from [our releases](https://github.com/viivue/easy-select/releases/).
 
-## Installation
+```html
+<link rel="stylesheet" href="./easy-select.css">
+<script src="./easy-select.js"></script>
+```
 
-1. Include vendor in functions.php
-2. Enqueue using sample enqueue in easy-select.php
+### Using CDN
 
-### 1. Init
+[![](https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
+
+You can also browse for the latest version by visiting [Easy Select on jsDelivr](https://cdn.jsdelivr.net/gh/viivue/easy-select/)
+
+```html
+<!-- CSS (2.9 KB) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@master/easy-select.css">
+
+<!-- JS (6.7 KB) -->
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@master/easy-select.js"></script>
+```
+
+or minified version
+
+```html
+<!-- CSS (2.5 KB) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@master/easy-select.min.css">
+
+<!-- JS (3 KB) -->
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@master/easy-select.min.js"></script>
+```
+
+### Init
 
 - Add attribute to the select tag
 
@@ -38,7 +53,7 @@ Features:
 $('[data-easy-select]').easySelect();
 ```
 
-### 2. Add custom theme class
+### Add custom theme class
 
 ```html
 <select data-easy-select="your-theme">
@@ -50,12 +65,12 @@ or
 $('.wrapper select').easySelect({theme: "your-theme"});
 ```
 
-### 3. Gravity Form select
+### Gravity Form select
 
 - Enqueue inside `bcnb_gform_deregister_scripts`.
 - Gravity Form with AJAX need to be recalled on event `gform_post_render`.
 
-### 4. Custom dropdown item's HTML
+### Custom dropdown item's HTML
 
 Pass data to the option's attribute.
 
@@ -85,9 +100,22 @@ $('#custom-options').easySelect({
 });
 ```
 
+
+## Options
+
+| Option | Type | Default | Description |
+| ------ | ------ | ------ | ------ |
+| target | jQuery element | `$("[data-easy-select]")` | Target to `<select>` |
+| theme | string | `"default"` | Add theme class for multiple styling. Return a class like `theme-${your-theme}` |
+| classes | string | `""` | Add classes |
+| customDropdown | boolean | `false` | Add custom dropdown |
+| customDropdownItem | function | `undefined` | Custom dropdown item's HTML |
+| closeOnChange | boolean | `false` | For `customDropdown` only, close the dropdown when value is changed |
+
+
 ## Changelog
 
-### [2.1] - 2021-08-27
+### [2.1.0] - 2021-08-27
 
 - Convert to a jQuery plugin
 - Add option `customDropdownItem`
