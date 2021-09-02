@@ -1,3 +1,9 @@
+/**
+ * Easy Select v2.1.0
+ * https://github.com/viivue/easy-select
+ * MIT license - 2021
+ */
+
 (function($){
     $.fn.easySelect = function(options){
         const settings = $.extend({
