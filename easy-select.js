@@ -1,5 +1,5 @@
 /**
- * Easy Select v2.1.0
+ * Easy Select v2.1.1
  * https://github.com/viivue/easy-select
  * MIT license - 2021
  */
@@ -199,6 +199,7 @@
             });
         });
     };
-})(jQuery);
 
-$('[data-easy-select]').easySelect();
+    $('[data-easy-select]').easySelect();
+    
+})(jQuery);
