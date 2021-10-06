@@ -70,7 +70,15 @@ $('.wrapper select').easySelect({theme: "your-theme"});
 ### Gravity Form select
 
 - Enqueue inside `bcnb_gform_deregister_scripts`.
-- Gravity Form with AJAX need to be recalled on event `gform_post_render`.
+- Gravity Form with AJAX n
+
+```js
+// init Easy select for Gravity form
+$('.gform_wrapper select').easySelect({theme: "gravity-form"});
+jQuery(document).on('gform_post_render', function(event, form_id, current_page){
+    $('.gform_wrapper select').easySelect({theme: "gravity-form"});
+});
+```
 
 ### Custom dropdown item's HTML
 
@@ -78,10 +86,10 @@ Pass data to the option's attribute.
 
 ```html
 <select id="custom-options">
-   <option value="apple" data-color="red">Apple</option>
-   <option value="samsung" data-color="blue" selected>Samsung</option>
-   <option value="sony" data-color="#000">Sony</option>
-   <option value="lg" data-color="#fff">LG</option>
+    <option value="apple" data-color="red">Apple</option>
+    <option value="samsung" data-color="blue" selected>Samsung</option>
+    <option value="sony" data-color="#000">Sony</option>
+    <option value="lg" data-color="#fff">LG</option>
 </select>
 ```
 
@@ -90,16 +98,16 @@ you can use that to create new HTML.
 
 ```js
 $('#custom-options').easySelect({
-   customDropdownItem: (option) => {
-      const colorCode = option.el.data('color');
+    customDropdownItem: (option) => {
+        const colorCode = option.el.data('color');
 
-      let html = '<div class="option-color">';
-      html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
-      html += `<span>${option.name}</span>`;
-      html += '</div>';
+        let html = '<div class="option-color">';
+        html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
+        html += `<span>${option.name}</span>`;
+        html += '</div>';
 
-      return html;
-   }
+        return html;
+    }
 });
 ```
 
