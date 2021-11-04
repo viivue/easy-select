@@ -6,15 +6,14 @@
 ;(function($, window, document, undefined){
     const pluginName = "easySelect";
     const defaults = {
-        target: '', // jQuery element
         wrapperClass: '',
-        customDropdown: true, // remove native dropdown
-        closeOnChange: true, // for custom dropdown only, close dropdown on change value
+        //customDropdown: true, // remove native dropdown
+        //closeOnChange: true, // for custom dropdown only, close dropdown on change value
         customDropdownItem: (data) => {
         },
-        onInit: () => {
+        onInit: data => {
         },
-        onChange: () => {
+        onChange: (data, type) => {
         }
     };
     const names = {
@@ -29,10 +28,11 @@
     };
 
     // The actual plugin constructor
-    function Plugin(element, options){
+    function EasySelect(element, options){
         this.select = $(element);
         this.config = {...defaults, ...options};
         this.isOpen = false;
+        this.value = this.select.val();
 
         this.init();
 
@@ -45,12 +45,12 @@
     /****************************************************
      ********************** Methods *********************
      ***************************************************/
-    Plugin.prototype.init = function(){
+    EasySelect.prototype.init = function(){
         this.create();
-        console.log(this.selectData)
+        this.config.onInit(this);
     }
 
-    Plugin.prototype.create = function(){
+    EasySelect.prototype.create = function(){
         // check valid HTML: exit if already created
         if(this.select.closest(`.${names.wrapperClass}`).length) return;
 
@@ -82,46 +82,66 @@
 
         // on option click
         this.dropdown.find(`[${names.optionAttr}]`).on('click', (event) => {
-            this.change($(event.currentTarget).attr(`${names.optionAttr}`));
+            this.update($(event.currentTarget).attr(`${names.optionAttr}`));
         });
+
+        // on select change
+        this.select.on('change', event => {
+                this.change(typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
+            }
+        );
     };
 
 
-    Plugin.prototype.destroy = function(){
+    EasySelect.prototype.destroy = function(){
         this.current.detach();
         this.dropdown.detach();
         this.select.unwrap();
         this.select.show();
     };
 
-    Plugin.prototype.update = function(){
+    /**
+     * Update original and custom selects value
+     * @param value
+     */
+    EasySelect.prototype.update = function(value){
+        // skip duplicate values
+        if(value === this.select.val()) return;
 
-    };
-    Plugin.prototype.change = function(value){
         // update value
         this.select.val(value).trigger('change');
+    };
+
+    /**
+     * Change HTML based on selected value
+     */
+    EasySelect.prototype.change = function(type = 'easySelectEvent'){
+        this.value = this.select.val();
 
         // active option
         this.dropdown.find(`[${names.optionAttr}]`).removeClass(names.optionActiveClass);
-        this.dropdown.find(`[${names.optionAttr}="${value}"]`).addClass(names.optionActiveClass);
+        this.dropdown.find(`[${names.optionAttr}="${this.value}"]`).addClass(names.optionActiveClass);
 
         // update current HTML
         this.current.html(this.getOptionHTML());
 
         // close
         this.close();
+
+        // Event: on change
+        this.config.onChange(this, type);
     };
-    Plugin.prototype.open = function(){
+    EasySelect.prototype.open = function(){
         if(this.isOpen) return;
         this.isOpen = true;
         this.wrapper.addClass(names.wrapperOpenClass);
     };
-    Plugin.prototype.close = function(){
+    EasySelect.prototype.close = function(){
         if(!this.isOpen) return;
         this.isOpen = false;
         this.wrapper.removeClass(names.wrapperOpenClass);
     };
-    Plugin.prototype.toggle = function(){
+    EasySelect.prototype.toggle = function(){
         if(this.isOpen){
             this.close();
         }else{
@@ -137,7 +157,7 @@
      * Current HTML
      * @returns {string}
      */
-    Plugin.prototype.getCurrentHTML = function(){
+    EasySelect.prototype.getCurrentHTML = function(){
         let html = '';
         html += `<div class="${names.currentClass}">`;
         html += this.getOptionHTML();
@@ -149,7 +169,7 @@
      * Dropdown HTML
      * @returns {string}
      */
-    Plugin.prototype.getDropdownHTML = function(){
+    EasySelect.prototype.getDropdownHTML = function(){
         let html = '';
 
         // generate html
@@ -171,7 +191,7 @@
      * @param option
      * @returns {string}
      */
-    Plugin.prototype.getOptionHTML = function(option = undefined){
+    EasySelect.prototype.getOptionHTML = function(option = undefined){
         // is active
         const isActive = typeof option !== 'undefined' && option['value'] === this.select.val();
 
@@ -192,7 +212,7 @@
      * @param option
      * @returns {`<span>${string}</span>`}
      */
-    Plugin.prototype.getOptionInnerHTML = function(option){
+    EasySelect.prototype.getOptionInnerHTML = function(option){
         return `<span>${option['label']}</span>`;
     };
 
@@ -204,7 +224,7 @@
      * Get select data
      * @returns {*[]}
      */
-    Plugin.prototype.getSelectData = function(){
+    EasySelect.prototype.getSelectData = function(){
         const data = [];
         this.select.find('option').each((index, option) => {
             data.push(this.getOptionData($(option)));
@@ -216,7 +236,7 @@
      * Get option data
      * @returns {{isSelected: boolean, index: *, id: string, label: *, value: (*|string|number|string[])}}
      */
-    Plugin.prototype.getOptionData = function($option = undefined){
+    EasySelect.prototype.getOptionData = function($option = undefined){
         if(typeof $option === 'undefined'){
             // return selected option
             $option = this.select.find('option:selected');
@@ -240,7 +260,7 @@
      * @param string
      * @returns {string}
      */
-    Plugin.prototype.stringToSlug = (string = '') => {
+    EasySelect.prototype.stringToSlug = (string = '') => {
         return string
             .toLowerCase()
             .replace(/[^\w ]+/g, '')
@@ -250,7 +270,7 @@
     /**
      * Generate unique ID
      */
-    Plugin.prototype.uniqueId = (prefix = '') => {
+    EasySelect.prototype.uniqueId = (prefix = '') => {
         return prefix + (+new Date()).toString(16) +
             (Math.random() * 100000000 | 0).toString(16);
     };
@@ -263,7 +283,7 @@
         return this.each(function(){
             if(!$.data(this, "plugin_" + pluginName)){
                 $.data(this, "plugin_" + pluginName,
-                    new Plugin(this, options));
+                    new EasySelect(this, options));
             }
         });
     }

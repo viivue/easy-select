@@ -91,7 +91,12 @@
 <script src="easy-select-3.js"></script>
 <script>
     $('select').easySelect({
-        wrapperClass: 'test'
+        onChange: (data, type) => {
+            console.log(type, data.value)
+        },
+        onInit: data => {
+            console.log('onInit', data)
+        },
     });
 
     // $('#native-dropdown').easySelect({
