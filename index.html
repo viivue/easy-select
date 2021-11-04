@@ -110,19 +110,24 @@
     });
 
 
-    // $('#custom-options').easySelect({
-    //     customOptions: true,
-    //     customDropdownItem: (option) => {
-    //         const colorCode = option.el.data('color');
-    //
-    //         let html = '<div class="option-color">';
-    //         html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
-    //         html += `<span>${option.name}</span>`;
-    //         html += '</div>';
-    //
-    //         return html;
-    //     }
-    // });
+    $('#custom-options').easySelect({
+        customDropDownOptionHTML: option => {
+            const colorCode = option.el.data('color');
+
+            let html = '<div class="option-color">';
+            html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
+            html += `<span>${option.label}</span>`;
+            html += '</div>';
+
+            return html;
+        },
+        onChange: (data, type) => {
+            console.log(type, data.value)
+        },
+        onInit: data => {
+            console.log('onInit', data)
+        },
+    });
 </script>
 </body>
 </html>

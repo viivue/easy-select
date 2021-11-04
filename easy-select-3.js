@@ -8,8 +8,7 @@
     const defaults = {
         wrapperClass: '',
         nativeSelect: false,
-        //closeOnChange: true, // for custom dropdown only, close dropdown on change value
-        customDropdownItem: (data) => {
+        customDropDownOptionHTML: option => {
         },
         onInit: data => {
         },
@@ -223,10 +222,16 @@
     /**
      * Option inner HTML
      * @param option
-     * @returns {`<span>${string}</span>`}
+     * @returns {string}
      */
     EasySelect.prototype.getOptionInnerHTML = function(option){
-        return `<span>${option['label']}</span>`;
+        let html = this.config.customDropDownOptionHTML(option);
+
+        if(typeof html === 'undefined'){
+            html = `<span>${option['label']}</span>`;
+        }
+
+        return html;
     };
 
 
@@ -260,7 +265,9 @@
         const index = $option.index();
         const id = this.stringToSlug(value) + '-' + index;
         const isSelected = value === this.select.val();
-        return {id, label, value, isSelected, index};
+        const el = $option;
+
+        return {id, label, value, isSelected, index, el};
     };
 
 
