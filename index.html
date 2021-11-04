@@ -24,8 +24,6 @@
         .container {width:100%; max-width:300px;}
         h1, .footer {text-align:center;}
 
-        body .easy-select .easy-select-current:after {content:"v" !important;}
-
         .option-color {display:flex; align-items:center;}
         .option-color .color {
             display:inline-block; width:20px; height:20px; font-size:0; margin-right:10px;
@@ -91,8 +89,12 @@
 <script src="easy-select-3.js"></script>
 <script>
     setTimeout(() => {
-        $('#native-dropdown').append('<option value="Porsche as">Porsche</option>');
-
+        $('[data-easy-select]').append('<option value="Porsche">Porsche</option>');
+        $('[data-easy-select]').append('<option value="Huyndai">Huyndai</option>');
+        $('[data-easy-select]').append('<option value="Thaco">Thaco</option>');
+        $('[data-easy-select]').append('<option value="KIA">KIA</option>');
+        $('[data-easy-select]').append('<option value="Photon">Photon</option>');
+        $('[data-easy-select]').easySelect('refresh');
     }, 1000);
 
     $('#native-dropdown').easySelect({
@@ -103,7 +105,7 @@
         onRefresh: data => {
             console.log('onRefresh', data)
         },
-    });
+    })
 
 
     $('#custom-options').easySelect({

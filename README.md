@@ -1,14 +1,22 @@
 # Easy Select v3.0.0
 
-> Easy Select has been converted to a jQuery plugin.
-
-See [Demo](https://viivue.github.io/easy-select/)
+<div>
+<span>
+   <img src="https://img.shields.io/badge/Version-v3.0.0-0088ff">
+   </span>
+ <a href="https://viivue.github.io/easy-select/">
+   <img src="https://img.shields.io/badge/-Demo-0273A9">
+   </a>
+<a href="https://www.jsdelivr.com/package/gh/viivue/easy-select">
+   <img src="https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge?style=rounded">
+   </a>
+ </div>
 
 ## Getting started
 
 ### Download
 
-You can get the latest version from [our releases](https://github.com/viivue/easy-select/releases/).
+👉 Self hosted - [Download latest release](https://github.com/viivue/easy-select/releases/latest)
 
 ```html
 
@@ -16,12 +24,7 @@ You can get the latest version from [our releases](https://github.com/viivue/eas
 <script src="./easy-select.js"></script>
 ```
 
-### Using CDN
-
-[![](https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
-
-You can also browse for the latest version by
-visiting [Easy Select on jsDelivr](https://cdn.jsdelivr.net/gh/viivue/easy-select/)
+👉 CDN Hosted - [jsDelivr](https://www.jsdelivr.com/package/gh/viivue/easy-select)
 
 ```html
 <!-- CSS (2.9 KB) -->
@@ -43,86 +46,66 @@ or minified version
 
 ### Init
 
-- Add attribute to the select tag
+Using attribute
 
 ```html
 <select data-easy-select>
 ```
 
-- Init with script
+Using jQuery
 
 ```js
-$('[data-easy-select]').easySelect();
-```
-
-### Add custom theme class
-
-```html
-<select data-easy-select="your-theme">
-```
-
-or
-
-```js
-$('.wrapper select').easySelect({theme: "your-theme"});
-```
-
-### Gravity Form select
-
-- Enqueue inside `bcnb_gform_deregister_scripts`.
-- Gravity Form with AJAX n
-
-```js
-// init Easy select for Gravity form
-$('.gform_wrapper select').easySelect({theme: "gravity-form"});
-jQuery(document).on('gform_post_render', function(event, form_id, current_page){
-    $('.gform_wrapper select').easySelect({theme: "gravity-form"});
-});
-```
-
-### Custom dropdown item's HTML
-
-Pass data to the option's attribute.
-
-```html
-<select id="custom-options">
-    <option value="apple" data-color="red">Apple</option>
-    <option value="samsung" data-color="blue" selected>Samsung</option>
-    <option value="sony" data-color="#000">Sony</option>
-    <option value="lg" data-color="#fff">LG</option>
-</select>
-```
-
-Init with `customDropdownItem: (option){}`, the `option` parameter is an object contains the current option data, then
-you can use that to create new HTML.
-
-```js
-$('#custom-options').easySelect({
-    customDropdownItem: (option) => {
-        const colorCode = option.el.data('color');
-
-        let html = '<div class="option-color">';
-        html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
-        html += `<span>${option.name}</span>`;
-        html += '</div>';
-
-        return html;
+const option = {
+    wrapperClass: '',
+    nativeSelect: false, // Choose whether use custom dropdown or keep the native select
+    customDropDownOptionHTML: option => {
+        // custom option HTML
+        return `<span>${option['label']}</span>`;
+    },
+    onInit: data => {
+    },
+    onRefresh: data => {
+    },
+    onDropdownOpen: data => {
+    },
+    onDropdownClose: data => {
+    },
+    onDropdownToggle: data => {
+    },
+    onChange: (data, type) => {
     }
-});
+};
+
+$select.easySelect(option);
 ```
 
-## Options
+## Methods
 
-| Option | Type | Default | Description |
-| ------ | ------ | ------ | ------ |
-| target | jQuery element | `$("[data-easy-select]")` | Target to `<select>` |
-| theme | string | `"default"` | Add theme class for multiple styling. Return a class like `theme-${your-theme}` |
-| classes | string | `""` | Add classes |
-| customDropdown | boolean | `false` | Add custom dropdown |
-| customDropdownItem | function | `undefined` | Custom dropdown item's HTML |
-| closeOnChange | boolean | `false` | For `customDropdown` only, close the dropdown when value is changed |
+Destroy and return the original select
+
+```js
+$select.easySelect('destroy');
+```
+
+Refresh custom dropdown when the select has changes
+
+```js
+$select.easySelect('refresh');
+```
+
+Open/close/toggle dropdown
+
+```js
+$select.easySelect('open');
+$select.easySelect('close');
+$select.easySelect('toggle');
+```
 
 ## Changelog
+
+### [3.0.0] - 2021-11-04
+
+- Refactor plugin structure
 
 ### [2.1.1] - 2021-09-08
 
