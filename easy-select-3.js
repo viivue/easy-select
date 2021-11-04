@@ -12,6 +12,8 @@
         },
         onInit: data => {
         },
+        onDestroy: data => {
+        },
         onChange: (data, type) => {
         }
     };
@@ -33,12 +35,7 @@
         this.config = {...defaults, ...options};
         this.isOpen = false;
         this.value = this.select.val();
-        console.log(element)
         this.init();
-
-        return {
-            destroy: () => this.destroy()
-        }
     }
 
 
@@ -101,12 +98,25 @@
         });
     };
 
+    EasySelect.prototype.execPublicMethods = function(string, param){
+        switch(string){
+            case 'destroy':
+                this.destroy();
+                break;
+        }
+    };
 
     EasySelect.prototype.destroy = function(){
+        if(!this.config.nativeSelect){
+            this.dropdown.detach();
+        }
+
         this.current.detach();
-        this.dropdown.detach();
         this.select.unwrap();
         this.select.show();
+
+        // Event: on destroy
+        this.config.onDestroy(this);
     };
 
     /**
@@ -301,9 +311,13 @@
      ***************************************************/
     $.fn[pluginName] = function(options){
         return this.each(function(){
-            if(!$.data(this, "plugin_" + pluginName)){
-                $.data(this, "plugin_" + pluginName,
-                    new EasySelect(this, options));
+            const easySelect = $.data(this, "plugin_" + pluginName);
+            if(!easySelect){
+                // init
+                $.data(this, "plugin_" + pluginName, new EasySelect(this, options));
+            }else{
+                // exec methods
+                easySelect.execPublicMethods(options);
             }
         });
     }

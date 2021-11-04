@@ -90,23 +90,18 @@
 
 <script src="easy-select-3.js"></script>
 <script>
-    // $('[data-easy-select]').easySelect({
-    //     onChange: (data, type) => {
-    //         console.log(type, data.value)
-    //     },
-    //     onInit: data => {
-    //         console.log('onInit', data)
-    //     },
-    // });
+    setTimeout(() => {
+        //$('[data-easy-select]').easySelect('destroy');
+    }, 1000);
 
     $('#native-dropdown').easySelect({
         nativeSelect: true,
         onChange: (data, type) => {
             console.log(type, data.value)
         },
-        onInit: data => {
-            console.log('onInit', data)
-        },
+        // onInit: data => {
+        //     console.log('onInit', data)
+        // },
     });
 
 
@@ -121,12 +116,12 @@
 
             return html;
         },
-        onChange: (data, type) => {
-            console.log(type, data.value)
-        },
-        onInit: data => {
-            console.log('onInit', data)
-        },
+        // onChange: (data, type) => {
+        //     console.log(type, data.value)
+        // },
+        // onInit: data => {
+        //     console.log('onInit', data)
+        // },
     });
 </script>
 </body>
