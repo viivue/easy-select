@@ -43,7 +43,7 @@
     <p>Custom dropdown</p>
     <select data-easy-select>
         <option value="bmw">BMW</option>
-        <option value="audi">Audi</option>
+        <option value="Audi Mobile">Audi Mobile</option>
         <option value="vinfast">Vinfast</option>
         <option value="lamborghini">Lamborghini</option>
     </select>
@@ -54,7 +54,7 @@
     <p>Native dropdown</p>
     <select id="native-dropdown">
         <option value="apple">Apple</option>
-        <option value="samsung" selected>Samsung</option>
+        <option value="samsung electronic" selected>Samsung</option>
         <option value="sony">Sony</option>
         <option value="lg">LG</option>
     </select>
@@ -88,26 +88,26 @@
     </div>
 </div>
 
-<script src="easy-select.js"></script>
+<script src="easy-select-3.js"></script>
 <script>
     $('[data-easy-select]').easySelect();
 
-    $('#native-dropdown').easySelect({
-        customDropdown: false
-    });
-    $('#custom-options').easySelect({
-        customOptions: true,
-        customDropdownItem: (option) => {
-            const colorCode = option.el.data('color');
-
-            let html = '<div class="option-color">';
-            html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
-            html += `<span>${option.name}</span>`;
-            html += '</div>';
-
-            return html;
-        }
-    });
+    // $('#native-dropdown').easySelect({
+    //     customDropdown: false
+    // });
+    // $('#custom-options').easySelect({
+    //     customOptions: true,
+    //     customDropdownItem: (option) => {
+    //         const colorCode = option.el.data('color');
+    //
+    //         let html = '<div class="option-color">';
+    //         html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
+    //         html += `<span>${option.name}</span>`;
+    //         html += '</div>';
+    //
+    //         return html;
+    //     }
+    // });
 </script>
 </body>
 </html>
