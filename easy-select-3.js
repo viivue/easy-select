@@ -14,7 +14,11 @@
         },
         onRefresh: data => {
         },
-        onDestroy: data => {
+        onDropdownOpen: data => {
+        },
+        onDropdownClose: data => {
+        },
+        onDropdownToggle: data => {
         },
         onChange: (data, type) => {
         }
@@ -106,6 +110,15 @@
             case 'refresh':
                 this.refresh();
                 break;
+            case 'open':
+                this.open();
+                break;
+            case 'close':
+                this.close();
+                break;
+            case 'toggle':
+                this.toggle();
+                break;
         }
     };
 
@@ -180,21 +193,33 @@
         this.config.onChange(this, type);
     };
     EasySelect.prototype.open = function(){
+        if(this.config.nativeSelect) return;
         if(this.isOpen) return;
         this.isOpen = true;
         this.wrapper.addClass(names.wrapperOpenClass);
+
+        // Event: on open
+        this.config.onDropdownOpen(this);
     };
     EasySelect.prototype.close = function(){
+        if(this.config.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
         this.wrapper.removeClass(names.wrapperOpenClass);
+
+        // Event: on close
+        this.config.onDropdownClose(this);
     };
     EasySelect.prototype.toggle = function(){
+        if(this.config.nativeSelect) return;
         if(this.isOpen){
             this.close();
         }else{
             this.open();
         }
+
+        // Event: on toggle
+        this.config.onDropdownToggle(this);
     };
 
 
