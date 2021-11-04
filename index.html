@@ -91,7 +91,8 @@
 <script src="easy-select-3.js"></script>
 <script>
     setTimeout(() => {
-        //$('[data-easy-select]').easySelect('destroy');
+        $('#native-dropdown').append('<option value="Porsche as">Porsche</option>');
+        $('#native-dropdown').easySelect('refresh');
     }, 1000);
 
     $('#native-dropdown').easySelect({
@@ -99,9 +100,9 @@
         onChange: (data, type) => {
             console.log(type, data.value)
         },
-        // onInit: data => {
-        //     console.log('onInit', data)
-        // },
+        onRefresh: data => {
+            console.log('onRefresh', data)
+        },
     });
 
 

@@ -12,6 +12,8 @@
         },
         onInit: data => {
         },
+        onRefresh: data => {
+        },
         onDestroy: data => {
         },
         onChange: (data, type) => {
@@ -74,9 +76,7 @@
         }
 
         /** Dropdown **/
-        // add dropdown HTML
-        this.wrapper.append(this.getDropdownHTML());
-        this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
+        this.updateDropdownHTML();
 
         // hide default select
         this.select.hide();
@@ -91,21 +91,47 @@
                 this.close();
             }
         });
-
-        // on option click
-        this.dropdown.find(`[${names.optionAttr}]`).on('click', (event) => {
-            this.update($(event.currentTarget).attr(`${names.optionAttr}`));
-        });
     };
 
+    /**
+     * Execute public methods
+     * @param string
+     * @param param
+     */
     EasySelect.prototype.execPublicMethods = function(string, param){
         switch(string){
             case 'destroy':
                 this.destroy();
                 break;
+            case 'refresh':
+                this.refresh();
+                break;
         }
     };
 
+    /**
+     * Refresh
+     */
+    EasySelect.prototype.refresh = function(){
+        this.selectData = this.getSelectData();
+
+        // update current
+        this.current.html(this.getOptionHTML());
+
+        // if not native select
+        if(!this.config.nativeSelect){
+            // update dropdown
+            this.updateDropdownHTML();
+        }
+
+        // Event: on refresh
+        this.config.onRefresh(this);
+    };
+
+    /**
+     * Destroy
+     * Return original element
+     */
     EasySelect.prototype.destroy = function(){
         if(!this.config.nativeSelect){
             this.dropdown.detach();
@@ -185,6 +211,27 @@
         html += this.getOptionHTML();
         html += `</div>`;
         return html;
+    };
+
+    /**
+     * Add/update dropdown HTML based on original select
+     */
+    EasySelect.prototype.updateDropdownHTML = function(){
+        this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
+        if(this.dropdown.length){
+            this.dropdown.detach();
+        }
+
+        // new dropdown HTML
+        this.wrapper.append(this.getDropdownHTML());
+
+        // save new dropdown element
+        this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
+
+        // on option click
+        this.dropdown.find(`[${names.optionAttr}]`).on('click', (event) => {
+            this.update($(event.currentTarget).attr(`${names.optionAttr}`));
+        });
     };
 
     /**
