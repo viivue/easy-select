@@ -33,7 +33,7 @@
         this.config = {...defaults, ...options};
         this.isOpen = false;
         this.value = this.select.val();
-
+        console.log(element)
         this.init();
 
         return {
@@ -307,5 +307,6 @@
             }
         });
     }
+    $('[data-easy-select]').easySelect();
 
 })(jQuery, window, document);

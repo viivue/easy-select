@@ -1,4 +1,4 @@
-# Easy Select v2.1.1
+# Easy Select v3.0.0
 
 > Easy Select has been converted to a jQuery plugin.
 
