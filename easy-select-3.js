@@ -7,7 +7,7 @@
     const pluginName = "easySelect";
     const defaults = {
         wrapperClass: '',
-        //customDropdown: true, // remove native dropdown
+        nativeSelect: false,
         //closeOnChange: true, // for custom dropdown only, close dropdown on change value
         customDropdownItem: (data) => {
         },
@@ -25,6 +25,7 @@
         optionClass: 'easy-select-option',
         optionAttr: 'data-easy-select-option',
         optionActiveClass: 'active',
+        wrapperNativeSelectClass: 'easy-select-native'
     };
 
     // The actual plugin constructor
@@ -60,10 +61,25 @@
         this.select.wrapAll(`<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`);
         this.wrapper = this.select.closest(`[${names.wrapperIdAttr}="${this.id}"]`);
 
-        // add custom HTML
+        // add current HTML
         this.wrapper.append(this.getCurrentHTML());
-        this.wrapper.append(this.getDropdownHTML());
         this.current = this.wrapper.find(`.${names.currentClass}`);
+
+        // on select change
+        this.select.on('change', event => {
+                this.change(typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
+            }
+        );
+
+        // exit if is native select
+        if(this.config.nativeSelect){
+            this.wrapper.addClass(names.wrapperNativeSelectClass);
+            return;
+        }
+
+        /** Dropdown **/
+        // add dropdown HTML
+        this.wrapper.append(this.getDropdownHTML());
         this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
 
         // hide default select
@@ -84,12 +100,6 @@
         this.dropdown.find(`[${names.optionAttr}]`).on('click', (event) => {
             this.update($(event.currentTarget).attr(`${names.optionAttr}`));
         });
-
-        // on select change
-        this.select.on('change', event => {
-                this.change(typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
-            }
-        );
     };
 
 
@@ -118,15 +128,18 @@
     EasySelect.prototype.change = function(type = 'easySelectEvent'){
         this.value = this.select.val();
 
-        // active option
-        this.dropdown.find(`[${names.optionAttr}]`).removeClass(names.optionActiveClass);
-        this.dropdown.find(`[${names.optionAttr}="${this.value}"]`).addClass(names.optionActiveClass);
-
         // update current HTML
         this.current.html(this.getOptionHTML());
 
-        // close
-        this.close();
+        /** Dropdown **/
+        if(!this.config.nativeSelect){
+            // active option
+            this.dropdown.find(`[${names.optionAttr}]`).removeClass(names.optionActiveClass);
+            this.dropdown.find(`[${names.optionAttr}="${this.value}"]`).addClass(names.optionActiveClass);
+
+            // close
+            this.close();
+        }
 
         // Event: on change
         this.config.onChange(this, type);
