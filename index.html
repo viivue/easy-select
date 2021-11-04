@@ -90,7 +90,11 @@
 
 <script src="easy-select-3.js"></script>
 <script>
-    $('[data-easy-select]').easySelect();
+    const select = $('select').easySelect();
+
+    setTimeout(() => {
+        //select.destroy();
+    }, 3000);
 
     // $('#native-dropdown').easySelect({
     //     customDropdown: false

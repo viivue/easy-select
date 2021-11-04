@@ -37,50 +37,50 @@
 /****************************
  * Easy Select - Default theme
 ****************************/
-.easy-select.theme-default {width:100%; max-width:300px;}
+.easy-select {width:100%; max-width:300px;}
 
-/* select */
-.easy-select.theme-default .easy-select-current {
+/* current */
+.easy-select-current {
     display:flex; align-items:center;
     min-height:40px; line-height:1.1;
-    border:1px solid #ccc; border-radius:5px;
-    padding:5px 45px 5px 15px;
+    border:1px solid #ccc; border-radius:5px; overflow:hidden;
 }
-.easy-select.theme-default .easy-select-current:after {
+.easy-select-current:after {
     position:absolute; top:50%; right:15px;
     transform:translateY(-50%);
     content:"\e931"; font-family:"icomoon", fantasy; font-size:.8em;
     display:inline-block; margin-left:10px;
     transition:all .3s ease;
 }
-.easy-select.theme-default:hover .easy-select-current {border-color:#000;}
 
 /* dropdown */
-.easy-select.theme-default .easy-select-dropdown {width:100%; max-width:300px;}
-.easy-select.theme-default .easy-select-dropdown ul {
+.easy-select-dropdown {width:100%; max-width:300px;}
+.easy-select-dropdown ul {
     background:#fff; border:1px solid #ccc;
-    border-radius:5px; margin:0; padding:0;
+    border-radius:5px; margin:0; padding:0; overflow:hidden;
 }
-.easy-select.theme-default .easy-select-dropdown ul li {}
-.easy-select.theme-default .easy-select-dropdown ul li:not(:last-child) {border-bottom:1px solid rgba(0, 0, 0, .1);}
-.easy-select.theme-default .easy-select-dropdown ul li a {
+.easy-select-dropdown ul li {}
+.easy-select-dropdown ul li:not(:last-child) {border-bottom:1px solid rgba(0, 0, 0, .1);}
+
+/* option */
+.easy-select-option {
     display:flex; align-items:center;
-    min-height:40px; line-height:1.1;
+    width:100%; min-height:40px; line-height:1.1;
     text-decoration:none; padding:10px 15px;
     transition:all .3s ease;
 }
 
 /* dropdown hover */
-.easy-select.theme-default .easy-select-dropdown ul:hover li a.active,
-.easy-select.theme-default .easy-select-dropdown ul li a {color:#333; background:transparent;}
+.easy-select-option.active,
+.easy-select-option {color:#333; background:transparent;}
 
-.easy-select.theme-default .easy-select-dropdown ul:hover li a.active:hover,
-.easy-select.theme-default .easy-select-dropdown ul li a:hover,
-.easy-select.theme-default .easy-select-dropdown ul li a.active {color:#fff; background:#0d95e8;}
+.easy-select-dropdown:hover .easy-select-option.active:hover,
+.easy-select-option:hover,
+.easy-select-option.active {color:#fff; background:#0d95e8;}
 
 /* dropdown showing */
-.easy-select.theme-default.show-dropdown {z-index:2;}
-.easy-select.theme-default.show-dropdown .easy-select-current:after {transform:translateY(-50%) rotate(180deg);}
+.easy-select.show-dropdown {z-index:2;}
+.easy-select.show-dropdown .easy-select-current:after {transform:translateY(-50%) rotate(180deg);}
 
 
 /****************************
