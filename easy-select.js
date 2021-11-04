@@ -1,205 +1,400 @@
-/**
- * Easy Select v2.1.1
+/**!
+ * Easy Select v3.0.0
  * https://github.com/viivue/easy-select
  * MIT license - 2021
  */
+;(function($, window, document, undefined){
+    const pluginName = "easySelect";
+    const defaults = {
+        wrapperClass: '',
+        nativeSelect: false,
+        customDropDownOptionHTML: option => {
+        },
+        onInit: data => {
+        },
+        onRefresh: data => {
+        },
+        onChange: (data, type) => {
+        },
+        onDestroy: data => {
+        },
+        onDropdownOpen: data => {
+        },
+        onDropdownClose: data => {
+        },
+        onDropdownToggle: data => {
+        },
+    };
+    const names = {
+        wrapperClass: 'easy-select',
+        wrapperOpenClass: 'show-dropdown',
+        wrapperIdAttr: 'data-easy-select-id',
+        currentClass: 'easy-select-current',
+        dropdownClass: 'easy-select-dropdown',
+        optionClass: 'easy-select-option',
+        optionAttr: 'data-easy-select-option',
+        optionActiveClass: 'active',
+        wrapperNativeSelectClass: 'easy-select-native'
+    };
 
-(function($){
-    $.fn.easySelect = function(options){
-        const settings = $.extend({
-            target: $(this), // jQuery element
-            theme: 'default',
-            classes: '',
-            customDropdown: true, // remove native dropdown
-            closeOnChange: true, // for custom dropdown only, close dropdown on change value
-            dev: false,
-            customDropdownItem: (data) => {
-            },
-            onInit: () => {
-            },
-            onChange: () => {
+    // The actual plugin constructor
+    function EasySelect(element, options){
+        this.select = $(element);
+        this.config = {...defaults, ...options};
+        this.isOpen = false;
+        this.value = this.select.val();
+        this.init();
+    }
+
+
+    /****************************************************
+     ********************** Methods *********************
+     ***************************************************/
+    EasySelect.prototype.init = function(){
+        this.create();
+        this.config.onInit(this);
+    }
+
+    EasySelect.prototype.create = function(){
+        // check valid HTML: exit if already created
+        if(this.select.closest(`.${names.wrapperClass}`).length) return;
+
+        // create wrapper
+        this.selectData = this.getSelectData();
+        this.id = this.uniqueId();
+        this.select.wrapAll(`<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`);
+        this.wrapper = this.select.closest(`[${names.wrapperIdAttr}="${this.id}"]`);
+
+        // add current HTML
+        this.wrapper.append(this.getCurrentHTML());
+        this.current = this.wrapper.find(`.${names.currentClass}`);
+
+        // on select change
+        this.select.on('change', event => {
+                this.change(typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
             }
-        }, options);
+        );
 
-        // check exit
-        if(!settings.target.length) return;
+        // exit if is native select
+        if(this.config.nativeSelect){
+            this.wrapper.addClass(names.wrapperNativeSelectClass);
+            return;
+        }
 
-        // loop each select tag
-        settings.target.each(function(){
-            const $thisSelect = $(this);
-            const getValue = () => $thisSelect.val();
-            const getReturnData = () => ({
-                target: $wrapper,
-                select: $thisSelect,
-                value: optionsData[getValue()],
-                data: optionsData,
-            });
-            const optionsData = {};
+        /** Dropdown **/
+        this.updateDropdownHTML();
 
-            // update theme, prioritize data from attribute
-            let theme = $thisSelect.attr('data-easy-select');
-            if(typeof theme === 'undefined' || !theme.length){
-                theme = settings.theme;
+        // hide default select
+        this.select.hide();
+
+        // on current click
+        this.current.on('click', () => this.toggle());
+
+        // on outside click
+        $(document).on('click', (event) => {
+            const isNotThisSelect = !$(event.target).closest(`.easy-select[${names.wrapperIdAttr}="${this.id}"]`).length;
+            if(isNotThisSelect && this.isOpen){
+                this.close();
             }
-
-            // skip if installed
-            if($thisSelect.hasClass('easy-select-installed')) return;
-            $thisSelect.addClass('easy-select-installed');
-
-            // check type
-            if(settings.customDropdown){
-                settings.classes += ' easy-select-custom';
-            }else{
-                settings.classes += ' easy-select-native';
-            }
-
-            // save options to object
-            $thisSelect.find('option').each(function(index){
-                const value = $(this).attr('value');
-                optionsData[value] = {
-                    index: index,
-                    name: $(this).text(),
-                    isSelected: value === getValue(),
-                    value: value,
-                    el: $(this)
-                };
-            });
-
-            // create wrapper
-            $thisSelect.wrapAll(`<div class="easy-select theme-${theme} ${settings.classes}"></div>`);
-            const $wrapper = $thisSelect.parent();
-
-            // create selected option
-            $wrapper.prepend(`<div class="easy-select-current">${optionsData[getValue()].name}</div>`);
-            const $current = $wrapper.find('.easy-select-current');
-
-
-            // trigger init event
-            settings.onInit(getReturnData());
-
-            // check first option selected
-            if(optionsData[getValue()].index === 0){
-                $wrapper.addClass('first-option-selected');
-            }
-
-
-            /**
-             * Custom dropdown item HTML
-             */
-            const getOptionHtml = (option) => {
-                let optionHtml = option.name;
-                if(settings.customDropdown){
-                    const customHtml = settings.customDropdownItem(option);
-                    if(typeof customHtml !== "undefined" && customHtml.length){
-                        optionHtml = customHtml;
-                    }
-                }
-                return optionHtml;
-            };
-
-            /**
-             * Update HTML and status
-             */
-            const update = () => {
-                // save selected value
-                for(let key in optionsData){
-                    optionsData[key].isSelected = getValue() === optionsData[key].value;
-                }
-
-                // trigger on change event
-                settings.onChange(getReturnData());
-
-                // update current text
-                $current.html(getOptionHtml(optionsData[getValue()]));
-
-                // update dropdown active item
-                $wrapper.find(`[data-value]`).removeClass('active');
-                $wrapper.find(`[data-value="${getValue()}"]`).addClass('active');
-
-                // check first option selected
-                if(optionsData[getValue()].index === 0){
-                    $wrapper.addClass('first-option-selected');
-                }else{
-                    $wrapper.removeClass('first-option-selected');
-                }
-            };
-            update();
-
-
-            /**
-             * Default select
-             */
-            $thisSelect.on('change', update);
-
-
-            /**
-             * Custom dropdown
-             */
-            if(settings.customDropdown){
-                // generate dropdown HTML
-                let dropdown = '<div class="easy-select-dropdown"><ul>';
-                for(let key in optionsData){
-                    dropdown += `<li><a href="${key}" data-value="${key}">`;
-                    dropdown += getOptionHtml(optionsData[key]);
-                    dropdown += `</a></li>`;
-                }
-                dropdown += '</ul></div>';
-                $wrapper.append(dropdown);
-
-                // update on load
-                $wrapper.find(`[data-value="${getValue()}"]`).addClass('active');
-
-                // on dropdown item click
-                const $dropdownItem = $wrapper.find('[data-value]');
-                $dropdownItem.on('click', function(e){
-                    e.preventDefault();
-                    const newValue = $(this).attr('data-value');
-
-                    // update selected value, then trigger change event
-                    $thisSelect.val(newValue).trigger('change');
-
-                    // close on change
-                    if(settings.closeOnChange){
-                        $wrapper.removeClass('show-dropdown');
-                    }
-                });
-
-                // hide default select
-                $thisSelect.hide();
-
-                // open/close dropdown
-                const isOpen = false;
-                $current.on('click', function(){
-                    if(isOpen){
-                        $wrapper.removeClass('show-dropdown');
-                    }else{
-                        $('.easy-select').removeClass('show-dropdown');
-                        $wrapper.addClass('show-dropdown');
-                    }
-                });
-
-                // close dropdown on outside click
-                $(document).on('click', function(event){
-                    let $target = $(event.target);
-                    if(!$target.closest('.easy-select').length && $wrapper.is(":visible") && $wrapper.hasClass('show-dropdown')){
-                        $wrapper.removeClass('show-dropdown');
-                    }
-                });
-            }
-
-
-            /**
-             * Dev
-             */
-            if(settings.dev) console.log({
-                target: $wrapper,
-                select: $thisSelect,
-                value: getValue(),
-                data: optionsData
-            });
         });
     };
 
+    /**
+     * Execute public methods
+     * @param string
+     * @param param
+     */
+    EasySelect.prototype.execPublicMethods = function(string, param){
+        switch(string){
+            case 'destroy':
+                this.destroy();
+                break;
+            case 'refresh':
+                this.refresh();
+                break;
+            case 'open':
+                this.open();
+                break;
+            case 'close':
+                this.close();
+                break;
+            case 'toggle':
+                this.toggle();
+                break;
+        }
+    };
+
+    /**
+     * Refresh
+     */
+    EasySelect.prototype.refresh = function(){
+        this.selectData = this.getSelectData();
+
+        // update current
+        this.current.html(this.getOptionHTML());
+
+        // if not native select
+        if(!this.config.nativeSelect){
+            // update dropdown
+            this.updateDropdownHTML();
+        }
+
+        // Event: on refresh
+        this.config.onRefresh(this);
+    };
+
+    /**
+     * Destroy
+     * Return original element
+     */
+    EasySelect.prototype.destroy = function(){
+        if(!this.config.nativeSelect){
+            this.dropdown.detach();
+        }
+
+        this.current.detach();
+        this.select.unwrap();
+        this.select.show();
+
+        // Event: on destroy
+        this.config.onDestroy(this);
+    };
+
+    /**
+     * Update original and custom selects value
+     * @param value
+     */
+    EasySelect.prototype.update = function(value){
+        // skip duplicate values
+        if(value === this.select.val()) return;
+
+        // update value
+        this.select.val(value).trigger('change');
+    };
+
+    /**
+     * Change HTML based on selected value
+     */
+    EasySelect.prototype.change = function(type = 'easySelectEvent'){
+        this.value = this.select.val();
+
+        // update current HTML
+        this.current.html(this.getOptionHTML());
+
+        /** Dropdown **/
+        if(!this.config.nativeSelect){
+            // active option
+            this.dropdown.find(`[${names.optionAttr}]`).removeClass(names.optionActiveClass);
+            this.dropdown.find(`[${names.optionAttr}="${this.value}"]`).addClass(names.optionActiveClass);
+
+            // close
+            this.close();
+        }
+
+        // Event: on change
+        this.config.onChange(this, type);
+    };
+    EasySelect.prototype.open = function(){
+        if(this.config.nativeSelect) return;
+        if(this.isOpen) return;
+        this.isOpen = true;
+        this.wrapper.addClass(names.wrapperOpenClass);
+
+        // Event: on open
+        this.config.onDropdownOpen(this);
+    };
+    EasySelect.prototype.close = function(){
+        if(this.config.nativeSelect) return;
+        if(!this.isOpen) return;
+        this.isOpen = false;
+        this.wrapper.removeClass(names.wrapperOpenClass);
+
+        // Event: on close
+        this.config.onDropdownClose(this);
+    };
+    EasySelect.prototype.toggle = function(){
+        if(this.config.nativeSelect) return;
+        if(this.isOpen){
+            this.close();
+        }else{
+            this.open();
+        }
+
+        // Event: on toggle
+        this.config.onDropdownToggle(this);
+    };
+
+
+    /****************************************************
+     ********************** HTML *********************
+     ***************************************************/
+    /**
+     * Current HTML
+     * @returns {string}
+     */
+    EasySelect.prototype.getCurrentHTML = function(){
+        let html = '';
+        html += `<div class="${names.currentClass}">`;
+        html += this.getOptionHTML();
+        html += `</div>`;
+        return html;
+    };
+
+    /**
+     * Add/update dropdown HTML based on original select
+     */
+    EasySelect.prototype.updateDropdownHTML = function(){
+        this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
+        if(this.dropdown.length){
+            this.dropdown.detach();
+        }
+
+        // new dropdown HTML
+        this.wrapper.append(this.getDropdownHTML());
+
+        // save new dropdown element
+        this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
+
+        // on option click
+        this.dropdown.find(`[${names.optionAttr}]`).on('click', (event) => {
+            this.update($(event.currentTarget).attr(`${names.optionAttr}`));
+        });
+    };
+
+    /**
+     * Dropdown HTML
+     * @returns {string}
+     */
+    EasySelect.prototype.getDropdownHTML = function(){
+        let html = '';
+
+        // generate html
+        html += `<div class="${names.dropdownClass}">`;
+        html += `<ul>`;
+        for(const option of this.selectData){
+            html += `<li>`;
+            html += this.getOptionHTML(option);
+            html += `</li>`;
+        }
+        html += `</ul>`;
+        html += `</div>`;
+
+        return html;
+    };
+
+    /**
+     * Option HTML
+     * @param option
+     * @returns {string}
+     */
+    EasySelect.prototype.getOptionHTML = function(option = undefined){
+        // is active
+        const isActive = typeof option !== 'undefined' && option['value'] === this.select.val();
+
+        // return selected option
+        if(typeof option === 'undefined'){
+            option = this.getOptionData();
+        }
+
+        let html = '';
+        html += `<div class="${names.optionClass} ${isActive ? names.optionActiveClass : ''}" ${names.optionAttr}="${option['value']}">`;
+        html += this.getOptionInnerHTML(option);
+        html += `</div>`;
+        return html;
+    }
+
+    /**
+     * Option inner HTML
+     * @param option
+     * @returns {string}
+     */
+    EasySelect.prototype.getOptionInnerHTML = function(option){
+        let html = this.config.customDropDownOptionHTML(option);
+
+        if(typeof html === 'undefined'){
+            html = `<span>${option['label']}</span>`;
+        }
+
+        return html;
+    };
+
+
+    /****************************************************
+     ********************** Data *********************
+     ***************************************************/
+    /**
+     * Get select data
+     * @returns {*[]}
+     */
+    EasySelect.prototype.getSelectData = function(){
+        const data = [];
+        this.select.find('option').each((index, option) => {
+            data.push(this.getOptionData($(option)));
+        });
+        return data;
+    }
+
+    /**
+     * Get option data
+     * @returns {{isSelected: boolean, index: *, id: string, label: *, value: (*|string|number|string[])}}
+     */
+    EasySelect.prototype.getOptionData = function($option = undefined){
+        if(typeof $option === 'undefined'){
+            // return selected option
+            $option = this.select.find('option:selected');
+        }
+
+        const label = $option.text();
+        const value = $option.val();
+        const index = $option.index();
+        const id = this.stringToSlug(value) + '-' + index;
+        const isSelected = value === this.select.val();
+        const el = $option;
+
+        return {id, label, value, isSelected, index, el};
+    };
+
+
+    /****************************************************
+     ********************** Helpers *********************
+     ***************************************************/
+    /**
+     * String to slug
+     * https://stackoverflow.com/a/1054862/10636614
+     * @param string
+     * @returns {string}
+     */
+    EasySelect.prototype.stringToSlug = (string = '') => {
+        return string
+            .toLowerCase()
+            .replace(/[^\w ]+/g, '')
+            .replace(/ +/g, '-');
+    };
+
+    /**
+     * Generate unique ID
+     */
+    EasySelect.prototype.uniqueId = (prefix = '') => {
+        return prefix + (+new Date()).toString(16) +
+            (Math.random() * 100000000 | 0).toString(16);
+    };
+
+
+    /****************************************************
+     ********************** Export *********************
+     ***************************************************/
+    $.fn[pluginName] = function(options){
+        return this.each(function(){
+            const easySelect = $.data(this, "plugin_" + pluginName);
+            if(!easySelect){
+                // init
+                $.data(this, "plugin_" + pluginName, new EasySelect(this, options));
+            }else{
+                // exec methods
+                easySelect.execPublicMethods(options);
+            }
+        });
+    }
     $('[data-easy-select]').easySelect();
-    
-})(jQuery);
+
+})(jQuery, window, document);
