@@ -34,12 +34,12 @@
     }
 
 
-    /**
-     * Init
-     */
+    /****************************************************
+     ********************** Methods *********************
+     ***************************************************/
     Plugin.prototype.init = function(){
-        console.log(this.getSelectData());
         this.create();
+        console.log(this.selectData)
     }
 
     Plugin.prototype.create = function(){
@@ -47,12 +47,13 @@
         if(this.select.closest('.easy-select').length) return;
 
         // create wrapper
+        this.selectData = this.getSelectData();
         this.id = this.uniqueId();
         this.select.wrapAll(`<div class="easy-select" data-easy-select-id="${this.id}"></div>`);
         this.wrapper = this.select.closest(`[data-easy-select-id="${this.id}"]`);
 
         // add custom HTML
-        this.wrapper.append(this.getSelectedHTML());
+        this.wrapper.append(this.getCurrentHTML());
         this.wrapper.append(this.getDropdownHTML());
         this.current = this.wrapper.find('.easy-select-current');
         this.dropdown = this.wrapper.find('.easy-select-dropdown');
@@ -70,6 +71,11 @@
                 this.close();
             }
         });
+
+        // on option click
+        this.dropdown.find(`[data-easy-select-option]`).on('click', (event) => {
+            this.change($(event.currentTarget).attr('data-easy-select-option'));
+        });
     };
 
 
@@ -83,7 +89,20 @@
     Plugin.prototype.update = function(){
 
     };
+    Plugin.prototype.change = function(value){
+        // update value
+        this.select.val(value).trigger('change');
 
+        // active option
+        this.dropdown.find(`[data-easy-select-option]`).removeClass('active');
+        this.dropdown.find(`[data-easy-select-option="${value}"]`).addClass('active');
+
+        // update current HTML
+        this.current.html(this.getOptionHTML());
+
+        // close
+        this.close();
+    };
     Plugin.prototype.open = function(){
         if(this.isOpen) return;
         this.isOpen = true;
@@ -103,7 +122,14 @@
     };
 
 
-    Plugin.prototype.getSelectedHTML = function(){
+    /****************************************************
+     ********************** HTML *********************
+     ***************************************************/
+    /**
+     * Current HTML
+     * @returns {string}
+     */
+    Plugin.prototype.getCurrentHTML = function(){
         let html = '';
         html += `<div class="easy-select-current">`;
         html += this.getOptionHTML();
@@ -111,14 +137,17 @@
         return html;
     };
 
+    /**
+     * Dropdown HTML
+     * @returns {string}
+     */
     Plugin.prototype.getDropdownHTML = function(){
         let html = '';
-        const options = this.getSelectData();
 
         // generate html
         html += `<div class="easy-select-dropdown">`;
         html += `<ul>`;
-        for(const option of options){
+        for(const option of this.selectData){
             html += `<li>`;
             html += this.getOptionHTML(option);
             html += `</li>`;
@@ -129,18 +158,40 @@
         return html;
     };
 
+    /**
+     * Option HTML
+     * @param option
+     * @returns {string}
+     */
     Plugin.prototype.getOptionHTML = function(option = undefined){
+        // is active
+        const isActive = typeof option !== 'undefined' && option['value'] === this.select.val();
+
+        // return selected option
         if(typeof option === 'undefined'){
             option = this.getOptionData();
         }
 
         let html = '';
-        html += `<div class="easy-select-option">`;
-        html += `<span data-option-value="${option['value']}" data-option-label="${option['label']}">${option['label']}</span>`;
+        html += `<div class="easy-select-option ${isActive ? 'active' : ''}" data-easy-select-option="${option['value']}">`;
+        html += this.getOptionInnerHTML(option);
         html += `</div>`;
         return html;
     }
 
+    /**
+     * Option inner HTML
+     * @param option
+     * @returns {`<span>${string}</span>`}
+     */
+    Plugin.prototype.getOptionInnerHTML = function(option){
+        return `<span>${option['label']}</span>`;
+    };
+
+
+    /****************************************************
+     ********************** Data *********************
+     ***************************************************/
     /**
      * Get select data
      * @returns {*[]}
@@ -153,7 +204,6 @@
         return data;
     }
 
-
     /**
      * Get option data
      * @returns {{isSelected: boolean, index: *, id: string, label: *, value: (*|string|number|string[])}}
@@ -161,7 +211,7 @@
     Plugin.prototype.getOptionData = function($option = undefined){
         if(typeof $option === 'undefined'){
             // return selected option
-            $option = this.select.find(`option[value="${this.select.val()}"]`);
+            $option = this.select.find('option:selected');
         }
 
         const label = $option.text();
@@ -173,6 +223,9 @@
     };
 
 
+    /****************************************************
+     ********************** Helpers *********************
+     ***************************************************/
     /**
      * String to slug
      * https://stackoverflow.com/a/1054862/10636614
@@ -186,7 +239,6 @@
             .replace(/ +/g, '-');
     };
 
-
     /**
      * Generate unique ID
      */
@@ -196,8 +248,9 @@
     };
 
 
-    // A really lightweight plugin wrapper around the constructor,
-    // preventing against multiple instantiations
+    /****************************************************
+     ********************** Export *********************
+     ***************************************************/
     $.fn[pluginName] = function(options){
         return this.each(function(){
             if(!$.data(this, "plugin_" + pluginName)){

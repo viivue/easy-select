@@ -59,7 +59,7 @@
     background:#fff; border:1px solid #ccc;
     border-radius:5px; margin:0; padding:0; overflow:hidden;
 }
-.easy-select-dropdown ul li {}
+.easy-select-dropdown ul li {padding:0;}
 .easy-select-dropdown ul li:not(:last-child) {border-bottom:1px solid rgba(0, 0, 0, .1);}
 
 /* option */
@@ -71,7 +71,7 @@
 }
 
 /* dropdown hover */
-.easy-select-option.active,
+.easy-select-dropdown:hover .easy-select-option.active,
 .easy-select-option {color:#333; background:transparent;}
 
 .easy-select-dropdown:hover .easy-select-option.active:hover,
