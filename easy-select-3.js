@@ -14,14 +14,16 @@
         },
         onRefresh: data => {
         },
+        onChange: (data, type) => {
+        },
+        onDestroy: data => {
+        },
         onDropdownOpen: data => {
         },
         onDropdownClose: data => {
         },
         onDropdownToggle: data => {
         },
-        onChange: (data, type) => {
-        }
     };
     const names = {
         wrapperClass: 'easy-select',
