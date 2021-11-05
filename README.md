@@ -57,7 +57,8 @@ Using jQuery
 ```js
 const option = {
     wrapperClass: '',
-    nativeSelect: false, // Choose whether use custom dropdown or keep the native select
+    nativeSelect: false, // keep the native select
+    warning: false, // allow to show warning in console log
     customDropDownOptionHTML: option => {
         // custom option HTML
         return `<span>${option['label']}</span>`;
@@ -69,6 +70,8 @@ const option = {
     onChange: (data, type) => {
     },
     onDestroy: data => {
+    },
+    onDisabled: data => {
     },
     onDropdownOpen: data => {
     },
@@ -103,8 +106,21 @@ $select.easySelect('close');
 $select.easySelect('toggle');
 ```
 
+Select by option's value
+
+```js
+$select.easySelect('select', 'lorem');
+```
+
+Disable/enable
+
+```js
+$select.easySelect('disabled', true); // disable
+$select.easySelect('disabled', false); // enable
+```
+
 ## License
 
-MIT License
+[MIT License](https://github.com/viivue/easy-select/blob/master/LICENSE)
 
 Copyright (c) 2021 ViiVue
