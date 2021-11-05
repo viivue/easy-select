@@ -18,6 +18,8 @@
         },
         onDestroy: data => {
         },
+        onDisabled: data => {
+        },
         onDropdownOpen: data => {
         },
         onDropdownClose: data => {
@@ -34,7 +36,8 @@
         optionClass: 'easy-select-option',
         optionAttr: 'data-easy-select-option',
         optionActiveClass: 'active',
-        wrapperNativeSelectClass: 'easy-select-native'
+        wrapperNativeSelectClass: 'easy-select-native',
+        wrapperDisabledClass: 'easy-select-disabled'
     };
 
     // The actual plugin constructor
@@ -42,6 +45,7 @@
         this.select = $(element);
         this.config = {...defaults, ...options};
         this.isOpen = false;
+        this.isDisabled = false;
         this.value = this.select.val();
         this.init();
     }
@@ -121,6 +125,9 @@
             case 'toggle':
                 this.toggle();
                 break;
+            case 'disabled':
+                this.disabled(param);
+                break;
         }
     };
 
@@ -194,6 +201,10 @@
         // Event: on change
         this.config.onChange(this, type);
     };
+
+    /**
+     * Open dropdown
+     */
     EasySelect.prototype.open = function(){
         if(this.config.nativeSelect) return;
         if(this.isOpen) return;
@@ -203,6 +214,10 @@
         // Event: on open
         this.config.onDropdownOpen(this);
     };
+
+    /**
+     * Close dropdown
+     */
     EasySelect.prototype.close = function(){
         if(this.config.nativeSelect) return;
         if(!this.isOpen) return;
@@ -212,6 +227,10 @@
         // Event: on close
         this.config.onDropdownClose(this);
     };
+
+    /**
+     * Toggle dropdown
+     */
     EasySelect.prototype.toggle = function(){
         if(this.config.nativeSelect) return;
         if(this.isOpen){
@@ -222,6 +241,23 @@
 
         // Event: on toggle
         this.config.onDropdownToggle(this);
+    };
+
+    /**
+     * Disable select
+     * @param boolean
+     */
+    EasySelect.prototype.disabled = function(boolean = true){
+        this.select.prop('disabled', boolean);
+        this.isDisabled = boolean;
+        if(boolean){
+            this.wrapper.addClass(names.wrapperDisabledClass);
+        }else{
+            this.wrapper.removeClass(names.wrapperDisabledClass);
+        }
+
+        // Event: on change
+        this.config.onDisabled(this);
     };
 
 

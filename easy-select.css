@@ -41,6 +41,11 @@
     transition:all .3s ease;
 }
 
+/* disabled */
+.easy-select-disabled {cursor:not-allowed;}
+.easy-select-disabled .easy-select-current {opacity:.5; pointer-events:none;}
+.easy-select-disabled select {pointer-events:none;}
+
 /****************************
  * Easy Select - Default theme
 ****************************/
@@ -71,11 +76,12 @@
 /* option */
 .easy-select-option {line-height:1.1;}
 
-/* dropdown hover */
+/* dropdown hover: off */
 .easy-select-dropdown:hover .easy-select-option.active,
 .easy-select-option {color:#333; background:transparent;}
 
-.easy-select-native:hover .easy-select-current .easy-select-option,
+/* dropdown hover: on */
+.easy-select-native:not(.easy-select-disabled):hover .easy-select-current .easy-select-option,
 .easy-select-dropdown:hover .easy-select-option.active:hover,
 .easy-select-option:hover,
 .easy-select-option.active {color:#fff; background:#0d95e8;}
