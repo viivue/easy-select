@@ -1,10 +1,10 @@
 # Changelog
 
-### [3.0.0] - 2021-11-04
+### [3.0.0] - 2021-11-05
 
 - Refactor plugin structure
-- Add methods: destroy, refresh, open, close, toggle
-- Add events: onInit, onRefresh, onChange, onDestroy, onDropdownOpen, onDropdownClose, onDropdownToggle
+- Add methods: destroy, refresh, open, close, toggle, disabled, select
+- Add events: onInit, onRefresh, onChange, onDestroy, onDropdownOpen, onDropdownClose, onDropdownToggle, onDisabled
 
 ### [2.1.1] - 2021-09-08
 
