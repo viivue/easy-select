@@ -63,7 +63,7 @@
     <p>Custom dropdown item</p>
     <select id="custom-options">
         <option value="apple" data-color="red">Apple</option>
-        <option data-color="blue" selected>Samsung</option>
+        <option data-color="blue">Samsung</option>
         <option value="sony" data-color="#000">Sony</option>
         <option value="lg" data-color="#fff">LG</option>
     </select>
@@ -95,17 +95,16 @@
         $('[data-easy-select]').append('<option value="KIA">KIA</option>');
         $('[data-easy-select]').append('<option value="Photon">Photon</option>');
         $('[data-easy-select]').easySelect('refresh');
-        $('#native-dropdown').easySelect('disabled');
-    }, 1000);
+
+        $('#custom-options').easySelect('select', '');
+    }, 500);
 
     $('#native-dropdown').easySelect({
         nativeSelect: true,
+        warning: true,
         onChange: (data, type) => {
             console.log(type, data.value)
-        },
-        onRefresh: data => {
-            console.log('onRefresh', data)
-        },
+        }
     })
 
 
@@ -120,12 +119,6 @@
 
             return html;
         },
-        // onChange: (data, type) => {
-        //     console.log(type, data.value)
-        // },
-        // onInit: data => {
-        //     console.log('onInit', data)
-        // },
     });
 </script>
 </body>

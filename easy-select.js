@@ -8,6 +8,7 @@
     const defaults = {
         wrapperClass: '',
         nativeSelect: false,
+        warning: false,
         customDropDownOptionHTML: option => {
         },
         onInit: data => {
@@ -128,6 +129,9 @@
             case 'disabled':
                 this.disabled(param);
                 break;
+            case 'select':
+                this.update(param);
+                break;
         }
     };
 
@@ -176,7 +180,11 @@
         if(value === this.select.val()) return;
 
         // update value
-        this.select.val(value).trigger('change');
+        if(typeof this.findObjectInArray(this.selectData, 'value', value) !== 'undefined'){
+            this.select.val(value).trigger('change');
+        }else{
+            if(this.config.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
+        }
     };
 
     /**
@@ -415,11 +423,22 @@
             (Math.random() * 100000000 | 0).toString(16);
     };
 
+    /**
+     * Find object in array that match key => value
+     * @param array
+     * @param key
+     * @param value
+     * @returns {*}
+     */
+    EasySelect.prototype.findObjectInArray = (array, key, value) => {
+        return array.find(x => x[key] === value);
+    }
+
 
     /****************************************************
      ********************** Export *********************
      ***************************************************/
-    $.fn[pluginName] = function(options){
+    $.fn[pluginName] = function(options, param){
         return this.each(function(){
             const easySelect = $.data(this, "plugin_" + pluginName);
             if(!easySelect){
@@ -427,7 +446,7 @@
                 $.data(this, "plugin_" + pluginName, new EasySelect(this, options));
             }else{
                 // exec methods
-                easySelect.execPublicMethods(options);
+                easySelect.execPublicMethods(options, param);
             }
         });
     }
