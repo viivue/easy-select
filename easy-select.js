@@ -1,5 +1,5 @@
 /**!
- * Easy Select v3.0.0
+ * Easy Select v3.0.1
  * https://github.com/viivue/easy-select
  * MIT license - 2021
  */
@@ -37,6 +37,7 @@
         optionClass: 'easy-select-option',
         optionAttr: 'data-easy-select-option',
         optionActiveClass: 'active',
+        optionDisabledClass: 'disabled',
         wrapperNativeSelectClass: 'easy-select-native',
         wrapperDisabledClass: 'easy-select-disabled'
     };
@@ -340,8 +341,12 @@
             option = this.getOptionData();
         }
 
+        let classList = names.optionClass;
+        classList += ' ' + (isActive ? names.optionActiveClass : '');
+        classList += ' ' + (option['isDisabled'] ? names.optionDisabledClass : '');
+
         let html = '';
-        html += `<div class="${names.optionClass} ${isActive ? names.optionActiveClass : ''}" ${names.optionAttr}="${option['value']}">`;
+        html += `<div class="${classList}" ${names.optionAttr}="${option['value']}">`;
         html += this.getOptionInnerHTML(option);
         html += `</div>`;
         return html;
@@ -394,8 +399,9 @@
         const id = this.stringToSlug(value) + '-' + index;
         const isSelected = value === this.select.val();
         const el = $option;
+        const isDisabled = $option.is(':disabled');
 
-        return {id, label, value, isSelected, index, el};
+        return {id, label, value, isSelected, isDisabled, index, el};
     };
 
 
