@@ -1,5 +1,9 @@
 # Changelog
 
+### [3.0.1] - 2021-11-29
+
+- Fix bug: recognize disabled option.
+
 ### [3.0.0] - 2021-11-05
 
 - Refactor plugin structure

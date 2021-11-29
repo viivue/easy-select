@@ -1,16 +1,9 @@
-# Easy Select v3.0.0
+# Easy Select
 
-<div>
-<span>
-   <img src="https://img.shields.io/badge/Version-v3.0.0-0088ff">
-   </span>
- <a href="https://viivue.github.io/easy-select/">
-   <img src="https://img.shields.io/badge/-Demo-0273A9">
-   </a>
-<a href="https://www.jsdelivr.com/package/gh/viivue/easy-select">
-   <img src="https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge?style=rounded">
-   </a>
- </div>
+[![release](https://badgen.net/github/release/viivue/easy-select/)](https://github.com/viivue/easy-select/releases/latest)
+[![minified](https://badgen.net/badge/minified/5.5KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
+[![jsdelivr](https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge?style=rounded)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
+[![license](https://badgen.net/github/license/viivue/easy-select/)](https://github.com/viivue/easy-select/blob/main/LICENSE)
 
 ## Getting started
 
