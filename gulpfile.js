@@ -7,7 +7,7 @@ const cleanCSS = require('gulp-clean-css');
 
 // uglify JS
 gulp.task('uglify', function(){
-    return gulp.src(['easy-select.js'])
+    return gulp.src(['build/*.js'])
         .pipe(rename({extname: '.min.js'}))
         .pipe(uglify(/* options */))
         .pipe(gulp.dest("dist"));
@@ -15,7 +15,7 @@ gulp.task('uglify', function(){
 
 // minify css
 gulp.task('minify-css', () => {
-    return gulp.src('easy-select.css')
+    return gulp.src('build/*.css')
         .pipe(rename({extname: '.min.css'}))
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(gulp.dest('dist'));

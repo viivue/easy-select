@@ -112,6 +112,16 @@ $select.easySelect('disabled', true); // disable
 $select.easySelect('disabled', false); // enable
 ```
 
+## Deployment
+
+```text
+npm install
+```
+
+```text
+gulp serve
+```
+
 ## License
 
 [MIT License](https://github.com/viivue/easy-select/blob/master/LICENSE)
