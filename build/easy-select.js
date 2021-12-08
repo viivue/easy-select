@@ -178,7 +178,10 @@
      */
     EasySelect.prototype.update = function(value){
         // skip duplicate values
-        if(value === this.select.val()) return;
+        if(value === this.select.val()){
+            this.close();
+            return;
+        }
 
         // update value
         if(typeof this.findObjectInArray(this.selectData, 'value', value) !== 'undefined'){
