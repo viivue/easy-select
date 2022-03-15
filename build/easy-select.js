@@ -1,7 +1,7 @@
 /**!
- * Easy Select v3.0.1
+ * Easy Select v3.0.2
  * https://github.com/viivue/easy-select
- * MIT license - 2021
+ * MIT license - 2022
  */
 ;(function($, window, document, undefined){
     const pluginName = "easySelect";

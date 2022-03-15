@@ -1,4 +1,4 @@
-# Easy Select
+# Easy Select v3.0.2
 
 [![release](https://badgen.net/github/release/viivue/easy-select/)](https://github.com/viivue/easy-select/releases/latest)
 [![minified](https://badgen.net/badge/minified/7KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
@@ -21,20 +21,20 @@
 
 ```html
 <!-- CSS (3 KB) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@latest/easy-select.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/easy-select.css">
 
 <!-- JS (13 KB) -->
-<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@latest/easy-select.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/easy-select.js"></script>
 ```
 
 or minified version
 
 ```html
 <!-- CSS (2 KB) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@latest/dist/easy-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/dist/easy-select.min.css">
 
 <!-- JS (5 KB) -->
-<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@latest/dist/easy-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/dist/easy-select.min.js"></script>
 ```
 
 ### Init
@@ -126,4 +126,4 @@ gulp serve
 
 [MIT License](https://github.com/viivue/easy-select/blob/master/LICENSE)
 
-Copyright (c) 2021 ViiVue
+Copyright (c) 2022 ViiVue
