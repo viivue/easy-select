@@ -9,6 +9,7 @@
         wrapperClass: '',
         nativeSelect: false,
         warning: false,
+        wrapDefaultSelect: true,
         customDropDownOptionHTML: option => {
         },
         onInit: data => {
@@ -49,6 +50,13 @@
         this.isOpen = false;
         this.isDisabled = false;
         this.value = this.select.val();
+        this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
+
+        if(this.config.nativeSelect && this.config.wrapDefaultSelect){
+            this.isWrapped = true;
+            console.warn(`Default select must be wrapped in Native select mode.`);
+        }
+
         this.init();
     }
 
@@ -68,8 +76,16 @@
         // create wrapper
         this.selectData = this.getSelectData();
         this.id = this.uniqueId();
-        this.select.wrapAll(`<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`);
-        this.wrapper = this.select.closest(`[${names.wrapperIdAttr}="${this.id}"]`);
+        const wrapperHTML = `<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
+        const wrapperSelector = `[${names.wrapperIdAttr}="${this.id}"]`;
+
+        if(this.isWrapped){
+            this.select.wrapAll(wrapperHTML);
+            this.wrapper = this.select.closest(wrapperSelector);
+        }else{
+            $(wrapperHTML).insertAfter(this.select);
+            this.wrapper = this.select.next();
+        }
 
         // add current HTML
         this.wrapper.append(this.getCurrentHTML());
@@ -164,8 +180,13 @@
             this.dropdown.detach();
         }
 
-        this.current.detach();
-        this.select.unwrap();
+        if(this.isWrapped){
+            this.current.detach();
+            this.select.unwrap();
+        }else{
+            this.wrapper.detach();
+        }
+
         this.select.show();
 
         // Event: on destroy
