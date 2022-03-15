@@ -12,6 +12,8 @@
         wrapDefaultSelect: true,
         customDropDownOptionHTML: option => {
         },
+        beforeInit: data => {
+        },
         onInit: data => {
         },
         onRefresh: data => {
@@ -49,8 +51,9 @@
         this.config = {...defaults, ...options};
         this.isOpen = false;
         this.isDisabled = false;
-        this.value = this.select.val();
+        this.value = this.val();
         this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
+        this.selectData = this.getSelectData();
 
         if(this.config.nativeSelect && this.config.wrapDefaultSelect){
             this.isWrapped = true;
@@ -65,6 +68,7 @@
      ********************** Methods *********************
      ***************************************************/
     EasySelect.prototype.init = function(){
+        this.config.beforeInit(this);
         this.create();
         this.config.onInit(this);
     }
@@ -74,7 +78,6 @@
         if(this.select.closest(`.${names.wrapperClass}`).length) return;
 
         // create wrapper
-        this.selectData = this.getSelectData();
         this.id = this.uniqueId();
         const wrapperHTML = `<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
         const wrapperSelector = `[${names.wrapperIdAttr}="${this.id}"]`;
@@ -199,7 +202,7 @@
      */
     EasySelect.prototype.update = function(value){
         // skip duplicate values
-        if(value === this.select.val()){
+        if(value === this.val()){
             this.close();
             return;
         }
@@ -216,8 +219,6 @@
      * Change HTML based on selected value
      */
     EasySelect.prototype.change = function(type = 'easySelectEvent'){
-        this.value = this.select.val();
-
         // update current HTML
         this.current.html(this.getOptionHTML());
 
@@ -225,7 +226,7 @@
         if(!this.config.nativeSelect){
             // active option
             this.dropdown.find(`[${names.optionAttr}]`).removeClass(names.optionActiveClass);
-            this.dropdown.find(`[${names.optionAttr}="${this.value}"]`).addClass(names.optionActiveClass);
+            this.dropdown.find(`[${names.optionAttr}="${this.val()}"]`).addClass(names.optionActiveClass);
 
             // close
             this.close();
@@ -358,7 +359,7 @@
      */
     EasySelect.prototype.getOptionHTML = function(option = undefined){
         // is active
-        const isActive = typeof option !== 'undefined' && option['value'] === this.select.val();
+        const isActive = typeof option !== 'undefined' && option['value'] === this.val();
 
         // return selected option
         if(typeof option === 'undefined'){
@@ -396,6 +397,15 @@
      ********************** Data *********************
      ***************************************************/
     /**
+     * Get value
+     * @returns {*}
+     */
+    EasySelect.prototype.val = function(){
+        this.value = this.select.val();
+        return this.value;
+    }
+
+    /**
      * Get select data
      * @returns {*[]}
      */
@@ -421,7 +431,7 @@
         const value = $option.val();
         const index = $option.index();
         const id = this.stringToSlug(value) + '-' + index;
-        const isSelected = value === this.select.val();
+        const isSelected = value === this.val();
         const el = $option;
         const isDisabled = $option.is(':disabled');
 
