@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.2] - 2022-03-15
+
+- Close dropdown when select on the same value
+- `wrapDefaultSelect`: option to not wrap default select tag
+- Add event `beforeInit`
+- Add private method `val()`
+
 ### [3.0.1] - 2021-11-29
 
 - Fix bug: recognize disabled option.

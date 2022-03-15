@@ -1,7 +1,7 @@
 /**!
- * Easy Select v3.0.1
+ * Easy Select v3.0.2
  * https://github.com/viivue/easy-select
- * MIT license - 2021
+ * MIT license - 2022
  */
 ;(function($, window, document, undefined){
     const pluginName = "easySelect";
@@ -9,7 +9,10 @@
         wrapperClass: '',
         nativeSelect: false,
         warning: false,
+        wrapDefaultSelect: true,
         customDropDownOptionHTML: option => {
+        },
+        beforeInit: data => {
         },
         onInit: data => {
         },
@@ -48,7 +51,15 @@
         this.config = {...defaults, ...options};
         this.isOpen = false;
         this.isDisabled = false;
-        this.value = this.select.val();
+        this.value = this.val();
+        this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
+        this.selectData = this.getSelectData();
+
+        if(this.config.nativeSelect && this.config.wrapDefaultSelect){
+            this.isWrapped = true;
+            console.warn(`Default select must be wrapped in Native select mode.`);
+        }
+
         this.init();
     }
 
@@ -57,6 +68,7 @@
      ********************** Methods *********************
      ***************************************************/
     EasySelect.prototype.init = function(){
+        this.config.beforeInit(this);
         this.create();
         this.config.onInit(this);
     }
@@ -66,10 +78,17 @@
         if(this.select.closest(`.${names.wrapperClass}`).length) return;
 
         // create wrapper
-        this.selectData = this.getSelectData();
         this.id = this.uniqueId();
-        this.select.wrapAll(`<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`);
-        this.wrapper = this.select.closest(`[${names.wrapperIdAttr}="${this.id}"]`);
+        const wrapperHTML = `<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
+        const wrapperSelector = `[${names.wrapperIdAttr}="${this.id}"]`;
+
+        if(this.isWrapped){
+            this.select.wrapAll(wrapperHTML);
+            this.wrapper = this.select.closest(wrapperSelector);
+        }else{
+            $(wrapperHTML).insertAfter(this.select);
+            this.wrapper = this.select.next();
+        }
 
         // add current HTML
         this.wrapper.append(this.getCurrentHTML());
@@ -164,8 +183,13 @@
             this.dropdown.detach();
         }
 
-        this.current.detach();
-        this.select.unwrap();
+        if(this.isWrapped){
+            this.current.detach();
+            this.select.unwrap();
+        }else{
+            this.wrapper.detach();
+        }
+
         this.select.show();
 
         // Event: on destroy
@@ -178,7 +202,10 @@
      */
     EasySelect.prototype.update = function(value){
         // skip duplicate values
-        if(value === this.select.val()) return;
+        if(value === this.val()){
+            this.close();
+            return;
+        }
 
         // update value
         if(typeof this.findObjectInArray(this.selectData, 'value', value) !== 'undefined'){
@@ -192,8 +219,6 @@
      * Change HTML based on selected value
      */
     EasySelect.prototype.change = function(type = 'easySelectEvent'){
-        this.value = this.select.val();
-
         // update current HTML
         this.current.html(this.getOptionHTML());
 
@@ -201,7 +226,7 @@
         if(!this.config.nativeSelect){
             // active option
             this.dropdown.find(`[${names.optionAttr}]`).removeClass(names.optionActiveClass);
-            this.dropdown.find(`[${names.optionAttr}="${this.value}"]`).addClass(names.optionActiveClass);
+            this.dropdown.find(`[${names.optionAttr}="${this.val()}"]`).addClass(names.optionActiveClass);
 
             // close
             this.close();
@@ -334,7 +359,7 @@
      */
     EasySelect.prototype.getOptionHTML = function(option = undefined){
         // is active
-        const isActive = typeof option !== 'undefined' && option['value'] === this.select.val();
+        const isActive = typeof option !== 'undefined' && option['value'] === this.val();
 
         // return selected option
         if(typeof option === 'undefined'){
@@ -372,6 +397,15 @@
      ********************** Data *********************
      ***************************************************/
     /**
+     * Get value
+     * @returns {*}
+     */
+    EasySelect.prototype.val = function(){
+        this.value = this.select.val();
+        return this.value;
+    }
+
+    /**
      * Get select data
      * @returns {*[]}
      */
@@ -397,7 +431,7 @@
         const value = $option.val();
         const index = $option.index();
         const id = this.stringToSlug(value) + '-' + index;
-        const isSelected = value === this.select.val();
+        const isSelected = value === this.val();
         const el = $option;
         const isDisabled = $option.is(':disabled');
 

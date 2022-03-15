@@ -3,39 +3,76 @@ const browserSync = require('browser-sync').create();
 const rename = require("gulp-rename");
 const uglify = require('gulp-uglify-es').default;
 const cleanCSS = require('gulp-clean-css');
+const replace = require('gulp-replace');
+const readlineSync = require('readline-sync');
+
+// Static server
+gulp.task('serve', function(){
+    // Watch for all files change and reload
+    gulp.watch('**').on('change', () => {
+        browserSync.reload();
+    });
 
 
-// uglify JS
-gulp.task('uglify', function(){
+    browserSync.init({
+        // serve files from root directory
+        server: {baseDir: "./"}
+    });
+});
+
+// Minify JS
+gulp.task('minify-js', function(){
     return gulp.src(['build/*.js'])
         .pipe(rename({extname: '.min.js'}))
         .pipe(uglify(/* options */))
         .pipe(gulp.dest("dist"));
 });
 
-// minify css
+// Minify CSS
 gulp.task('minify-css', () => {
-    return gulp.src('build/*.css')
+    return gulp.src(['build/*.css'])
         .pipe(rename({extname: '.min.css'}))
-        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(cleanCSS({debug: true}, (details) => {
+            console.log(`Original ${details.name}: ${details.stats.originalSize}`);
+            console.log(`Minified ${details.name}: ${details.stats.minifiedSize}`);
+        }))
         .pipe(gulp.dest('dist'));
 });
 
-// watch all files
-gulp.task('watch', function(){
-    gulp.watch('**').on('change', () => {
-        browserSync.reload();
-    });
-
-    browserSync.init({
-        server: {
-            baseDir: "./"
-        }
-    });
+// Replace version
+let oldVersion = '', newVersion = '', count = 1;
+const replaceFiles = ['index.html', 'README.md', 'build/*'];
+gulp.task('replace', function(){
+    return gulp.src(replaceFiles)
+        .pipe(replace(oldVersion, function handleReplace(match){
+            console.log(`[${count}] Found "${oldVersion}", replace with "${newVersion}"`);
+            count++;
+            return newVersion;
+        }))
+        .pipe(gulp.dest(function(file){
+            console.log(file.base)
+            return file.base;
+        }, {overwrite: true}));
 });
 
-// gulp serve
-gulp.task('serve', gulp.series('watch'));
-
 // gulp release
-gulp.task('release', gulp.series('uglify', 'minify-css'));
+gulp.task('release', gulp.series(
+    function(done){
+        oldVersion = readlineSync.question('Enter the current version to replace: ');
+        return done();
+    },
+    function(done){
+        newVersion = readlineSync.question('New version: ');
+        return done();
+    },
+    function(done){
+        if(readlineSync.keyInYN(`Do you want to replace "${oldVersion}" with "${newVersion}" in [${replaceFiles}]?`)){
+            return done();
+        }
+        console.log('Ok, not replace, stop releasing.');
+        process.exit(1);
+    },
+    'replace',
+    'minify-css',
+    'minify-js',
+));
