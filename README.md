@@ -1,9 +1,11 @@
 # Easy Select v3.0.2
 
 [![release](https://badgen.net/github/release/viivue/easy-select/)](https://github.com/viivue/easy-select/releases/latest)
-[![minified](https://badgen.net/badge/minified/7KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
+[![minified](https://badgen.net/badge/minified/8KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
 [![jsdelivr](https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge?style=rounded)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
 [![license](https://badgen.net/github/license/viivue/easy-select/)](https://github.com/viivue/easy-select/blob/main/LICENSE)
+
+> A jQuery-plugin to customize select tag.
 
 ## Getting started
 
@@ -21,10 +23,10 @@
 
 ```html
 <!-- CSS (3 KB) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/easy-select.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/build/easy-select.css">
 
-<!-- JS (13 KB) -->
-<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/easy-select.js"></script>
+<!-- JS (14 KB) -->
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/build/easy-select.js"></script>
 ```
 
 or minified version
@@ -33,7 +35,7 @@ or minified version
 <!-- CSS (2 KB) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/dist/easy-select.min.css">
 
-<!-- JS (5 KB) -->
+<!-- JS (6 KB) -->
 <script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/dist/easy-select.min.js"></script>
 ```
 
@@ -52,6 +54,7 @@ const option = {
     wrapperClass: '',
     nativeSelect: false, // keep the native select
     warning: false, // allow to show warning in console log
+    wrapDefaultSelect: true, // allow to wrap the default select tag
     customDropDownOptionHTML: option => {
         // custom option HTML
         return `<span>${option['label']}</span>`;
@@ -114,11 +117,11 @@ $select.easySelect('disabled', false); // enable
 
 ## Deployment
 
-```text
+```shell
 npm install
 ```
 
-```text
+```shell
 gulp serve
 ```
 
