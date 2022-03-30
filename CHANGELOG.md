@@ -1,5 +1,10 @@
 # Changelog
 
+### [3.1.0] - 2022-03-xx
+
+- Add CSS variables
+- Style custom scrollbar
+
 ### [3.0.2] - 2022-03-15
 
 - Close dropdown when select on the same value
