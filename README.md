@@ -1,4 +1,4 @@
-# Easy Select v3.0.2
+# Easy Select v3.1.0
 
 [![release](https://badgen.net/github/release/viivue/easy-select/)](https://github.com/viivue/easy-select/releases/latest)
 [![minified](https://badgen.net/badge/minified/8KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
@@ -23,20 +23,20 @@
 
 ```html
 <!-- CSS (3 KB) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/build/easy-select.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.1.0/build/easy-select.css">
 
 <!-- JS (14 KB) -->
-<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/build/easy-select.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.1.0/build/easy-select.js"></script>
 ```
 
 or minified version
 
 ```html
 <!-- CSS (2 KB) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/dist/easy-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.1.0/dist/easy-select.min.css">
 
 <!-- JS (6 KB) -->
-<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.0.2/dist/easy-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@3.1.0/dist/easy-select.min.js"></script>
 ```
 
 ### Init
