@@ -1,6 +1,6 @@
 # Changelog
 
-### [3.1.0] - 2022-03-xx
+### [3.1.0] - 2022-04-04
 
 - Add CSS variables
 - Style custom scrollbar
