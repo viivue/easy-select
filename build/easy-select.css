@@ -51,7 +51,7 @@
  * Easy Select - Default theme
 ****************************/
 /* Support a11y */
-.easy-select:focus-visible {outline:2px #000;}
+.easy-select:focus-visible {outline:2px solid #000;}
 
 .easy-select {
     --es-select-w:300px;
