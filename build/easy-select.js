@@ -103,6 +103,7 @@
         // exit if is native select
         if(this.config.nativeSelect){
             this.wrapper.addClass(names.wrapperNativeSelectClass);
+            this.select.attr("tabindex", "-1");
             return;
         }
 
