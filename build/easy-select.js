@@ -79,7 +79,7 @@
 
         // create wrapper
         this.id = this.uniqueId();
-        const wrapperHTML = `<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
+        const wrapperHTML = `<div tabindex="0" class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
         const wrapperSelector = `[${names.wrapperIdAttr}="${this.id}"]`;
 
         if(this.isWrapped){
