@@ -103,6 +103,8 @@
         // exit if is native select
         if(this.config.nativeSelect){
             this.wrapper.addClass(names.wrapperNativeSelectClass);
+
+            // remove focus visible to tag select
             this.select.attr("tabindex", "-1");
             return;
         }
