@@ -50,6 +50,9 @@
 /****************************
  * Easy Select - Default theme
 ****************************/
+/* Support a11y */
+.easy-select:focus-visible {outline:2px solid #0d95e8;}
+
 .easy-select {
     --es-select-w:300px;
     --es-dropdown-w:300px;

@@ -79,7 +79,7 @@
 
         // create wrapper
         this.id = this.uniqueId();
-        const wrapperHTML = `<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
+        const wrapperHTML = `<div tabindex="0" class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
         const wrapperSelector = `[${names.wrapperIdAttr}="${this.id}"]`;
 
         if(this.isWrapped){
@@ -103,6 +103,9 @@
         // exit if is native select
         if(this.config.nativeSelect){
             this.wrapper.addClass(names.wrapperNativeSelectClass);
+
+            // remove focus visible to tag select
+            this.select.attr("tabindex", "-1");
             return;
         }
 
