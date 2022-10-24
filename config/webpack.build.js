@@ -75,7 +75,7 @@ module.exports = merge(server, {
             inject: true,
             hash: true,
             title: packageInfo.prettyName,
-            favicon: paths.public + '/images/favicon.png',
+            favicon: paths.public + '/images/favicon.svg',
             template: entryPath + '/index.html', // template file
             filename: 'index.html', // output file
         }),
