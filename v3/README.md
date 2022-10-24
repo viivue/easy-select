@@ -11,7 +11,7 @@
 
 ### Download
 
-👉 Self hosted - [Download latest release](https://github.com/viivue/easy-select/releases/latest)
+👉 Self hosted - [Download the latest release](https://github.com/viivue/easy-select/releases/latest)
 
 ```html
 
