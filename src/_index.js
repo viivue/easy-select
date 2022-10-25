@@ -37,18 +37,20 @@ const defaults = {
  */
 class EasySelect{
     constructor(element, options){
-        this.names = {
+        this.classes = {
             wrapperClass: 'easy-select',
             wrapperOpenClass: 'show-dropdown',
-            wrapperIdAttr: 'data-easy-select-id',
             currentClass: 'easy-select-current',
             dropdownClass: 'easy-select-dropdown',
             optionClass: 'easy-select-option',
-            optionAttr: 'data-easy-select-option',
             optionActiveClass: 'active',
             optionDisabledClass: 'disabled',
             wrapperNativeSelectClass: 'easy-select-native',
             wrapperDisabledClass: 'easy-select-disabled'
+        };
+        this.atts = {
+            wrapperIdAttr: 'data-easy-select-id',
+            optionAttr: 'data-easy-select-option',
         };
 
         this.select = jQuery(element);
@@ -69,7 +71,7 @@ class EasySelect{
         // todo: check this out
         console.log('select', this.select)
         console.log('wrapper', this.selectData)
-        this.dropdown = this.wrapper.find(`.${this.names.dropdownClass}`);
+        this.dropdown = this.wrapper.find(`.${this.classes.dropdownClass}`);
     }
 
     /**
@@ -177,8 +179,8 @@ class EasySelect{
         /** Dropdown **/
         if(!this.config.nativeSelect){
             // active option
-            this.dropdown.find(`[${this.names.optionAttr}]`).removeClass(this.names.optionActiveClass);
-            this.dropdown.find(`[${this.names.optionAttr}="${val(this)}"]`).addClass(this.names.optionActiveClass);
+            this.dropdown.find(`[${this.atts.optionAttr}]`).removeClass(this.classes.optionActiveClass);
+            this.dropdown.find(`[${this.atts.optionAttr}="${val(this)}"]`).addClass(this.classes.optionActiveClass);
 
             // close
             this.close();
@@ -195,7 +197,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
         if(this.isOpen) return;
         this.isOpen = true;
-        this.wrapper.addClass(this.names.wrapperOpenClass);
+        this.wrapper.addClass(this.classes.wrapperOpenClass);
 
         // Event: on open
         this.config.onDropdownOpen(this);
@@ -208,7 +210,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
-        this.wrapper.removeClass(this.names.wrapperOpenClass);
+        this.wrapper.removeClass(this.classes.wrapperOpenClass);
 
         // Event: on close
         this.config.onDropdownClose(this);
@@ -237,9 +239,9 @@ class EasySelect{
         this.select.prop('disabled', boolean);
         this.isDisabled = boolean;
         if(boolean){
-            this.wrapper.addClass(this.names.wrapperDisabledClass);
+            this.wrapper.addClass(this.classes.wrapperDisabledClass);
         }else{
-            this.wrapper.removeClass(this.names.wrapperDisabledClass);
+            this.wrapper.removeClass(this.classes.wrapperDisabledClass);
         }
 
         // Event: on change
@@ -264,11 +266,13 @@ if(typeof jQuery !== 'undefined'){
             }
 
             if(id){
+                // found id => run method
                 const easySelect = window.EasySelect.get(id);
                 // exec methods
                 console.log(`jquery: found Easy Select [${id}]`, el, options, param)
                 easySelect.execPublicMethods(options, param);
             }else{
+                // id not found => init new instance
                 console.log(`jquery: init Easy Select`, el, options, param)
                 // init
                 window.EasySelect.init(el, options);

@@ -21,12 +21,12 @@ export function init(context){
  */
 export function create(context){
     // check valid HTML: exit if already created
-    if(context.select.closest(`.${context.names.wrapperClass}`).length) return;
+    if(context.select.closest(`.${context.classes.wrapperClass}`).length) return;
 
     // create wrapper
     context.id = uniqueId();
-    const wrapperHTML = `<div class="${context.names.wrapperClass} ${context.config.wrapperClass}" ${context.names.wrapperIdAttr}="${context.id}"></div>`;
-    const wrapperSelector = `[${context.names.wrapperIdAttr}="${context.id}"]`;
+    const wrapperHTML = `<div class="${context.classes.wrapperClass} ${context.config.wrapperClass}" ${context.atts.wrapperIdAttr}="${context.id}"></div>`;
+    const wrapperSelector = `[${context.atts.wrapperIdAttr}="${context.id}"]`;
 
     if(context.isWrapped){
         context.select.wrapAll(wrapperHTML);
@@ -38,7 +38,7 @@ export function create(context){
 
     // add current HTML
     context.wrapper.append(getCurrentHTML(context));
-    context.current = context.wrapper.find(`.${context.names.currentClass}`);
+    context.current = context.wrapper.find(`.${context.classes.currentClass}`);
 
     // on select change
     context.select.on('change', event => {
@@ -48,7 +48,7 @@ export function create(context){
 
     // exit if is native select
     if(context.config.nativeSelect){
-        context.wrapper.addClass(context.names.wrapperNativeSelectClass);
+        context.wrapper.addClass(context.classes.wrapperNativeSelectClass);
         return;
     }
 
@@ -63,7 +63,7 @@ export function create(context){
 
     // on outside click
     jQuery(document).on('click', (event) => {
-        const isNotThisSelect = !jQuery(event.target).closest(`.easy-select[${context.names.wrapperIdAttr}="${context.id}"]`).length;
+        const isNotThisSelect = !jQuery(event.target).closest(`.easy-select[${context.atts.wrapperIdAttr}="${context.id}"]`).length;
         if(isNotThisSelect && context.isOpen){
             context.close();
         }
