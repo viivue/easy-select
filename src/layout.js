@@ -1,4 +1,5 @@
 import {getOptionData, val} from "./data";
+import {update} from "./methods";
 
 /****************************************************
  ********************** HTML *********************
@@ -33,7 +34,7 @@ export function updateDropdownHTML(context){
 
     // on option click
     context.dropdown.find(`[${context.names.optionAttr}]`).on('click', (event) => {
-        context.update($(event.currentTarget).attr(`${context.names.optionAttr}`));
+        update(context, $(event.currentTarget).attr(`${context.names.optionAttr}`));
     });
 }
 
