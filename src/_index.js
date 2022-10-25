@@ -1,9 +1,26 @@
 import {getSelectData, val} from "./data";
 import {init} from "./methods";
-import {getCurrentHTML, getOptionHTML, updateDropdownHTML} from "./layout";
+import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag} from "./utils";
 
 const pluginName = "easySelect";
+const classes = {
+    wrapperClass: 'easy-select',
+    wrapperOpenClass: 'show-dropdown',
+    currentClass: 'easy-select-current',
+    dropdownClass: 'easy-select-dropdown',
+    optionClass: 'easy-select-option',
+    optionActiveClass: 'active',
+    optionDisabledClass: 'disabled',
+    wrapperNativeSelectClass: 'easy-select-native',
+    wrapperDisabledClass: 'easy-select-disabled',
+    enabled: 'easy-select-enabled'
+};
+const atts = {
+    init: 'data-easy-select',
+    wrapperIdAttr: 'data-easy-select-id',
+    optionAttr: 'data-easy-select-option',
+};
 const defaults = {
     wrapperClass: '',
     nativeSelect: false,
@@ -39,23 +56,13 @@ class EasySelect{
     constructor(el, options){
         console.log('----- START');
 
-        this.classes = {
-            wrapperClass: 'easy-select',
-            wrapperOpenClass: 'show-dropdown',
-            currentClass: 'easy-select-current',
-            dropdownClass: 'easy-select-dropdown',
-            optionClass: 'easy-select-option',
-            optionActiveClass: 'active',
-            optionDisabledClass: 'disabled',
-            wrapperNativeSelectClass: 'easy-select-native',
-            wrapperDisabledClass: 'easy-select-disabled'
-        };
-        this.atts = {
-            wrapperIdAttr: 'data-easy-select-id',
-            optionAttr: 'data-easy-select-option',
-        };
+        this.classes = {...classes};
+        this.atts = {...atts};
 
         this.selectTag = getSelectTag(el);
+
+        // avoid duplicate init
+        if(this.selectTag.classList.contains(this.classes.enabled)) return;
         console.log('select tag', this.selectTag);
 
         this.config = {...defaults, ...options};
@@ -71,6 +78,8 @@ class EasySelect{
         }
 
         init(this);
+
+        this.selectTag.classList.add(this.classes.enabled);
 
         //this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdownClass}`);
     }
@@ -176,15 +185,15 @@ class EasySelect{
      * @param type
      */
     change(type = 'easySelectEvent'){
-        console.log('change')
-
         // update current HTML
         this.current.innerHTML = getOptionHTML(this);
 
         /** Dropdown **/
         if(!this.config.nativeSelect){
             // active option
-            this.dropdown.querySelector(`[${this.atts.optionAttr}]`).classList.remove(this.classes.optionActiveClass);
+            this.dropdown.querySelectorAll(`[${this.atts.optionAttr}]`).forEach(item => {
+                item.classList.remove(this.classes.optionActiveClass);
+            });
             this.dropdown.querySelector(`[${this.atts.optionAttr}="${val(this)}"]`).classList.add(this.classes.optionActiveClass);
 
             // close
@@ -321,14 +330,11 @@ window.EasySelect = {
     init: (el = undefined, options = {}) => {
         // init with multiple elements via attributes
         if(typeof el === 'undefined'){
-            const selector = '[data-easy-select]';
-            document.querySelectorAll(selector).forEach(el => {
+            document.querySelectorAll(`[${atts.init}]:not(.${classes.enabled})`).forEach(el => {
                 window.EasySelectController.add(new EasySelect(el, options));
             });
             return;
         }
-
-        console.log('init', el.length);
 
         // init single element
         window.EasySelectController.add(new EasySelect(el, options));

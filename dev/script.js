@@ -29,5 +29,5 @@ const root = document.querySelector('#root');
 /**
  * Test script
  */
-testInit(root);
 testLayout(root);
+testInit(root);
