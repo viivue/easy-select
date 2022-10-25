@@ -3,10 +3,10 @@ import '../public/style/fonts.css';
 
 // private style
 import './style.scss';
-import './easy-select.css';
 
 // source script
 import '@/_index';
+import '@/_style.scss';
 
 // test script
 import {testInit} from "./js/test-init";
