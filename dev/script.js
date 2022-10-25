@@ -24,12 +24,13 @@ document.querySelector('[data-description]').innerHTML = packageInfo.description
  * Lib usage
  */
 setTimeout(() => {
-    $('[data-easy-select]').append('<option value="Porsche">Porsche</option>');
-    $('[data-easy-select]').append('<option value="Huyndai">Huyndai</option>');
-    $('[data-easy-select]').append('<option value="Thaco">Thaco</option>');
-    $('[data-easy-select]').append('<option value="KIA">KIA</option>');
-    $('[data-easy-select]').append('<option value="Photon">Photon</option>');
-    $('[data-easy-select]').easySelect('refresh');
+    const $dropdown = $('[data-easy-select]');
+    $dropdown.append('<option value="Porsche">Porsche</option>');
+    $dropdown.append('<option value="Hyundai">Hyundai</option>');
+    $dropdown.append('<option value="Thaco">Thaco</option>');
+    $dropdown.append('<option value="KIA">KIA</option>');
+    $dropdown.append('<option value="Photon">Photon</option>');
+    $dropdown.easySelect('refresh');
 
     $('#custom-options').easySelect('select', '');
 }, 500);

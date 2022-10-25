@@ -20,7 +20,7 @@ export function val(context){
 export function getSelectData(context){
     const data = [];
     context.select.find('option').each((index, option) => {
-        data.push(getOptionData(context, $(option)));
+        data.push(getOptionData(context, jQuery(option)));
     });
     return data;
 }
