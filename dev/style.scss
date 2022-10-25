@@ -2,8 +2,8 @@
  * Variables
  */
 $font-size: 1rem;
-$font-family: 'Finlandica', sans-serif;
-$page-width: 768px;
+$font-family: 'Inconsolata', sans-serif;
+$page-width: 560px;
 $color-primary: #f1c400;
 $color-on-primary: #141414;
 
@@ -22,6 +22,7 @@ body {
   max-width: $page-width;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 
 body {
@@ -34,6 +35,20 @@ body {
 
 h1, .footer {
   text-align: center;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+code {
+  display: block;
+  padding: 1em;
+  background-color: #eee;
+  margin:1em 0;
 }
 
 .option-color {

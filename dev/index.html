@@ -4,53 +4,80 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
 
     <title>Easy Select</title>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="jquery-3.6.1.min.js"></script>
 </head>
 
 <body>
 <div class="container">
-    <h1 data-title>Easy Select</h1>
-    <p data-description></p>
-    <br>
+    <h1>[DEV] <span data-title></span></h1>
 
-    <!-- Custom dropdown -->
-    <p>Custom dropdown</p>
-    <select data-easy-select>
-        <option value="bmw">BMW</option>
-        <option value="Audi Mobile">Audi Mobile</option>
-        <option value="vinfast">Vinfast</option>
-        <option value="lamborghini">Lamborghini</option>
-    </select>
-    <br>
-    <br>
+    <h2>Init</h2>
 
-    <!-- Native dropdown -->
-    <p>Native dropdown</p>
-    <select id="native-dropdown">
-        <option value="apple">Apple</option>
-        <option value="samsung electronic" selected>Samsung electronic</option>
-        <option value="sony">Sony</option>
-        <option value="lg">LG</option>
-    </select>
-    <br>
-    <br>
+    <p>
+        <label>
+            <strong>Via attribute</strong>
+            <select data-easy-select>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+            </select>
+        </label>
+    </p>
 
-    <!-- Custom dropdown item -->
-    <p>Custom dropdown item</p>
-    <select id="custom-options">
-        <option value="apple" data-color="red">Apple</option>
-        <option data-color="blue">Samsung</option>
-        <option value="sony" data-color="#000">Sony</option>
-        <option value="lg" data-color="#fff">LG</option>
-    </select>
-    <br>
-    <br>
+
+    <p>
+        <label>
+            <strong>Via jQuery plugin</strong>
+            <select id="init-jquery">
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+            </select>
+        </label>
+    </p>
+
+    <p>
+        <label>
+            <strong>Via vanilla JS: jQuery element</strong>
+            <select id="init-vanilla-jquery">
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+            </select>
+        </label>
+    </p>
+
+    <p>
+        <label>
+            <strong>Via vanilla JS: DOM element</strong>
+            <select id="init-vanilla-dom">
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+            </select>
+        </label>
+    </p>
+
+    <p>
+        <label>
+            <strong>Via vanilla JS: CSS selector string</strong>
+            <select id="init-vanilla-string">
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+            </select>
+        </label>
+    </p>
+
+
 
     <!--Footer -->
     <div class="footer">

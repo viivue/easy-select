@@ -18,41 +18,18 @@ const packageInfo = require('../package.json');
 const title = `${packageInfo.prettyName} v${packageInfo.version}`;
 document.title = `[DEV] ${title} - ${packageInfo.description}`;
 document.querySelector('[data-title]').innerHTML = title;
-document.querySelector('[data-description]').innerHTML = packageInfo.description;
 
 /**
- * Lib usage
+ * Lib test
  */
-setTimeout(() => {
-    const $dropdown = $('[data-easy-select]');
-    $dropdown.append('<option value="Porsche">Porsche</option>');
-    $dropdown.append('<option value="Hyundai">Hyundai</option>');
-    $dropdown.append('<option value="Thaco">Thaco</option>');
-    $dropdown.append('<option value="KIA">KIA</option>');
-    $dropdown.append('<option value="Photon">Photon</option>');
-    $dropdown.easySelect('refresh');
+// Init: jQuery plugin
+$('#init-jquery').easySelect();
 
-    $('#custom-options').easySelect('select', '');
-}, 500);
+// Init: vanilla JS: DOM element
+EasySelect.init(document.querySelector('#init-vanilla-dom'));
 
-$('#native-dropdown').easySelect({
-    nativeSelect: true,
-    warning: true,
-    onChange: (data, type) => {
-        console.log(type, data.value)
-    }
-});
+// Init: vanilla JS: jQuery element
+EasySelect.init($('#init-vanilla-jquery'));
 
-
-$('#custom-options').easySelect({
-    customDropDownOptionHTML: option => {
-        const colorCode = option.el.data('color');
-
-        let html = '<div class="option-color">';
-        html += `<span class="color" style="background-color:${colorCode}">${colorCode}</span>`;
-        html += `<span>${option.label}</span>`;
-        html += '</div>';
-
-        return html;
-    },
-});
+// Init: vanilla JS: CSS selector string
+EasySelect.init('#init-vanilla-string');
