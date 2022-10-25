@@ -59,9 +59,9 @@ export function create(context){
     context.current.addEventListener('click', () => context.toggle());
 
     // on outside click
-    jQuery(document).on('click', (event) => {
-        const isNotThisSelect = !jQuery(event.target).closest(`.easy-select[${context.atts.wrapperIdAttr}="${context.id}"]`).length;
-        if(isNotThisSelect && context.isOpen) context.close();
+    document.addEventListener('click', event => {
+        const wrapper = event.target.closest(`.easy-select[${context.atts.wrapperIdAttr}="${context.id}"]`);
+        if(wrapper === null && context.isOpen) context.close();
     });
 }
 
