@@ -30,8 +30,6 @@ export function create(context){
         className: `${context.classes.wrapperClass} ${context.config.wrapperClass}`
     });
     wrapper.setAttribute(context.atts.wrapperIdAttr, context.id);
-    //const wrapperHTML = `<div class="${context.classes.wrapperClass} ${context.config.wrapperClass}" ${context.atts.wrapperIdAttr}="${context.id}"></div>`;
-    //const wrapperSelector = `[${context.atts.wrapperIdAttr}="${context.id}"]`;
 
     if(context.isWrapped){
         wrapAll(context.selectTag, wrapper);
@@ -41,11 +39,12 @@ export function create(context){
     context.wrapper = wrapper;
 
     // add current HTML
-    context.wrapper.innerHTML += getCurrentHTML(context);
+    context.wrapper.insertAdjacentHTML('beforeend', getCurrentHTML(context));
 
     // exit if is native select
     if(context.config.nativeSelect){
-        context.wrapper.addClass(context.classes.wrapperNativeSelectClass);
+        context.wrapper.classList.add(context.classes.wrapperNativeSelectClass);
+        assignSelectOnChange(context);
         return;
     }
 
@@ -53,24 +52,38 @@ export function create(context){
     updateDropdownHTML(context);
 
     // hide default select
-    // re-query selectTag due to DOM-redraw
-    context.selectTag = context.wrapper.querySelector('select');
+    assignSelectOnChange(context);
     context.selectTag.style.display = 'none';
 
-    // on select change
-    context.selectTag.addEventListener('change', event => {
-        context.change(context, typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
-    });
-
     // on current click
-    context.current = context.wrapper.querySelector(`.${context.classes.currentClass}`);
     context.current.addEventListener('click', () => context.toggle());
 
     // on outside click
     jQuery(document).on('click', (event) => {
         const isNotThisSelect = !jQuery(event.target).closest(`.easy-select[${context.atts.wrapperIdAttr}="${context.id}"]`).length;
-        if(isNotThisSelect && context.isOpen){
-            context.close();
-        }
+        if(isNotThisSelect && context.isOpen) context.close();
+    });
+}
+
+
+/**
+ * re-query to avoid DOM-redraw
+ * @param context
+ */
+function updateElements(context){
+    // select tag
+    context.selectTag = context.wrapper.querySelector('select');
+
+    // current element
+    context.current = context.wrapper.querySelector(`.${context.classes.currentClass}`);
+}
+
+function assignSelectOnChange(context){
+    // re-query elements
+    updateElements(context);
+
+    // on select change
+    context.selectTag.addEventListener('change', event => {
+        context.change(context, typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
     });
 }

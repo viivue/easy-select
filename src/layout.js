@@ -26,8 +26,7 @@ export function updateDropdownHTML(context){
     }
 
     // new dropdown HTML
-    //context.wrapper.append(getDropdownHTML(context));
-    context.wrapper.innerHTML += getDropdownHTML(context);
+    context.wrapper.insertAdjacentHTML('beforeend', getDropdownHTML(context));
 
     // save new dropdown element
     context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdownClass}`);

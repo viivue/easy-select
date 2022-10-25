@@ -1,6 +1,6 @@
 import {getSelectData, val} from "./data";
 import {init} from "./methods";
-import {getOptionHTML, updateDropdownHTML} from "./layout";
+import {getCurrentHTML, getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag} from "./utils";
 
 const pluginName = "easySelect";
@@ -67,13 +67,12 @@ class EasySelect{
 
         if(this.config.nativeSelect && this.config.wrapDefaultSelect){
             this.isWrapped = true;
-            console.warn(`Default select must be wrapped in Native select mode.`);
+            //console.error(`Default select must be wrapped in Native select mode.`);
         }
 
         init(this);
 
-        // todo: check this out
-        this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdownClass}`);
+        //this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdownClass}`);
     }
 
     /**
@@ -177,6 +176,8 @@ class EasySelect{
      * @param type
      */
     change(type = 'easySelectEvent'){
+        console.log('change')
+
         // update current HTML
         this.current.innerHTML = getOptionHTML(this);
 
