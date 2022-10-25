@@ -40,7 +40,7 @@ $('#native-dropdown').easySelect({
     onChange: (data, type) => {
         console.log(type, data.value)
     }
-})
+});
 
 
 $('#custom-options').easySelect({
