@@ -1,6 +1,9 @@
+import {stringToSlug} from "./utils";
+
 /****************************************************
  ********************** Data *********************
  ***************************************************/
+
 /**
  * Get value
  * @returns {*}
@@ -35,7 +38,7 @@ export function getOptionData(context, $option = undefined){
     const label = $option.text();
     const value = $option.val();
     const index = $option.index();
-    const id = context.stringToSlug(value) + '-' + index;
+    const id = stringToSlug(value) + '-' + index;
     const isSelected = value === val(context);
     const el = $option;
     const isDisabled = $option.is(':disabled');

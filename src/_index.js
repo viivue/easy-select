@@ -1,5 +1,6 @@
 import {getCurrentHTML, getOptionHTML, updateDropdownHTML} from "./layout";
 import {getSelectData, val} from "./data";
+import {findObjectInArray, uniqueId} from "./utils";
 
 ;(function($, window, document, undefined){
     const pluginName = "easySelect";
@@ -84,7 +85,7 @@ import {getSelectData, val} from "./data";
             if(this.select.closest(`.${this.names.wrapperClass}`).length) return;
 
             // create wrapper
-            this.id = this.uniqueId();
+            this.id = uniqueId();
             const wrapperHTML = `<div class="${this.names.wrapperClass} ${this.config.wrapperClass}" ${this.names.wrapperIdAttr}="${this.id}"></div>`;
             const wrapperSelector = `[${this.names.wrapperIdAttr}="${this.id}"]`;
 
@@ -214,7 +215,7 @@ import {getSelectData, val} from "./data";
             }
 
             // update value
-            if(typeof this.findObjectInArray(this.selectData, 'value', value) !== 'undefined'){
+            if(typeof findObjectInArray(this.selectData, 'value', value) !== 'undefined'){
                 this.select.val(value).trigger('change');
             }else{
                 if(this.config.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
@@ -300,41 +301,6 @@ import {getSelectData, val} from "./data";
             this.config.onDisabled(this);
         };
 
-
-        /****************************************************
-         ********************** Helpers *********************
-         ***************************************************/
-        /**
-         * String to slug
-         * https://stackoverflow.com/a/1054862/10636614
-         * @param string
-         * @returns {string}
-         */
-        stringToSlug(string = ''){
-            return string
-                .toLowerCase()
-                .replace(/[^\w ]+/g, '')
-                .replace(/ +/g, '-');
-        }
-
-        /**
-         * Generate unique ID
-         */
-        uniqueId(prefix = ''){
-            return prefix + (+new Date()).toString(16) +
-                (Math.random() * 100000000 | 0).toString(16);
-        }
-
-        /**
-         * Find object in array that match key => value
-         * @param array
-         * @param key
-         * @param value
-         * @returns {*}
-         */
-        findObjectInArray(array, key, value){
-            return array.find(x => x[key] === value);
-        }
     }
 
     /****************************************************
