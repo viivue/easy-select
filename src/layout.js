@@ -20,20 +20,27 @@ export function getCurrentHTML(context){
  * Add/update dropdown HTML based on original select
  */
 export function updateDropdownHTML(context){
-    context.dropdown = context.wrapper.find(`.${context.classes.dropdownClass}`);
-    if(context.dropdown.length){
+    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdownClass}`);
+    if(context.dropdown){
         context.dropdown.detach();
     }
 
     // new dropdown HTML
-    context.wrapper.append(getDropdownHTML(context));
+    //context.wrapper.append(getDropdownHTML(context));
+    context.wrapper.innerHTML += getDropdownHTML(context);
 
     // save new dropdown element
-    context.dropdown = context.wrapper.find(`.${context.classes.dropdownClass}`);
+    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdownClass}`);
 
     // on option click
-    context.dropdown.find(`[${context.classes.optionAttr}]`).on('click', (event) => {
-        context.update(jQuery(event.currentTarget).attr(`${context.classes.optionAttr}`));
+    if(!context.dropdown){
+        console.error('Dropdown not found!');
+        return;
+    }
+    context.dropdown.querySelectorAll(`[${context.atts.optionAttr}]`).forEach(option => {
+        option.addEventListener('click', event => {
+            context.update(option.getAttribute(context.atts.optionAttr));
+        });
     });
 }
 
@@ -47,7 +54,7 @@ export function getDropdownHTML(context){
     // generate html
     html += `<div class="${context.classes.dropdownClass}">`;
     html += `<ul>`;
-    for(const option of context.selectData){
+    for(const option of context.selectTagData){
         html += `<li>`;
         html += getOptionHTML(context, option);
         html += `</li>`;
@@ -78,7 +85,7 @@ export function getOptionHTML(context, option = undefined){
     classList += ' ' + (option['isDisabled'] ? context.classes.optionDisabledClass : '');
 
     let html = '';
-    html += `<div class="${classList}" ${context.classes.optionAttr}="${option['value']}">`;
+    html += `<div class="${classList}" ${context.atts.optionAttr}="${option['value']}">`;
     html += getOptionInnerHTML(context, option);
     html += `</div>`;
     return html;

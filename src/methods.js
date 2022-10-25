@@ -1,4 +1,4 @@
-import {uniqueId} from "./utils";
+import {createEl, insertAfter, uniqueId, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 
 /****************************************************
@@ -21,30 +21,27 @@ export function init(context){
  */
 export function create(context){
     // check valid HTML: exit if already created
-    if(context.select.closest(`.${context.classes.wrapperClass}`).length) return;
+    let wrapper = context.selectTag.closest(`.${context.classes.wrapperClass}`);
+    if(wrapper && wrapper.length) return;
 
     // create wrapper
     context.id = uniqueId();
-    const wrapperHTML = `<div class="${context.classes.wrapperClass} ${context.config.wrapperClass}" ${context.atts.wrapperIdAttr}="${context.id}"></div>`;
-    const wrapperSelector = `[${context.atts.wrapperIdAttr}="${context.id}"]`;
+    wrapper = createEl({
+        className: `${context.classes.wrapperClass} ${context.config.wrapperClass}`
+    });
+    wrapper.setAttribute(context.atts.wrapperIdAttr, context.id);
+    //const wrapperHTML = `<div class="${context.classes.wrapperClass} ${context.config.wrapperClass}" ${context.atts.wrapperIdAttr}="${context.id}"></div>`;
+    //const wrapperSelector = `[${context.atts.wrapperIdAttr}="${context.id}"]`;
 
     if(context.isWrapped){
-        context.select.wrapAll(wrapperHTML);
-        context.wrapper = context.select.closest(wrapperSelector);
+        wrapAll(context.selectTag, wrapper);
     }else{
-        jQuery(wrapperHTML).insertAfter(context.select);
-        context.wrapper = context.select.next();
+        insertAfter(wrapper, context.selectTag);
     }
+    context.wrapper = wrapper;
 
     // add current HTML
-    context.wrapper.append(getCurrentHTML(context));
-    context.current = context.wrapper.find(`.${context.classes.currentClass}`);
-
-    // on select change
-    context.select.on('change', event => {
-            context.change(context, typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
-        }
-    );
+    context.wrapper.innerHTML += getCurrentHTML(context);
 
     // exit if is native select
     if(context.config.nativeSelect){
@@ -56,10 +53,18 @@ export function create(context){
     updateDropdownHTML(context);
 
     // hide default select
-    context.select.hide();
+    // re-query selectTag due to DOM-redraw
+    context.selectTag = context.wrapper.querySelector('select');
+    context.selectTag.style.display = 'none';
+
+    // on select change
+    context.selectTag.addEventListener('change', event => {
+        context.change(context, typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
+    });
 
     // on current click
-    context.current.on('click', () => context.toggle());
+    context.current = context.wrapper.querySelector(`.${context.classes.currentClass}`);
+    context.current.addEventListener('click', () => context.toggle());
 
     // on outside click
     jQuery(document).on('click', (event) => {

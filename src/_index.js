@@ -1,7 +1,7 @@
 import {getSelectData, val} from "./data";
 import {init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
-import {findObjectInArray} from "./utils";
+import {findObjectInArray, getSelectTag} from "./utils";
 
 const pluginName = "easySelect";
 const defaults = {
@@ -36,7 +36,9 @@ const defaults = {
  * Private class
  */
 class EasySelect{
-    constructor(element, options){
+    constructor(el, options){
+        console.log('----- START');
+
         this.classes = {
             wrapperClass: 'easy-select',
             wrapperOpenClass: 'show-dropdown',
@@ -53,13 +55,15 @@ class EasySelect{
             optionAttr: 'data-easy-select-option',
         };
 
-        this.select = jQuery(element);
+        this.selectTag = getSelectTag(el);
+        console.log('select tag', this.selectTag);
+
         this.config = {...defaults, ...options};
         this.isOpen = false;
         this.isDisabled = false;
         this.value = val(this);
         this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
-        this.selectData = getSelectData(this);
+        this.selectTagData = getSelectData(this);
 
         if(this.config.nativeSelect && this.config.wrapDefaultSelect){
             this.isWrapped = true;
@@ -69,9 +73,7 @@ class EasySelect{
         init(this);
 
         // todo: check this out
-        console.log('select', this.select)
-        console.log('wrapper', this.selectData)
-        this.dropdown = this.wrapper.find(`.${this.classes.dropdownClass}`);
+        this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdownClass}`);
     }
 
     /**
@@ -112,7 +114,7 @@ class EasySelect{
      * Refresh
      */
     refresh(){
-        this.selectData = getSelectData(this);
+        this.selectTagData = getSelectData(this);
 
         // update current
         this.current.html(getOptionHTML(this));
@@ -138,12 +140,12 @@ class EasySelect{
 
         if(this.isWrapped){
             this.current.detach();
-            this.select.unwrap();
+            this.selectTag.unwrap();
         }else{
             this.wrapper.detach();
         }
 
-        this.select.show();
+        this.selectTag.show();
 
         // Event: on destroy
         this.config.onDestroy(this);
@@ -161,8 +163,10 @@ class EasySelect{
         }
 
         // update value
-        if(typeof findObjectInArray(this.selectData, 'value', value) !== 'undefined'){
-            this.select.val(value).trigger('change');
+        if(typeof findObjectInArray(this.selectTagData, 'value', value) !== 'undefined'){
+            //this.selectTag.val(value).trigger('change');
+            this.selectTag.value = value;
+            this.selectTag.dispatchEvent(new Event('change', {bubbles: true}));
         }else{
             if(this.config.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
         }
@@ -174,13 +178,13 @@ class EasySelect{
      */
     change(type = 'easySelectEvent'){
         // update current HTML
-        this.current.html(getOptionHTML(this));
+        this.current.innerHTML = getOptionHTML(this);
 
         /** Dropdown **/
         if(!this.config.nativeSelect){
             // active option
-            this.dropdown.find(`[${this.atts.optionAttr}]`).removeClass(this.classes.optionActiveClass);
-            this.dropdown.find(`[${this.atts.optionAttr}="${val(this)}"]`).addClass(this.classes.optionActiveClass);
+            this.dropdown.querySelector(`[${this.atts.optionAttr}]`).classList.remove(this.classes.optionActiveClass);
+            this.dropdown.querySelector(`[${this.atts.optionAttr}="${val(this)}"]`).classList.add(this.classes.optionActiveClass);
 
             // close
             this.close();
@@ -197,7 +201,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
         if(this.isOpen) return;
         this.isOpen = true;
-        this.wrapper.addClass(this.classes.wrapperOpenClass);
+        this.wrapper.classList.add(this.classes.wrapperOpenClass);
 
         // Event: on open
         this.config.onDropdownOpen(this);
@@ -210,7 +214,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
-        this.wrapper.removeClass(this.classes.wrapperOpenClass);
+        this.wrapper.classList.remove(this.classes.wrapperOpenClass);
 
         // Event: on close
         this.config.onDropdownClose(this);
@@ -236,12 +240,12 @@ class EasySelect{
      * @param boolean
      */
     disabled(boolean = true){
-        this.select.prop('disabled', boolean);
+        this.selectTag.prop('disabled', boolean);
         this.isDisabled = boolean;
         if(boolean){
-            this.wrapper.addClass(this.classes.wrapperDisabledClass);
+            this.wrapper.classList.add(this.classes.wrapperDisabledClass);
         }else{
-            this.wrapper.removeClass(this.classes.wrapperDisabledClass);
+            this.wrapper.classList.remove(this.classes.wrapperDisabledClass);
         }
 
         // Event: on change
@@ -269,11 +273,11 @@ if(typeof jQuery !== 'undefined'){
                 // found id => run method
                 const easySelect = window.EasySelect.get(id);
                 // exec methods
-                console.log(`jquery: found Easy Select [${id}]`, el, options, param)
+                //console.log(`jquery: found Easy Select [${id}]`, el, options, param)
                 easySelect.execPublicMethods(options, param);
             }else{
                 // id not found => init new instance
-                console.log(`jquery: init Easy Select`, el, options, param)
+                //console.log(`jquery: init Easy Select`, el, options, param)
                 // init
                 window.EasySelect.init(el, options);
             }
@@ -322,6 +326,8 @@ window.EasySelect = {
             });
             return;
         }
+
+        console.log('init', el.length);
 
         // init single element
         window.EasySelectController.add(new EasySelect(el, options));

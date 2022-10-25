@@ -1,4 +1,4 @@
-import {stringToSlug} from "./utils";
+import {getIndex, getSelectedOption, stringToSlug} from "./utils";
 
 /****************************************************
  ********************** Data *********************
@@ -9,7 +9,7 @@ import {stringToSlug} from "./utils";
  * @returns {*}
  */
 export function val(context){
-    context.value = context.select.val();
+    context.value = context.selectTag.value;
     return context.value;
 }
 
@@ -19,8 +19,8 @@ export function val(context){
  */
 export function getSelectData(context){
     const data = [];
-    context.select.find('option').each((index, option) => {
-        data.push(getOptionData(context, jQuery(option)));
+    context.selectTag.querySelectorAll('option').forEach(option => {
+        data.push(getOptionData(context, option));
     });
     return data;
 }
@@ -29,19 +29,19 @@ export function getSelectData(context){
  * Get option data
  * @returns {{isSelected: boolean, index: *, id: string, label: *, value: (*|string|number|string[])}}
  */
-export function getOptionData(context, $option = undefined){
-    if(typeof $option === 'undefined'){
+export function getOptionData(context, option = undefined){
+    if(typeof option === 'undefined'){
         // return selected option
-        $option = context.select.find('option:selected');
+        option = getSelectedOption(context.selectTag);
     }
 
-    const label = $option.text();
-    const value = $option.val();
-    const index = $option.index();
+    const label = option.innerText;
+    const value = option.value;
+    const index = getIndex(option);
     const id = stringToSlug(value) + '-' + index;
     const isSelected = value === val(context);
-    const el = $option;
-    const isDisabled = $option.is(':disabled');
+    const el = option;
+    const isDisabled = option.disabled;
 
     return {id, label, value, isSelected, isDisabled, index, el};
 }
