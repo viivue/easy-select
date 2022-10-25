@@ -1,4 +1,5 @@
-import {uniqueId} from "./utils";
+import {getCurrentHTML, getOptionHTML, updateDropdownHTML} from "./layout";
+import {getSelectData, val} from "./data";
 
 ;(function($, window, document, undefined){
     const pluginName = "easySelect";
@@ -28,32 +29,35 @@ import {uniqueId} from "./utils";
         onDropdownToggle: data => {
         },
     };
-    const names = {
-        wrapperClass: 'easy-select',
-        wrapperOpenClass: 'show-dropdown',
-        wrapperIdAttr: 'data-easy-select-id',
-        currentClass: 'easy-select-current',
-        dropdownClass: 'easy-select-dropdown',
-        optionClass: 'easy-select-option',
-        optionAttr: 'data-easy-select-option',
-        optionActiveClass: 'active',
-        optionDisabledClass: 'disabled',
-        wrapperNativeSelectClass: 'easy-select-native',
-        wrapperDisabledClass: 'easy-select-disabled'
-    };
+
 
     /**
      * Private class
      */
     class EasySelect{
         constructor(element, options){
+            this.names = {
+                wrapperClass: 'easy-select',
+                wrapperOpenClass: 'show-dropdown',
+                wrapperIdAttr: 'data-easy-select-id',
+                currentClass: 'easy-select-current',
+                dropdownClass: 'easy-select-dropdown',
+                optionClass: 'easy-select-option',
+                optionAttr: 'data-easy-select-option',
+                optionActiveClass: 'active',
+                optionDisabledClass: 'disabled',
+                wrapperNativeSelectClass: 'easy-select-native',
+                wrapperDisabledClass: 'easy-select-disabled'
+            };
+
+
             this.select = $(element);
             this.config = {...defaults, ...options};
             this.isOpen = false;
             this.isDisabled = false;
-            this.value = this.val();
+            this.value = val(this);
             this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
-            this.selectData = this.getSelectData();
+            this.selectData = getSelectData(this);
 
             if(this.config.nativeSelect && this.config.wrapDefaultSelect){
                 this.isWrapped = true;
@@ -61,6 +65,9 @@ import {uniqueId} from "./utils";
             }
 
             this.init();
+
+            // todo: check this out
+            this.dropdown = this.wrapper.find(`.${this.names.dropdownClass}`);
         }
 
         /****************************************************
@@ -74,12 +81,12 @@ import {uniqueId} from "./utils";
 
         create(){
             // check valid HTML: exit if already created
-            if(this.select.closest(`.${names.wrapperClass}`).length) return;
+            if(this.select.closest(`.${this.names.wrapperClass}`).length) return;
 
             // create wrapper
             this.id = this.uniqueId();
-            const wrapperHTML = `<div class="${names.wrapperClass} ${this.config.wrapperClass}" ${names.wrapperIdAttr}="${this.id}"></div>`;
-            const wrapperSelector = `[${names.wrapperIdAttr}="${this.id}"]`;
+            const wrapperHTML = `<div class="${this.names.wrapperClass} ${this.config.wrapperClass}" ${this.names.wrapperIdAttr}="${this.id}"></div>`;
+            const wrapperSelector = `[${this.names.wrapperIdAttr}="${this.id}"]`;
 
             if(this.isWrapped){
                 this.select.wrapAll(wrapperHTML);
@@ -90,8 +97,8 @@ import {uniqueId} from "./utils";
             }
 
             // add current HTML
-            this.wrapper.append(this.getCurrentHTML());
-            this.current = this.wrapper.find(`.${names.currentClass}`);
+            this.wrapper.append(getCurrentHTML(this));
+            this.current = this.wrapper.find(`.${this.names.currentClass}`);
 
             // on select change
             this.select.on('change', event => {
@@ -101,12 +108,12 @@ import {uniqueId} from "./utils";
 
             // exit if is native select
             if(this.config.nativeSelect){
-                this.wrapper.addClass(names.wrapperNativeSelectClass);
+                this.wrapper.addClass(this.names.wrapperNativeSelectClass);
                 return;
             }
 
             /** Dropdown **/
-            this.updateDropdownHTML();
+            updateDropdownHTML(this);
 
             // hide default select
             this.select.hide();
@@ -116,7 +123,7 @@ import {uniqueId} from "./utils";
 
             // on outside click
             $(document).on('click', (event) => {
-                const isNotThisSelect = !$(event.target).closest(`.easy-select[${names.wrapperIdAttr}="${this.id}"]`).length;
+                const isNotThisSelect = !$(event.target).closest(`.easy-select[${this.names.wrapperIdAttr}="${this.id}"]`).length;
                 if(isNotThisSelect && this.isOpen){
                     this.close();
                 }
@@ -158,15 +165,15 @@ import {uniqueId} from "./utils";
          * Refresh
          */
         refresh(){
-            this.selectData = this.getSelectData();
+            this.selectData = getSelectData(this);
 
             // update current
-            this.current.html(this.getOptionHTML());
+            this.current.html(getOptionHTML(this));
 
             // if not native select
             if(!this.config.nativeSelect){
                 // update dropdown
-                this.updateDropdownHTML();
+                updateDropdownHTML(this);
             }
 
             // Event: on refresh
@@ -201,7 +208,7 @@ import {uniqueId} from "./utils";
          */
         update(value){
             // skip duplicate values
-            if(value === this.val()){
+            if(value === val(this)){
                 this.close();
                 return;
             }
@@ -219,13 +226,13 @@ import {uniqueId} from "./utils";
          */
         change(type = 'easySelectEvent'){
             // update current HTML
-            this.current.html(this.getOptionHTML());
+            this.current.html(getOptionHTML(this));
 
             /** Dropdown **/
             if(!this.config.nativeSelect){
                 // active option
-                this.dropdown.find(`[${names.optionAttr}]`).removeClass(names.optionActiveClass);
-                this.dropdown.find(`[${names.optionAttr}="${this.val()}"]`).addClass(names.optionActiveClass);
+                this.dropdown.find(`[${this.names.optionAttr}]`).removeClass(this.names.optionActiveClass);
+                this.dropdown.find(`[${this.names.optionAttr}="${val(this)}"]`).addClass(this.names.optionActiveClass);
 
                 // close
                 this.close();
@@ -242,7 +249,7 @@ import {uniqueId} from "./utils";
             if(this.config.nativeSelect) return;
             if(this.isOpen) return;
             this.isOpen = true;
-            this.wrapper.addClass(names.wrapperOpenClass);
+            this.wrapper.addClass(this.names.wrapperOpenClass);
 
             // Event: on open
             this.config.onDropdownOpen(this);
@@ -255,7 +262,7 @@ import {uniqueId} from "./utils";
             if(this.config.nativeSelect) return;
             if(!this.isOpen) return;
             this.isOpen = false;
-            this.wrapper.removeClass(names.wrapperOpenClass);
+            this.wrapper.removeClass(this.names.wrapperOpenClass);
 
             // Event: on close
             this.config.onDropdownClose(this);
@@ -284,156 +291,13 @@ import {uniqueId} from "./utils";
             this.select.prop('disabled', boolean);
             this.isDisabled = boolean;
             if(boolean){
-                this.wrapper.addClass(names.wrapperDisabledClass);
+                this.wrapper.addClass(this.names.wrapperDisabledClass);
             }else{
-                this.wrapper.removeClass(names.wrapperDisabledClass);
+                this.wrapper.removeClass(this.names.wrapperDisabledClass);
             }
 
             // Event: on change
             this.config.onDisabled(this);
-        };
-
-
-        /****************************************************
-         ********************** HTML *********************
-         ***************************************************/
-        /**
-         * Current HTML
-         * @returns {string}
-         */
-        getCurrentHTML(){
-            let html = '';
-            html += `<div class="${names.currentClass}">`;
-            html += this.getOptionHTML();
-            html += `</div>`;
-            return html;
-        };
-
-        /**
-         * Add/update dropdown HTML based on original select
-         */
-        updateDropdownHTML(){
-            this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
-            if(this.dropdown.length){
-                this.dropdown.detach();
-            }
-
-            // new dropdown HTML
-            this.wrapper.append(this.getDropdownHTML());
-
-            // save new dropdown element
-            this.dropdown = this.wrapper.find(`.${names.dropdownClass}`);
-
-            // on option click
-            this.dropdown.find(`[${names.optionAttr}]`).on('click', (event) => {
-                this.update($(event.currentTarget).attr(`${names.optionAttr}`));
-            });
-        };
-
-        /**
-         * Dropdown HTML
-         * @returns {string}
-         */
-        getDropdownHTML(){
-            let html = '';
-
-            // generate html
-            html += `<div class="${names.dropdownClass}">`;
-            html += `<ul>`;
-            for(const option of this.selectData){
-                html += `<li>`;
-                html += this.getOptionHTML(option);
-                html += `</li>`;
-            }
-            html += `</ul>`;
-            html += `</div>`;
-
-            return html;
-        };
-
-        /**
-         * Option HTML
-         * @param option
-         * @returns {string}
-         */
-        getOptionHTML(option = undefined){
-            // is active
-            const isActive = typeof option !== 'undefined' && option['value'] === this.val();
-
-            // return selected option
-            if(typeof option === 'undefined'){
-                option = this.getOptionData();
-            }
-
-            let classList = names.optionClass;
-            classList += ' ' + (isActive ? names.optionActiveClass : '');
-            classList += ' ' + (option['isDisabled'] ? names.optionDisabledClass : '');
-
-            let html = '';
-            html += `<div class="${classList}" ${names.optionAttr}="${option['value']}">`;
-            html += this.getOptionInnerHTML(option);
-            html += `</div>`;
-            return html;
-        }
-
-        /**
-         * Option inner HTML
-         * @param option
-         * @returns {string}
-         */
-        getOptionInnerHTML(option){
-            let html = this.config.customDropDownOptionHTML(option);
-
-            if(typeof html === 'undefined'){
-                html = `<span>${option['label']}</span>`;
-            }
-
-            return html;
-        };
-
-        /****************************************************
-         ********************** Data *********************
-         ***************************************************/
-        /**
-         * Get value
-         * @returns {*}
-         */
-        val(){
-            this.value = this.select.val();
-            return this.value;
-        }
-
-        /**
-         * Get select data
-         * @returns {*[]}
-         */
-        getSelectData(){
-            const data = [];
-            this.select.find('option').each((index, option) => {
-                data.push(this.getOptionData($(option)));
-            });
-            return data;
-        }
-
-        /**
-         * Get option data
-         * @returns {{isSelected: boolean, index: *, id: string, label: *, value: (*|string|number|string[])}}
-         */
-        getOptionData($option = undefined){
-            if(typeof $option === 'undefined'){
-                // return selected option
-                $option = this.select.find('option:selected');
-            }
-
-            const label = $option.text();
-            const value = $option.val();
-            const index = $option.index();
-            const id = this.stringToSlug(value) + '-' + index;
-            const isSelected = value === this.val();
-            const el = $option;
-            const isDisabled = $option.is(':disabled');
-
-            return {id, label, value, isSelected, isDisabled, index, el};
         };
 
 
