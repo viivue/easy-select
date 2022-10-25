@@ -10,7 +10,7 @@ import {getOptionData, val} from "./data";
  */
 export function getCurrentHTML(context){
     let html = '';
-    html += `<div class="${context.classes.currentClass}">`;
+    html += `<div class="${context.classes.current}">`;
     html += getOptionHTML(context);
     html += `</div>`;
     return html;
@@ -20,7 +20,7 @@ export function getCurrentHTML(context){
  * Add/update dropdown HTML based on original select
  */
 export function updateDropdownHTML(context){
-    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdownClass}`);
+    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdown}`);
     if(context.dropdown){
         context.dropdown.detach();
     }
@@ -29,7 +29,7 @@ export function updateDropdownHTML(context){
     context.wrapper.insertAdjacentHTML('beforeend', getDropdownHTML(context));
 
     // save new dropdown element
-    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdownClass}`);
+    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdown}`);
 
     // on option click
     if(!context.dropdown){
@@ -51,7 +51,7 @@ export function getDropdownHTML(context){
     let html = '';
 
     // generate html
-    html += `<div class="${context.classes.dropdownClass}">`;
+    html += `<div class="${context.classes.dropdown}">`;
     html += `<ul>`;
     for(const option of context.selectTagData){
         html += `<li>`;
@@ -79,9 +79,9 @@ export function getOptionHTML(context, option = undefined){
         option = getOptionData(context);
     }
 
-    let classList = context.classes.optionClass;
-    classList += ' ' + (isActive ? context.classes.optionActiveClass : '');
-    classList += ' ' + (option['isDisabled'] ? context.classes.optionDisabledClass : '');
+    let classList = context.classes.option;
+    classList += ' ' + (isActive ? context.classes.active : '');
+    classList += ' ' + (option['isDisabled'] ? context.classes.optionDisabled : '');
 
     let html = '';
     html += `<div class="${classList}" ${context.atts.optionAttr}="${option['value']}">`;

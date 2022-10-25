@@ -21,15 +21,15 @@ export function init(context){
  */
 export function create(context){
     // check valid HTML: exit if already created
-    let wrapper = context.selectTag.closest(`.${context.classes.wrapperClass}`);
+    let wrapper = context.selectTag.closest(`.${context.classes.wrapper}`);
     if(wrapper && wrapper.length) return;
 
     // create wrapper
     context.id = uniqueId();
     wrapper = createEl({
-        className: `${context.classes.wrapperClass} ${context.config.wrapperClass}`
+        className: `${context.classes.wrapper} ${context.config.wrapper}`
     });
-    wrapper.setAttribute(context.atts.wrapperIdAttr, context.id);
+    wrapper.setAttribute(context.atts.wrapperID, context.id);
 
     if(context.isWrapped){
         wrapAll(context.selectTag, wrapper);
@@ -43,7 +43,7 @@ export function create(context){
 
     // exit if is native select
     if(context.config.nativeSelect){
-        context.wrapper.classList.add(context.classes.wrapperNativeSelectClass);
+        context.wrapper.classList.add(context.classes.nativeSelect);
         assignSelectOnChange(context);
         return;
     }
@@ -60,7 +60,7 @@ export function create(context){
 
     // on outside click
     document.addEventListener('click', event => {
-        const wrapper = event.target.closest(`.easy-select[${context.atts.wrapperIdAttr}="${context.id}"]`);
+        const wrapper = event.target.closest(`.easy-select[${context.atts.wrapperID}="${context.id}"]`);
         if(wrapper === null && context.isOpen) context.close();
     });
 }
@@ -75,7 +75,7 @@ function updateElements(context){
     context.selectTag = context.wrapper.querySelector('select');
 
     // current element
-    context.current = context.wrapper.querySelector(`.${context.classes.currentClass}`);
+    context.current = context.wrapper.querySelector(`.${context.classes.current}`);
 }
 
 function assignSelectOnChange(context){

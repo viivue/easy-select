@@ -5,24 +5,24 @@ import {findObjectInArray, getSelectTag} from "./utils";
 
 const pluginName = "easySelect";
 const classes = {
-    wrapperClass: 'easy-select',
-    wrapperOpenClass: 'show-dropdown',
-    currentClass: 'easy-select-current',
-    dropdownClass: 'easy-select-dropdown',
-    optionClass: 'easy-select-option',
-    optionActiveClass: 'active',
-    optionDisabledClass: 'disabled',
-    wrapperNativeSelectClass: 'easy-select-native',
-    wrapperDisabledClass: 'easy-select-disabled',
+    wrapper: 'easy-select',
+    dropdownOpen: 'show-dropdown',
+    current: 'easy-select-current',
+    dropdown: 'easy-select-dropdown',
+    option: 'easy-select-option',
+    active: 'active',
+    optionDisabled: 'disabled',
+    nativeSelect: 'easy-select-native',
+    wrapperDisabled: 'easy-select-disabled',
     enabled: 'easy-select-enabled'
 };
 const atts = {
     init: 'data-easy-select',
-    wrapperIdAttr: 'data-easy-select-id',
+    wrapperID: 'data-easy-select-id',
     optionAttr: 'data-easy-select-option',
 };
 const defaults = {
-    wrapperClass: '',
+    wrapper: '',
     nativeSelect: false,
     warning: false,
     wrapDefaultSelect: true,
@@ -74,14 +74,11 @@ class EasySelect{
 
         if(this.config.nativeSelect && this.config.wrapDefaultSelect){
             this.isWrapped = true;
-            //console.error(`Default select must be wrapped in Native select mode.`);
         }
 
         init(this);
 
         this.selectTag.classList.add(this.classes.enabled);
-
-        //this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdownClass}`);
     }
 
     /**
@@ -192,9 +189,9 @@ class EasySelect{
         if(!this.config.nativeSelect){
             // active option
             this.dropdown.querySelectorAll(`[${this.atts.optionAttr}]`).forEach(item => {
-                item.classList.remove(this.classes.optionActiveClass);
+                item.classList.remove(this.classes.active);
             });
-            this.dropdown.querySelector(`[${this.atts.optionAttr}="${val(this)}"]`).classList.add(this.classes.optionActiveClass);
+            this.dropdown.querySelector(`[${this.atts.optionAttr}="${val(this)}"]`).classList.add(this.classes.active);
 
             // close
             this.close();
@@ -211,7 +208,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
         if(this.isOpen) return;
         this.isOpen = true;
-        this.wrapper.classList.add(this.classes.wrapperOpenClass);
+        this.wrapper.classList.add(this.classes.dropdownOpen);
 
         // Event: on open
         this.config.onDropdownOpen(this);
@@ -224,7 +221,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
-        this.wrapper.classList.remove(this.classes.wrapperOpenClass);
+        this.wrapper.classList.remove(this.classes.dropdownOpen);
 
         // Event: on close
         this.config.onDropdownClose(this);
@@ -253,9 +250,9 @@ class EasySelect{
         this.selectTag.prop('disabled', boolean);
         this.isDisabled = boolean;
         if(boolean){
-            this.wrapper.classList.add(this.classes.wrapperDisabledClass);
+            this.wrapper.classList.add(this.classes.wrapperDisabled);
         }else{
-            this.wrapper.classList.remove(this.classes.wrapperDisabledClass);
+            this.wrapper.classList.remove(this.classes.wrapperDisabled);
         }
 
         // Event: on change
