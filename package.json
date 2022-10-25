@@ -25,7 +25,10 @@
     "web": "cross-env ENTRY=web PORT=8081 webpack serve --config config/webpack.dev.js",
     "build": "webpack --config config/webpack.build.js",
     "build-dev": "cross-env ENTRY=dev webpack --config config/webpack.build.js",
-    "prod": "webpack --config config/webpack.prod.js && cross-env TARGET=module webpack --config config/webpack.prod.js",
+    "sass:compressed": "sass src/_style.scss:dist/easy-select.css --no-source-map",
+    "optimize": "csso dist/easy-select.css --output dist/easy-select.min.css --stat",
+    "output-css": "npm run sass:compressed && npm run optimize",
+    "prod": "webpack --config config/webpack.prod.js && cross-env TARGET=module webpack --config config/webpack.prod.js && npm run output-css",
     "publish": "npm run prod & npm publish"
   },
   "devDependencies": {
@@ -39,6 +42,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.4.0",
     "css-minimizer-webpack-plugin": "^3.1.1",
+    "csso-cli": "^4.0.1",
     "dat.gui": "^0.7.9",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.3.2",
