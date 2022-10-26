@@ -1,5 +1,5 @@
 import {getSelectData, val} from "./data";
-import {init} from "./methods";
+import {getID, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag} from "./utils";
 
@@ -63,7 +63,9 @@ class EasySelect{
 
         // avoid duplicate init
         if(this.selectTag.classList.contains(this.classes.enabled)) return;
-        console.log('select tag', this.selectTag);
+
+        this.id = getID(this);
+        this.wrapper = this.selectTag.parentElement;
 
         this.config = {...defaults, ...options};
         this.isOpen = false;
@@ -207,6 +209,10 @@ class EasySelect{
     open(){
         if(this.config.nativeSelect) return;
         if(this.isOpen) return;
+
+        // close all opening dropdown
+        window.EasySelectController.instances.filter(instance => instance.isOpen).forEach(eta => eta.close());
+
         this.isOpen = true;
         this.wrapper.classList.add(this.classes.dropdownOpen);
 
@@ -335,6 +341,16 @@ window.EasySelect = {
 
         // init single element
         window.EasySelectController.add(new EasySelect(el, options));
+
+        // on outside click
+        document.addEventListener('click', event => {
+            const wrapper = event.target.closest(`[${atts.wrapperID}]`);
+
+            if(wrapper) return;
+
+            // close all opening dropdown
+            window.EasySelectController.instances.filter(instance => instance.isOpen).forEach(eta => eta.close());
+        });
     },
     // Get instance object by ID
     get: id => window.EasySelectController.get(id)

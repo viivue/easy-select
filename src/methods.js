@@ -25,7 +25,6 @@ export function create(context){
     if(wrapper && wrapper.length) return;
 
     // create wrapper
-    context.id = uniqueId();
     wrapper = createEl({
         className: `${context.classes.wrapper} ${context.config.wrapper}`
     });
@@ -57,12 +56,17 @@ export function create(context){
 
     // on current click
     context.current.addEventListener('click', () => context.toggle());
+}
 
-    // on outside click
-    document.addEventListener('click', event => {
-        const wrapper = event.target.closest(`.easy-select[${context.atts.wrapperID}="${context.id}"]`);
-        if(wrapper === null && context.isOpen) context.close();
-    });
+
+/**
+ * Get ID from attribute
+ * @param context
+ * @returns {*|string}
+ */
+export function getID(context){
+    const id = context.selectTag.getAttribute(context.atts.init)
+    return id === null || id.length === 0 ? uniqueId('eta-') : id;
 }
 
 
