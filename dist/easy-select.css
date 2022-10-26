@@ -93,7 +93,7 @@
   --es-dropdown-w-mobile: 100%;
   --es-option-h: 45px;
   --es-bg: #fff;
-  --es-bg-hover: #0d95e8;
+  --es-bg-hover: #999;
   --es-text: #000;
   --es-text-hover: #fff;
   width: 100%;
@@ -143,7 +143,6 @@
 .easy-select-dropdown ul {
   max-height: var(--es-dropdown-h);
 }
-
 .easy-select-dropdown ul li:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -175,11 +174,9 @@
 .easy-select-dropdown ul::-webkit-scrollbar {
   width: 4px;
 }
-
 .easy-select-dropdown ul::-webkit-scrollbar-track {
   background: #eee;
 }
-
 .easy-select-dropdown ul::-webkit-scrollbar-thumb {
   background-color: #ccc;
 }
