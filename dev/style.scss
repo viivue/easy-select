@@ -3,7 +3,7 @@
  */
 $font-size: 1rem;
 $font-family: 'Inconsolata', sans-serif;
-$page-width: 560px;
+$page-width: 680px;
 $color-primary: #f1c400;
 $color-on-primary: #141414;
 
@@ -71,4 +71,47 @@ code {
   margin-right: 10px;
   box-shadow: 0 0 0 1px #ccc;
   border-radius: 4px;
+}
+
+/**
+ * Typo
+ */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  padding: 5px 15px;
+  border-radius: 5px;
+  background-color: dodgerblue;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, .15);
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease;
+
+  &:hover {
+    box-shadow: 6px 6px 0 0 rgba(0, 0, 0, .15);
+  }
+
+  &.red {
+    background-color: red;
+  }
+
+  &.green {
+    background-color: limegreen;
+  }
+
+  &.blue {
+    background-color: dodgerblue;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    opacity: .5;
+  }
 }

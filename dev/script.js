@@ -11,6 +11,7 @@ import '@/_style.scss';
 // test script
 import {testInit} from "./js/test-init";
 import {testLayout} from "./js/test-layout";
+import {testMethods} from "./js/test-methods";
 
 // import package info
 const packageInfo = require('../package.json');
@@ -29,5 +30,6 @@ const root = document.querySelector('#root');
 /**
  * Test script
  */
+testMethods(root);
 testLayout(root);
 testInit(root);
