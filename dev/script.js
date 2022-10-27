@@ -9,6 +9,7 @@ import '@/_index';
 import '@/_style.scss';
 
 // test script
+import "./jquery-3.6.1.min";
 import {testInit} from "./js/test-init";
 import {testLayout} from "./js/test-layout";
 import {testMethods} from "./js/test-methods";

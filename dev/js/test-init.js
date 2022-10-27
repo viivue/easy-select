@@ -7,13 +7,13 @@ export function testInit(root){
     EasySelect.init();
 
     // Init: jQuery plugin
-    $('#init-jquery').easySelect();
+    jQuery('#init-jquery').easySelect();
 
     // Init: vanilla JS: DOM element
     EasySelect.init(document.querySelector('#init-vanilla-dom'));
 
     // Init: vanilla JS: jQuery element
-    EasySelect.init($('#init-vanilla-jquery'));
+    EasySelect.init(jQuery('#init-vanilla-jquery'));
 
     // Init: vanilla JS: CSS selector string
     EasySelect.init('#init-vanilla-string');

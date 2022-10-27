@@ -110,7 +110,7 @@ code {
   }
 
   &.green {
-    background-color: limegreen;
+    background-color: yellowgreen;
   }
 
   &.blue {
@@ -148,7 +148,8 @@ input {
     border-radius: 5px;
 
     &.active {
-      background-color: #f1c400;
+      background-color: dodgerblue;
+      color: #fff;
     }
   }
 }
