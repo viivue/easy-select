@@ -9,7 +9,7 @@ import '@/_index';
 import '@/_style.scss';
 
 // test script
-import "./jquery-3.6.1.min";
+import "./jquery-3.6.1.min.js";
 import {testInit} from "./js/test-init";
 import {testLayout} from "./js/test-layout";
 import {testMethods} from "./js/test-methods";
@@ -27,7 +27,7 @@ document.querySelector('[data-title]').innerHTML = title;
 
 // add HTML
 const root = document.querySelector('#root');
-
+console.log(jQuery)
 /**
  * Test script
  */
