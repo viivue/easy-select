@@ -2,7 +2,7 @@ import html from "../html/init.html";
 
 export function testInit(root){
     root.insertAdjacentHTML('beforeend', html);
-    console.log(jQuery)
+
     // Init: default attribute
     EasySelect.init();
 
