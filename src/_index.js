@@ -59,12 +59,15 @@ class EasySelect{
         this.atts = {...atts};
 
         this.selectTag = getSelectTag(el);
+        this.originalSelectTag = this.selectTag;
 
         // avoid duplicate init
         if(this.selectTag.classList.contains(this.classes.enabled)) return;
 
         this.id = getID(this);
         this.wrapper = this.selectTag.parentElement;
+        this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdown}`);
+        this.current = this.wrapper.querySelector(`.${this.classes.current}`);
 
         this.config = {...defaults, ...options};
         this.isOpen = false;
@@ -140,18 +143,11 @@ class EasySelect{
      * Return original element
      */
     destroy(){
-        if(!this.config.nativeSelect){
-            this.dropdown.detach();
-        }
+        // replace with original select tag
+        this.wrapper.replaceWith(this.originalSelectTag);
 
-        if(this.isWrapped){
-            this.current.detach();
-            this.selectTag.unwrap();
-        }else{
-            this.wrapper.detach();
-        }
-
-        this.selectTag.show();
+        // remove from global control
+        window.EasySelectController.remove(this.id);
 
         // Event: on destroy
         this.config.onDestroy(this);
@@ -307,6 +303,14 @@ class Controller{
 
     add(instance){
         this.instances.push(instance);
+    }
+
+    remove(id){
+        // find index of instance
+        const index = this.instances.map(e => e.id).indexOf(id);
+
+        // remove instance
+        this.instances.splice(index, 1);
     }
 
     get(id){
