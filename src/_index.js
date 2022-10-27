@@ -17,7 +17,9 @@ const classes = {
     ignore: 'es-ignore',
 };
 const atts = {
-    init: 'data-easy-select', wrapperID: 'data-es-id', optionAttr: 'data-es-option',
+    init: 'data-easy-select',
+    wrapperID: 'data-es-id',
+    optionAttr: 'data-es-option',
 };
 const defaults = {
     id: uniqueId('es-'),
@@ -26,6 +28,7 @@ const defaults = {
     warning: true,
     log: true,
     wrapDefaultSelect: true,
+    closeOnChange: true,
     customDropDownOptionHTML: option => {
     },
     beforeInit: data => {
@@ -197,6 +200,9 @@ class EasySelect{
                 item.classList.remove(this.classes.active);
             });
             this.dropdown.querySelector(`[${this.atts.optionAttr}="${val(this)}"]`).classList.add(this.classes.active);
+
+            // close on change
+            if(this.config.closeOnChange) this.close();
         }
 
         // Event: on change
