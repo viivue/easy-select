@@ -27,6 +27,10 @@ export function testMethods(root){
                 case "enable":
                     EasySelect.init();
                     break;
+                case "select":
+                    const value = btn.getAttribute('data-value');
+                    item.select(value);
+                    break;
             }
         });
     });
