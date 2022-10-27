@@ -3,7 +3,7 @@
  */
 $font-size: 1rem;
 $font-family: 'Inconsolata', sans-serif;
-$page-width: 680px;
+$page-width: 768px;
 $color-primary: #f1c400;
 $color-on-primary: #141414;
 
@@ -132,4 +132,23 @@ input {
   height: 35px;
   width: 150px;
   padding: 5px 15px;
+}
+
+/**
+ * Events
+ */
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  label {
+    background-color: #e0e7ee;
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    &.active {
+      background-color: #f1c400;
+    }
+  }
 }

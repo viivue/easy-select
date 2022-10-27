@@ -9,9 +9,18 @@ import {getCurrentHTML, updateDropdownHTML} from "./layout";
  * @param context
  */
 export function init(context){
-    context.config.beforeInit(context);
+    context.config.beforeInit(eventData(context, 'beforeInit'));
     create(context);
-    context.config.onInit(context);
+    context.config.onInit(eventData(context, 'onInit'));
+}
+
+
+export function eventData(context, eventName, obj){
+    return {
+        instance: context,
+        eventName,
+        ...obj
+    }
 }
 
 

@@ -1,9 +1,37 @@
 import html from "../html/methods.html";
 
+function highlightLabel(data){
+    console.log(data.eventName, data)
+
+    const label = document.querySelector(`[data-event=${data.eventName}]`);
+
+    label.classList.add('active');
+
+    setTimeout(() => {
+        label.classList.remove('active');
+    }, 300);
+}
+
+function init(){
+    EasySelect.init('#test-methods', {
+        id: 'test-methods',
+        onInit: data => highlightLabel(data),
+        onRefresh: data => highlightLabel(data),
+        onChange: data => highlightLabel(data),
+        onDestroy: data => highlightLabel(data),
+        onDisable: data => highlightLabel(data),
+        onEnable: data => highlightLabel(data),
+        onOpen: data => highlightLabel(data),
+        onClose: data => highlightLabel(data),
+        onToggle: data => highlightLabel(data),
+        onAdded: data => highlightLabel(data),
+    });
+}
+
 export function testMethods(root){
     root.insertAdjacentHTML('beforeend', html);
 
-    EasySelect.init();
+    init();
 
     // add option
     const inputAddOption = document.querySelector('input[name="add-option"]');
@@ -40,7 +68,7 @@ export function testMethods(root){
                     item.destroy();
                     break;
                 case "re-init":
-                    EasySelect.init();
+                    init();
                     break;
                 case "select":
                     item.select(btn.getAttribute('data-value'));

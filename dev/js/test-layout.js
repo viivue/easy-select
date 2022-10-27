@@ -7,13 +7,7 @@ export function testLayout(root){
     EasySelect.init();
 
     // native layout
-    EasySelect.init('#layout-native', {
-        nativeSelect: true,
-        warning: true,
-        onChange: (data, type) => {
-            console.log(data.id, data.value)
-        }
-    });
+    EasySelect.init('#layout-native', {nativeSelect: true});
 
     // Options with custom HTML
     EasySelect.init('#layout-custom-options', {
@@ -26,9 +20,6 @@ export function testLayout(root){
             html += '</div>';
 
             return html;
-        },
-        onChange: (data, type) => {
-            console.log(data.id, data.value)
         }
     });
 }

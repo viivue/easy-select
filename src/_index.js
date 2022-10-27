@@ -1,5 +1,5 @@
 import {getSelectData, val} from "./data";
-import {fireOnChangeEvent, getID, init} from "./methods";
+import {eventData, fireOnChangeEvent, getID, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 
@@ -17,9 +17,7 @@ const classes = {
     ignore: 'es-ignore',
 };
 const atts = {
-    init: 'data-easy-select',
-    wrapperID: 'data-es-id',
-    optionAttr: 'data-es-option',
+    init: 'data-easy-select', wrapperID: 'data-es-id', optionAttr: 'data-es-option',
 };
 const defaults = {
     id: uniqueId('es-'),
@@ -36,17 +34,21 @@ const defaults = {
     },
     onRefresh: data => {
     },
-    onChange: (data, type) => {
+    onChange: data => {
     },
     onDestroy: data => {
     },
-    onDisabled: data => {
+    onDisable: data => {
     },
-    onDropdownOpen: data => {
+    onEnable: data => {
     },
-    onDropdownClose: data => {
+    onOpen: data => {
     },
-    onDropdownToggle: data => {
+    onClose: data => {
+    },
+    onToggle: data => {
+    },
+    onAdded: data => {
     },
 };
 
@@ -137,7 +139,7 @@ class EasySelect{
         }
 
         // Event: on refresh
-        this.config.onRefresh(this);
+        this.config.onRefresh(eventData(this, 'onRefresh'));
     }
 
     /**
@@ -154,7 +156,7 @@ class EasySelect{
         window.EasySelectController.remove(this.id);
 
         // Event: on destroy
-        this.config.onDestroy(this);
+        this.config.onDestroy(eventData(this, 'onDestroy'));
     }
 
     /**
@@ -198,7 +200,7 @@ class EasySelect{
         }
 
         // Event: on change
-        this.config.onChange(this, type);
+        this.config.onChange(eventData(this, 'onChange', {type}));
     }
 
     /**
@@ -216,7 +218,7 @@ class EasySelect{
         this.wrapper.classList.add(this.classes.dropdownOpen);
 
         // Event: on open
-        this.config.onDropdownOpen(this);
+        this.config.onOpen(eventData(this, 'onOpen'));
     }
 
     /**
@@ -230,7 +232,7 @@ class EasySelect{
         this.wrapper.classList.remove(this.classes.dropdownOpen);
 
         // Event: on close
-        this.config.onDropdownClose(this);
+        this.config.onClose(eventData(this, 'onClose'));
     }
 
     /**
@@ -239,14 +241,15 @@ class EasySelect{
     toggle(){
         if(this.isDisabled) return;
         if(this.config.nativeSelect) return;
+
+        // Event: on toggle
+        this.config.onToggle(eventData(this, 'onToggle', {isOpen: !this.isOpen}));
+
         if(this.isOpen){
             this.close();
         }else{
             this.open();
         }
-
-        // Event: on toggle
-        this.config.onDropdownToggle(this);
     }
 
     /**
@@ -259,12 +262,15 @@ class EasySelect{
 
         if(boolean){
             this.wrapper.classList.add(this.classes.disabled);
+
+            // Event: on disable
+            this.config.onDisable(eventData(this, 'onDisable'));
         }else{
             this.wrapper.classList.remove(this.classes.disabled);
-        }
 
-        // Event: on change
-        this.config.onDisabled(this);
+            // Event: on enable
+            this.config.onEnable(eventData(this, 'onEnable'));
+        }
     }
 
     /**
@@ -293,6 +299,9 @@ class EasySelect{
 
         // refresh
         this.refresh();
+
+        // Event: on add
+        this.config.onAdded(eventData(this, 'onAdded', {newValue: value}));
 
         return this;
     }
@@ -390,8 +399,7 @@ window.EasySelect = {
             // close all opening dropdown
             window.EasySelectController.closeAll();
         });
-    },
-    // Get instance object by ID
+    }, // Get instance object by ID
     get: id => window.EasySelectController.get(id)
 };
 
