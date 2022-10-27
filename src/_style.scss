@@ -54,12 +54,7 @@
 /* disabled: wrapper and option */
 .es-disabled {
   cursor: not-allowed;
-  opacity: .5;
-  pointer-events: none;
-
-  select {
-    pointer-events: none;
-  }
+  opacity: .8;
 }
 
 /****************************

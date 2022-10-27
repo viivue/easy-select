@@ -25,6 +25,7 @@ const defaults = {
     wrapper: '',
     nativeSelect: false,
     warning: true,
+    log: true,
     wrapDefaultSelect: true,
     customDropDownOptionHTML: option => {
     },
@@ -109,10 +110,10 @@ class EasySelect{
                 this.toggle();
                 break;
             case 'disabled':
-                this.disabled(param);
+                this.disable(param);
                 break;
             case 'select':
-                this.select(value);
+                this.select(param);
                 break;
         }
     }
@@ -122,6 +123,7 @@ class EasySelect{
      * Refresh
      */
     refresh(){
+        if(this.isDisabled) return;
         this.selectTagData = getSelectData(this);
 
         // update current
@@ -142,6 +144,8 @@ class EasySelect{
      * Return original element
      */
     destroy(){
+        if(this.isDisabled) return;
+
         // replace with original select tag
         this.wrapper.replaceWith(this.originalSelectTag);
 
@@ -157,6 +161,8 @@ class EasySelect{
      * @param value
      */
     select(value){
+        if(this.isDisabled) return;
+
         // skip duplicate value
         if(value === val(this)) return;
 
@@ -176,6 +182,8 @@ class EasySelect{
      * @param type
      */
     change(type = 'easySelectEvent'){
+        if(this.isDisabled) return;
+
         // update current HTML
         this.current.innerHTML = getOptionHTML(this);
 
@@ -196,6 +204,7 @@ class EasySelect{
      * Open dropdown
      */
     open(){
+        if(this.isDisabled) return;
         if(this.config.nativeSelect) return;
         if(this.isOpen) return;
 
@@ -213,6 +222,7 @@ class EasySelect{
      * Close dropdown
      */
     close(){
+        if(this.isDisabled) return;
         if(this.config.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
@@ -226,6 +236,7 @@ class EasySelect{
      * Toggle dropdown
      */
     toggle(){
+        if(this.isDisabled) return;
         if(this.config.nativeSelect) return;
         if(this.isOpen){
             this.close();
@@ -241,9 +252,10 @@ class EasySelect{
      * Disable select
      * @param boolean
      */
-    disabled(boolean = true){
-        this.selectTag.prop('disabled', boolean);
+    disable(boolean = true){
+        this.selectTag.disabled = boolean;
         this.isDisabled = boolean;
+
         if(boolean){
             this.wrapper.classList.add(this.classes.disabled);
         }else{
@@ -254,7 +266,21 @@ class EasySelect{
         this.config.onDisabled(this);
     }
 
+    /**
+     * Enable select
+     */
+    enable(){
+        this.disable(false);
+    }
+
+    /**
+     * Add new option
+     * @param value
+     * @returns {boolean|EasySelect}
+     */
     add(value){
+        if(this.isDisabled) return false;
+
         // avoid duplicate value
         if(this.selectTagData.filter(option => option.value === value).length > 0){
             if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);

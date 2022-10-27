@@ -30,6 +30,12 @@ export function testMethods(root){
                 case "close":
                     item.close();
                     break;
+                case "disable":
+                    item.disable();
+                    break;
+                case "enable":
+                    item.enable();
+                    break;
                 case "destroy":
                     item.destroy();
                     break;
