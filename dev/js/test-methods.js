@@ -5,25 +5,29 @@ export function testMethods(root){
 
     EasySelect.init();
 
-
+    // assign method event
     document.querySelectorAll('[data-btn]').forEach(btn => {
         btn.addEventListener('click', () => {
-            const method = EasySelect.get('test-methods');
+            const item = EasySelect.get(btn.getAttribute('data-id'));
             const state = btn.getAttribute('data-btn');
-            console.log(state, method)
-            setTimeout(() => {
-                switch(state){
-                    case "toggle":
-                        method.toggle();
-                        break;
-                    case "open":
-                        method.open();
-                        break;
-                    case "close":
-                        method.close();
-                        break;
-                }
-            },100)
+
+            switch(state){
+                case "toggle":
+                    item.toggle();
+                    break;
+                case "open":
+                    item.open();
+                    break;
+                case "close":
+                    item.close();
+                    break;
+                case "destroy":
+                    item.destroy();
+                    break;
+                case "enable":
+                    EasySelect.init();
+                    break;
+            }
         });
     });
 }
