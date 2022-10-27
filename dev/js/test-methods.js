@@ -24,7 +24,7 @@ export function testMethods(root){
                 case "destroy":
                     item.destroy();
                     break;
-                case "enable":
+                case "re-init":
                     EasySelect.init();
                     break;
                 case "select":
