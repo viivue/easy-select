@@ -149,6 +149,7 @@
     /* custom scrollbar */
     &::-webkit-scrollbar {
       width: var(--es-scrollbar-width);
+      height: var(--es-scrollbar-width);
     }
 
     &::-webkit-scrollbar-track {

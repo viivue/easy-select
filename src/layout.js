@@ -21,9 +21,7 @@ export function getCurrentHTML(context){
  */
 export function updateDropdownHTML(context){
     context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdown}`);
-    if(context.dropdown){
-        context.dropdown.detach();
-    }
+    if(context.dropdown) context.dropdown.remove();
 
     // new dropdown HTML
     context.wrapper.insertAdjacentHTML('beforeend', getDropdownHTML(context));
@@ -37,8 +35,8 @@ export function updateDropdownHTML(context){
         return;
     }
     context.dropdown.querySelectorAll(`[${context.atts.optionAttr}]`).forEach(option => {
-        option.addEventListener('click', event => {
-            context.update(option.getAttribute(context.atts.optionAttr));
+        option.addEventListener('click', () => {
+            context.select(option.getAttribute(context.atts.optionAttr));
         });
     });
 }

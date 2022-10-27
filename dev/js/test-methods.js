@@ -5,9 +5,18 @@ export function testMethods(root){
 
     EasySelect.init();
 
+    // add option
+    const inputAddOption = document.querySelector('input[name="add-option"]');
+    const btnAddOption = document.querySelector('button[data-btn="add"]');
+    const updateAddNewOptionForm = () => {
+        btnAddOption.style.display = inputAddOption.value.length > 0 ? '' : 'none';
+    }
+    inputAddOption.addEventListener('keyup', () => updateAddNewOptionForm());
+    updateAddNewOptionForm();
+
     // assign method event
     document.querySelectorAll('[data-btn]').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', e => {
             const item = EasySelect.get(btn.getAttribute('data-id'));
             const state = btn.getAttribute('data-btn');
 
@@ -28,8 +37,10 @@ export function testMethods(root){
                     EasySelect.init();
                     break;
                 case "select":
-                    const value = btn.getAttribute('data-value');
-                    item.select(value);
+                    item.select(btn.getAttribute('data-value'));
+                    break;
+                case "add":
+                    item.add(inputAddOption.value);
                     break;
             }
         });

@@ -90,7 +90,7 @@ code {
 }
 
 .btn {
-  padding: 5px 15px;
+  padding: 7px 15px;
   border-radius: 5px;
   background-color: dodgerblue;
   color: #fff;
@@ -121,4 +121,15 @@ code {
     pointer-events: none;
     opacity: .5;
   }
+}
+
+/**
+ * Input
+ */
+input {
+  border: 1px solid #e0e7ee;
+  border-radius: 5px;
+  height: 35px;
+  width: 150px;
+  padding: 5px 15px;
 }

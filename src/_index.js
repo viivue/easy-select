@@ -24,7 +24,7 @@ const atts = {
 const defaults = {
     wrapper: '',
     nativeSelect: false,
-    warning: false,
+    warning: true,
     wrapDefaultSelect: true,
     customDropDownOptionHTML: option => {
     },
@@ -125,7 +125,7 @@ class EasySelect{
         this.selectTagData = getSelectData(this);
 
         // update current
-        this.current.html(getOptionHTML(this));
+        this.current.innerHTML = getOptionHTML(this);
 
         // if not native select
         if(!this.config.nativeSelect){
@@ -252,6 +252,22 @@ class EasySelect{
 
         // Event: on change
         this.config.onDisabled(this);
+    }
+
+    add(value){
+        // avoid duplicate value
+        if(this.selectTagData.filter(option => option.value === value).length > 0){
+            if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
+            return false;
+        }
+
+        // add new option to select tag
+        this.selectTag.insertAdjacentHTML('beforeend', `<option value="${value}">${value}</option>`);
+
+        // refresh
+        this.refresh();
+
+        return this;
     }
 }
 
