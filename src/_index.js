@@ -11,9 +11,8 @@ const classes = {
     dropdown: 'es-dropdown',
     option: 'es-option',
     active: 'es-active',
-    optionDisabled: 'es-option-disabled',
+    disabled: 'es-disabled',
     nativeSelect: 'es-native',
-    wrapperDisabled: 'es-disabled',
     enabled: 'es-enabled',
     ignore: 'es-ignore',
 };
@@ -251,9 +250,9 @@ class EasySelect{
         this.selectTag.prop('disabled', boolean);
         this.isDisabled = boolean;
         if(boolean){
-            this.wrapper.classList.add(this.classes.wrapperDisabled);
+            this.wrapper.classList.add(this.classes.disabled);
         }else{
-            this.wrapper.classList.remove(this.classes.wrapperDisabled);
+            this.wrapper.classList.remove(this.classes.disabled);
         }
 
         // Event: on change

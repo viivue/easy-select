@@ -81,7 +81,7 @@ export function getOptionHTML(context, option = undefined){
 
     let classList = context.classes.option;
     classList += ' ' + (isActive ? context.classes.active : '');
-    classList += ' ' + (option['isDisabled'] ? context.classes.optionDisabled : '');
+    classList += ' ' + (option['isDisabled'] ? context.classes.disabled : '');
 
     let html = '';
     html += `<div class="${classList}" ${context.atts.optionAttr}="${option['value']}">`;
