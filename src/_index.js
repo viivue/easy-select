@@ -1,7 +1,7 @@
 import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, getID, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
-import {findObjectInArray, getSelectTag} from "./utils";
+import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 
 const pluginName = "easySelect";
 const classes = {
@@ -22,6 +22,7 @@ const atts = {
     optionAttr: 'data-es-option',
 };
 const defaults = {
+    id: uniqueId('es-'),
     wrapper: '',
     nativeSelect: false,
     warning: true,
@@ -57,6 +58,7 @@ class EasySelect{
     constructor(el, options){
         this.classes = {...classes};
         this.atts = {...atts};
+        this.config = {...defaults, ...options};
 
         this.selectTag = getSelectTag(el);
         this.originalSelectTag = this.selectTag;
@@ -69,7 +71,6 @@ class EasySelect{
         this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdown}`);
         this.current = this.wrapper.querySelector(`.${this.classes.current}`);
 
-        this.config = {...defaults, ...options};
         this.isOpen = false;
         this.isDisabled = false;
         this.value = val(this);

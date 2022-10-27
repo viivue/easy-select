@@ -1,4 +1,4 @@
-import {createEl, insertAfter, uniqueId, wrapAll} from "./utils";
+import {createEl, insertAfter, isEmptyString, uniqueId, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 
 /****************************************************
@@ -65,8 +65,10 @@ export function create(context){
  * @returns {*|string}
  */
 export function getID(context){
-    const id = context.selectTag.getAttribute(context.atts.init)
-    return id === null || id.length === 0 ? uniqueId('es-') : id;
+    // id (priority: attribute > options > auto-generate)
+    let id = context.selectTag.getAttribute(context.atts.init);
+    id = id !== null && !isEmptyString(id) ? id : context.config.id;
+    return id;
 }
 
 

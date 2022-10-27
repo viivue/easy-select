@@ -90,3 +90,12 @@ export function getSelectTag(el){
 
     return el;
 }
+
+/**
+ * Check if value is an empty string
+ * @param value
+ * @returns {boolean}
+ */
+export function isEmptyString(value){
+    return typeof value === 'string' && value.length === 0;
+}
