@@ -6,20 +6,21 @@ import {findObjectInArray, getSelectTag} from "./utils";
 const pluginName = "easySelect";
 const classes = {
     wrapper: 'easy-select',
-    dropdownOpen: 'show-dropdown',
-    current: 'easy-select-current',
-    dropdown: 'easy-select-dropdown',
-    option: 'easy-select-option',
-    active: 'active',
-    optionDisabled: 'disabled',
-    nativeSelect: 'easy-select-native',
-    wrapperDisabled: 'easy-select-disabled',
-    enabled: 'easy-select-enabled'
+    dropdownOpen: 'es-dropdown-open',
+    current: 'es-current',
+    dropdown: 'es-dropdown',
+    option: 'es-option',
+    active: 'es-active',
+    optionDisabled: 'es-option-disabled',
+    nativeSelect: 'es-native',
+    wrapperDisabled: 'es-disabled',
+    enabled: 'es-enabled',
+    ignore: 'es-ignore',
 };
 const atts = {
     init: 'data-easy-select',
-    wrapperID: 'data-easy-select-id',
-    optionAttr: 'data-easy-select-option',
+    wrapperID: 'data-es-id',
+    optionAttr: 'data-es-option',
 };
 const defaults = {
     wrapper: '',
@@ -54,8 +55,6 @@ const defaults = {
  */
 class EasySelect{
     constructor(el, options){
-        console.log('----- START');
-
         this.classes = {...classes};
         this.atts = {...atts};
 
@@ -211,7 +210,7 @@ class EasySelect{
         if(this.isOpen) return;
 
         // close all opening dropdown
-        window.EasySelectController.instances.filter(instance => instance.isOpen).forEach(eta => eta.close());
+        window.EasySelectController.closeAll();
 
         this.isOpen = true;
         this.wrapper.classList.add(this.classes.dropdownOpen);
@@ -275,23 +274,18 @@ if(typeof jQuery !== 'undefined'){
         return this.each(function(){
             const el = this;
             let id = '';
-            if(el.hasAttribute('data-easy-select-id')){
-                id = el.getAttribute('data-easy-select-id');
+            if(el.hasAttribute(atts.wrapperID)){
+                id = el.getAttribute(atts.wrapperID);
             }else{
                 const wrapper = el.closest('[data-easy-select-id]');
-                id = wrapper ? wrapper.getAttribute('data-easy-select-id') : id;
+                id = wrapper ? wrapper.getAttribute(atts.wrapperID) : id;
             }
 
             if(id){
                 // found id => run method
-                const easySelect = window.EasySelect.get(id);
-                // exec methods
-                //console.log(`jquery: found Easy Select [${id}]`, el, options, param)
-                easySelect.execPublicMethods(options, param);
+                window.EasySelect.get(id).execPublicMethods(options, param);
             }else{
                 // id not found => init new instance
-                //console.log(`jquery: init Easy Select`, el, options, param)
-                // init
                 window.EasySelect.init(el, options);
             }
         });
@@ -305,6 +299,10 @@ if(typeof jQuery !== 'undefined'){
 class Controller{
     constructor(){
         this.instances = [];
+    }
+
+    closeAll(){
+        this.instances.filter(instance => instance.isOpen).forEach(item => item.close());
     }
 
     add(instance){
@@ -344,12 +342,12 @@ window.EasySelect = {
 
         // on outside click
         document.addEventListener('click', event => {
-            const wrapper = event.target.closest(`[${atts.wrapperID}]`);
+            const wrapper = event.target.closest(`[${atts.wrapperID}]`) || event.target.closest(`.${classes.ignore}`);
 
             if(wrapper) return;
 
             // close all opening dropdown
-            window.EasySelectController.instances.filter(instance => instance.isOpen).forEach(eta => eta.close());
+            window.EasySelectController.closeAll();
         });
     },
     // Get instance object by ID

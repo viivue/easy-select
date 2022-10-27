@@ -12,7 +12,7 @@
 }
 
 /* keep select tag invisible over the current text, but still clickable */
-.easy-select-native select {
+.es-native select {
   position: absolute;
   top: 0;
   left: 0;
@@ -24,7 +24,7 @@
 }
 
 /* this will handle the visual display */
-.easy-select-current {
+.es-current {
   position: relative;
   z-index: 1;
   transition: all .3s ease;
@@ -32,13 +32,13 @@
 }
 
 /* custom dropdown */
-.easy-select:not(.show-dropdown) .easy-select-dropdown {
+.easy-select:not(.es-dropdown-open) .es-dropdown {
   opacity: 0;
   visibility: hidden;
   transform: scale(.9);
 }
 
-.easy-select-dropdown {
+.es-dropdown {
   position: absolute;
   top: calc(100% + 1px);
   left: 0;
@@ -48,7 +48,7 @@
   transform-origin: top left;
 }
 
-.easy-select-dropdown {
+.es-dropdown {
   ul {
     margin: 0;
     padding: 0;
@@ -62,7 +62,7 @@
 }
 
 /* option */
-.easy-select-option {
+.es-option {
   display: flex;
   align-items: center;
   position: relative;
@@ -71,7 +71,7 @@
 }
 
 /* disabled */
-.easy-select-disabled {
+.es-disabled {
   cursor: not-allowed;
 
   select {
@@ -79,8 +79,8 @@
   }
 }
 
-.easy-select-option.disabled,
-.easy-select-disabled .easy-select-current {
+.es-option.disabled,
+.es-disabled .es-current {
   opacity: .5;
   pointer-events: none;
 }
@@ -107,16 +107,16 @@
 }
 
 /* current */
-.easy-select-current {
+.es-current {
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
 
-  .easy-select-option {
+  .es-option {
     padding-right: 40px;
   }
 
-  .easy-select-option:after {
+  .es-option:after {
     position: absolute;
     top: 50%;
     right: 15px;
@@ -131,17 +131,17 @@
 }
 
 
-.easy-select.show-dropdown .easy-select-current .easy-select-option:after {
+.easy-select.es-dropdown-open .es-current .es-option:after {
   transform: translateY(-50%) rotate(180deg);
 }
 
 /* dropdown showing */
-.easy-select.show-dropdown {
+.easy-select.es-dropdown-open {
   z-index: 2;
 }
 
 /* dropdown */
-.easy-select-dropdown {
+.es-dropdown {
   max-width: var(--es-dropdown-w);
   background: var(--es-bg);
   border: 1px solid #ccc;
@@ -149,7 +149,7 @@
   overflow: hidden;
 }
 
-.easy-select-dropdown ul {
+.es-dropdown ul {
   max-height: var(--es-dropdown-h);
 
   li:not(:last-child) {
@@ -158,30 +158,30 @@
 }
 
 /* option */
-.easy-select-option {
+.es-option {
   line-height: 1.1;
   min-height: var(--es-option-h);
   padding: 5px 20px;
 }
 
 /* dropdown hover: off */
-.easy-select-dropdown:hover .easy-select-option.active,
-.easy-select-option {
+.es-dropdown:hover .es-option.active,
+.es-option {
   background: var(--es-bg);
   color: var(--es-text);
 }
 
 /* dropdown hover: on */
-.easy-select-native:not(.easy-select-disabled):hover .easy-select-current .easy-select-option,
-.easy-select-dropdown:hover .easy-select-option.active:hover,
-.easy-select-option:hover,
-.easy-select-option.active {
+.es-native:not(.es-disabled):hover .es-current .es-option,
+.es-dropdown:hover .es-option.active:hover,
+.es-option:hover,
+.es-option.active {
   color: var(--es-text-hover);
   background: var(--es-bg-hover);
 }
 
 /* custom scrollbar */
-.easy-select-dropdown ul {
+.es-dropdown ul {
   &::-webkit-scrollbar {
     width: 4px;
   }
