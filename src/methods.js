@@ -71,6 +71,15 @@ export function getID(context){
 
 
 /**
+ * Fire on change event manually
+ * @param context
+ */
+export function fireOnChangeEvent(context){
+    context.selectTag.dispatchEvent(new Event('change', {bubbles: true}));
+}
+
+
+/**
  * re-query to avoid DOM-redraw
  * @param context
  */

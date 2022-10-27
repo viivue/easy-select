@@ -1,5 +1,5 @@
 import {getSelectData, val} from "./data";
-import {getID, init} from "./methods";
+import {fireOnChangeEvent, getID, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag} from "./utils";
 
@@ -112,7 +112,7 @@ class EasySelect{
                 this.disabled(param);
                 break;
             case 'select':
-                this.update(param);
+                this.select(value);
                 break;
         }
     }
@@ -153,24 +153,22 @@ class EasySelect{
     }
 
     /**
-     * Update original and custom selects value
+     * Select option with value
      * @param value
      */
-    update(value){
-        // skip duplicate values
-        if(value === val(this)){
-            this.close();
+    select(value){
+        // skip duplicate value
+        if(value === val(this)) return;
+
+        // value exists in data object => update value
+        if(typeof findObjectInArray(this.selectTagData, 'value', value) !== 'undefined'){
+            this.selectTag.value = value;
+            fireOnChangeEvent(this);
             return;
         }
 
-        // update value
-        if(typeof findObjectInArray(this.selectTagData, 'value', value) !== 'undefined'){
-            //this.selectTag.val(value).trigger('change');
-            this.selectTag.value = value;
-            this.selectTag.dispatchEvent(new Event('change', {bubbles: true}));
-        }else{
-            if(this.config.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
-        }
+        // warning
+        if(this.config.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
     }
 
     /**
@@ -188,9 +186,6 @@ class EasySelect{
                 item.classList.remove(this.classes.active);
             });
             this.dropdown.querySelector(`[${this.atts.optionAttr}="${val(this)}"]`).classList.add(this.classes.active);
-
-            // close
-            this.close();
         }
 
         // Event: on change
