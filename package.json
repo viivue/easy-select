@@ -22,9 +22,7 @@
   "main": "./dist/easy-select.module.js",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
-    "web": "cross-env ENTRY=web PORT=8081 webpack serve --config config/webpack.dev.js",
-    "build": "webpack --config config/webpack.build.js",
-    "build-dev": "cross-env ENTRY=dev webpack --config config/webpack.build.js",
+    "build": "cross-env ENTRY=dev webpack --config config/webpack.build.js",
     "sass:compressed": "sass src/_style.scss:dist/easy-select.css --no-source-map",
     "optimize": "csso dist/easy-select.css --output dist/easy-select.min.css --stat",
     "output-css": "npm run sass:compressed && npm run optimize",

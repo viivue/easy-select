@@ -23,7 +23,6 @@ const atts = {
 };
 const defaults = {
     id: uniqueId('es-'),
-    wrapper: '',
     nativeSelect: false,
     warning: true,
     log: true,
