@@ -16,7 +16,7 @@ switch(libraryTarget){
         };
         break;
     default:
-        library = `${packageInfo.codeName}`;
+        //library = `${packageInfo.codeName}`;
         filename = `${packageInfo.name}.min.js`;
 }
 

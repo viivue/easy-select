@@ -395,18 +395,18 @@ window.EasySelect = {
 
         // init single element
         window.EasySelectController.add(new EasySelect(el, options));
-
-        // on outside click
-        document.addEventListener('click', event => {
-            const wrapper = event.target.closest(`[${atts.wrapperID}]`) || event.target.closest(`.${classes.ignore}`);
-
-            if(wrapper) return;
-
-            // close all opening dropdown
-            window.EasySelectController.closeAll();
-        });
     }, // Get instance object by ID
     get: id => window.EasySelectController.get(id)
 };
 
+// init
 window.EasySelect.init();
+
+// on outside click
+document.addEventListener('click', event => {
+    const wrapper = event.target.closest(`[${atts.wrapperID}]`) || event.target.closest(`.${classes.ignore}`);
+    if(wrapper) return;
+
+    // close all opening dropdown
+    window.EasySelectController.closeAll();
+});

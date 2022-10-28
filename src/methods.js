@@ -62,7 +62,7 @@ export function create(context){
 
     // create wrapper
     wrapper = createEl({
-        className: `${context.classes.wrapper} ${context.config.wrapper}`
+        className: `${context.classes.wrapper}`
     });
     wrapper.setAttribute(context.atts.wrapperID, context.id);
 
