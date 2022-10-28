@@ -6,9 +6,6 @@ export function testLayout(root){
     // Init: default layout
     EasySelect.init();
 
-    // native layout
-    EasySelect.init('#layout-native', {nativeSelect: true});
-
     // Options with custom HTML
     EasySelect.init('#layout-custom-options', {
         customDropDownOptionHTML: option => {

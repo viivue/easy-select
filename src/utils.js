@@ -99,3 +99,17 @@ export function getSelectTag(el){
 export function isEmptyString(value){
     return typeof value === 'string' && value.length === 0;
 }
+
+/**
+ * Is JSON string
+ * https://stackoverflow.com/a/32278428/6453822
+ * @param string
+ * @returns {any|boolean}
+ */
+export function isJSON(string){
+    try{
+        return (JSON.parse(string) && !!string);
+    }catch(e){
+        return false;
+    }
+}

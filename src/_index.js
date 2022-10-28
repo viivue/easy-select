@@ -1,5 +1,5 @@
 import {getSelectData, val} from "./data";
-import {eventData, fireOnChangeEvent, getID, init} from "./methods";
+import {eventData, fireOnChangeEvent, getID, getOptions, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 
@@ -63,7 +63,6 @@ class EasySelect{
     constructor(el, options){
         this.classes = {...classes};
         this.atts = {...atts};
-        this.config = {...defaults, ...options};
 
         this.selectTag = getSelectTag(el);
         this.originalSelectTag = this.selectTag;
@@ -71,6 +70,7 @@ class EasySelect{
         // avoid duplicate init
         if(this.selectTag.classList.contains(this.classes.enabled)) return;
 
+        this.config = getOptions(this, {...defaults, ...options});
         this.id = getID(this);
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdown}`);

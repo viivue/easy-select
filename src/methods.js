@@ -1,4 +1,4 @@
-import {createEl, insertAfter, isEmptyString, uniqueId, wrapAll} from "./utils";
+import {createEl, insertAfter, isEmptyString, isJSON, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 
 /****************************************************
@@ -76,10 +76,30 @@ export function create(context){
 export function getID(context){
     // id (priority: attribute > options > auto-generate)
     let id = context.selectTag.getAttribute(context.atts.init);
+
+    // string from init attribute always be treated as ID
+    if(isJSON(id)) return context.config.id;
+
+    // ID priority: attribute > js object > default
     id = id !== null && !isEmptyString(id) ? id : context.config.id;
     return id;
 }
 
+export function getOptions(context, options){
+    // options from attribute
+    let string = context.selectTag.getAttribute(context.atts.init);
+
+    // option priority: attribute > js object > default
+    if(isJSON(string)) options = {...options, ...JSON.parse(string)};
+
+    // convert boolean string to real boolean
+    for(const [key, value] of Object.entries(options)){
+        if(value === "false") options[key] = false;
+        if(value === "true") options[key] = true;
+    }
+
+    return options;
+}
 
 /**
  * Fire on change event manually
