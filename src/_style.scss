@@ -23,9 +23,10 @@
   --es-border: 1px solid #e0e7ee;
   --es-radius: 5px;
 
-  width: 100%;
-  max-width: var(--es-width);
+  //width: 100%;
+  //max-width: var(--es-width);
 
+  display: inline-block;
   position: relative;
   z-index: 1;
   cursor: pointer;
@@ -121,7 +122,7 @@
   top: calc(100% + 1px);
   left: 0;
   z-index: 2;
-  width: 100%;
+  min-width: 100%;
   transition: all .2s ease;
   transform-origin: top left;
   max-width: var(--es-dropdown-width);
@@ -170,6 +171,7 @@
   line-height: 1.1;
   min-height: var(--es-height);
   padding: 5px 20px;
+  white-space: nowrap;
 
   &.es-active {
     font-weight: 700;
