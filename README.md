@@ -1,9 +1,9 @@
 # Easy Select
 
 [![release](https://badgen.net/github/release/viivue/easy-select/)](https://github.com/viivue/easy-select/releases/latest)
-[![minified](https://badgen.net/badge/minified/6KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
+[![minified](https://badgen.net/badge/minified/9KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
 [![jsdelivr](https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge?style=rounded)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7f89c933-2c47-4a3f-b2ba-a32166f4f15d/deploy-status)](https://app.netlify.com/sites/easy-select/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/84c6ed49-b3f3-450b-857a-ec904db724b7/deploy-status)](https://app.netlify.com/sites/easy-select/deploys)
 
 > Demo: https://easy-select.netlify.app
 
@@ -80,8 +80,6 @@ Pass a string to use as ID
 <!-- Init with custom ID -->
 <select data-easy-select="my-id">
     <option value="1">One</option>
-    <option value="2">Two - Hai</option>
-    <option value="3">Three - 第三的</option>
 </select>
 ```
 
@@ -91,28 +89,24 @@ Pass a valid JSON to use as options
 <!-- Init with options -->
 <select data-easy-select='{ "id":"my-id", "align":"right" }'>
     <option value="1">One</option>
-    <option value="2">Two - Hai</option>
-    <option value="3">Three - 第三的</option>
 </select>
 ```
 
-> Options set in HTML must be valid JSON. Keys need to be quoted, for example `"align":"right"`.
+> ⚠️ Options set in HTML must be valid JSON. Keys need to be quoted, for example `"align":"right"`.
 
 
 ## Methods
 
-> You can get **slider** from ***OverlappingSlider.get( id )***
-
-| Name      | Usage                    | Description                          | 
-|-----------|--------------------------|--------------------------------------|
-| `toggle`  | `instance.toggle()`      | Toggle open/close                    |
-| `open`    | `instance.open()`        | Open dropdown                        |
-| `close`   | `instance.close()`       | Close dropdown                       |
-| `disable` | `instance.disable()`     | Disable select                       |
-| `enable`  | `instance.enable()`      | Enable select                        |
-| `destroy` | `instance.destroy()`     | Destroy select, return original HTML |
-| `select`  | `instance.select(value)` | Select a value                       |
-| `add`     | `instance.add(value)`    | Add new option with value            |
+| Usage                    | Description                          | 
+|--------------------------|--------------------------------------|
+| `instance.toggle()`      | Toggle open/close                    |
+| `instance.open()`        | Open dropdown                        |
+| `instance.close()`       | Close dropdown                       |
+| `instance.disable()`     | Disable select                       |
+| `instance.enable()`      | Enable select                        |
+| `instance.destroy()`     | Destroy select, return original HTML |
+| `instance.select(value)` | Select a value                       |
+| `instance.add(value)`    | Add new option with value            |
 
 ```js
 // init
@@ -129,7 +123,7 @@ instance.open();
 
 ## Events
 
-| Name                     | Description                                                                 | 
+| Usage                    | Description                                                                 | 
 |--------------------------|-----------------------------------------------------------------------------|
 | `beforeInit: data => {}` | Before init                                                                 |
 | `onInit: data => {}`     | After init                                                                  |
