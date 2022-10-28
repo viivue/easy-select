@@ -29,6 +29,7 @@ const defaults = {
     log: true,
     wrapDefaultSelect: true,
     closeOnChange: true,
+    align: "left",
     customDropDownOptionHTML: option => {
     },
     beforeInit: data => {

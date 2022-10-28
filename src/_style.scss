@@ -50,6 +50,40 @@
     transition: all .3s ease;
     user-select: none;
   }
+
+  /* align right */
+  &.es-align-right .es-dropdown {
+    left: auto;
+    right: 0;
+  }
+
+  /* align top */
+  &.es-align-top .es-dropdown {
+    top: auto;
+    bottom: calc(100% + 1px);
+    transform-origin: bottom left;
+  }
+
+  /* align side */
+  &.es-align-side {
+
+    /* align side left */
+    .es-dropdown {
+      top: 0;
+      bottom: auto;
+      right: calc(100% + 1px);
+      left: auto;
+    }
+
+    /* align side right */
+    &.es-align-right .es-dropdown {
+      top: 0;
+      bottom: auto;
+      left: calc(100% + 1px);
+      right: auto;
+    }
+  }
+
 }
 
 /* disabled: wrapper and option */

@@ -10,11 +10,38 @@ import {getCurrentHTML, updateDropdownHTML} from "./layout";
  */
 export function init(context){
     context.config.beforeInit(eventData(context, 'beforeInit'));
+
+    // create HTML
     create(context);
+
+    // alignment
+    checkAlignmentOption(context);
+
     context.config.onInit(eventData(context, 'onInit'));
 }
 
 
+/**
+ * Add class for dropdown alignment
+ * @param context
+ */
+function checkAlignmentOption(context){
+    // native select will have no alignment
+    if(context.config.nativeSelect) return;
+
+    context.config.align.split(' ').forEach(align => {
+        if(align !== 'left') context.wrapper.classList.add(`es-align-${align}`);
+    });
+}
+
+
+/**
+ * Data return from an event
+ * @param context
+ * @param eventName
+ * @param obj
+ * @returns {*&{instance, eventName}}
+ */
 export function eventData(context, eventName, obj){
     return {
         instance: context,
