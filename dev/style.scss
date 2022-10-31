@@ -1,0 +1,160 @@
+/**
+ * Variables
+ */
+$font-size: 1rem;
+$font-family: 'Inconsolata', sans-serif;
+$page-width: 768px;
+$color-primary: #f1c400;
+$color-on-primary: #141414;
+
+* {
+  box-sizing: border-box;
+  border: none;
+}
+
+body {
+  font-family: $font-family;
+  padding: 20px;
+  margin: 0;
+}
+
+.container {
+  max-width: $page-width;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: "Inconsolata", monospace;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+h1, .footer {
+  text-align: center;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.col-right {
+  width: 200px;
+  display: block;
+}
+
+code {
+  display: block;
+  padding: 1em;
+  background-color: #eee;
+  margin: 1em 0;
+}
+
+.option-color {
+  display: flex;
+  align-items: center;
+}
+
+.option-color .color {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 0;
+  margin-right: 10px;
+  box-shadow: 0 0 0 1px #ccc;
+  border-radius: 4px;
+}
+
+/**
+ * Typo
+ */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 7px 15px;
+  border-radius: 5px;
+  background-color: dodgerblue;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, .15);
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease;
+
+  &:hover {
+    box-shadow: 6px 6px 0 0 rgba(0, 0, 0, .15);
+  }
+
+  &.red {
+    background-color: red;
+  }
+
+  &.green {
+    background-color: yellowgreen;
+  }
+
+  &.blue {
+    background-color: dodgerblue;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    opacity: .5;
+  }
+}
+
+/**
+ * Input
+ */
+input {
+  border: 1px solid #e0e7ee;
+  border-radius: 5px;
+  height: 35px;
+  width: 150px;
+  padding: 5px 15px;
+}
+
+/**
+ * Events
+ */
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  label {
+    background-color: #e0e7ee;
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    &.active {
+      background-color: dodgerblue;
+      color: #fff;
+    }
+  }
+}
