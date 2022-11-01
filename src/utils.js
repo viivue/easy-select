@@ -124,7 +124,6 @@ export function onKeyUp(el, keys = {}){
     el.addEventListener('keyup', e => {
         for(const key in keys){
             if(e.key === key && typeof keys[key] === 'function') {
-                console.log(key)
                 keys[key]();
             }
         }

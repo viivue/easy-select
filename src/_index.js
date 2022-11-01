@@ -223,6 +223,9 @@ class EasySelect{
         this.isOpen = true;
         this.wrapper.classList.add(this.classes.dropdownOpen);
 
+        // a11y
+        a11yControl(this);
+
         // Event: on open
         this.config.onOpen(eventData(this, 'onOpen'));
     }
@@ -236,6 +239,9 @@ class EasySelect{
         if(!this.isOpen) return;
         this.isOpen = false;
         this.wrapper.classList.remove(this.classes.dropdownOpen);
+
+        // a11y
+        a11yControl(this);
 
         // Event: on close
         this.config.onClose(eventData(this, 'onClose'));

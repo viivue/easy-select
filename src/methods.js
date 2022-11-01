@@ -152,10 +152,22 @@ export function fireOnChangeEvent(context){
  * @param context
  */
 export function a11yControl(context){
+    // current
     if(context.isDisabled){
         context.current.setAttribute('tabindex', -1);
     }else{
         context.current.setAttribute('tabindex', 0);
+    }
+
+    // dropdown
+    if(context.isOpen){
+        context.options.forEach(item => {
+            item.setAttribute('tabindex', 0);
+        });
+    }else{
+        context.options.forEach(item => {
+            item.removeAttribute('tabindex');
+        });
     }
 }
 

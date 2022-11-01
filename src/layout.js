@@ -34,7 +34,10 @@ export function updateDropdownHTML(context){
         console.error('Dropdown not found!');
         return;
     }
-    context.dropdown.querySelectorAll(`[${context.atts.optionAttr}]`).forEach(option => {
+
+    // options
+    context.options = context.dropdown.querySelectorAll(`[${context.atts.optionAttr}]`);
+    context.options.forEach(option => {
         option.addEventListener('click', () => {
             context.select(option.getAttribute(context.atts.optionAttr));
         });
