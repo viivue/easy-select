@@ -80,6 +80,9 @@ export function create(context){
     if(context.config.nativeSelect){
         context.wrapper.classList.add(context.classes.nativeSelect);
         assignSelectOnChange(context);
+
+        // remove tabindex
+        context.selectTag.setAttribute('tabindex', '-1');
         return;
     }
 
@@ -136,6 +139,17 @@ export function fireOnChangeEvent(context){
     context.selectTag.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
+/**
+ * Accessibility control
+ * @param context
+ */
+export function a11yControl(context){
+    if(context.isDisabled){
+        context.current.setAttribute('tabindex', -1);
+    }else{
+        context.current.setAttribute('tabindex', 0);
+    }
+}
 
 /**
  * re-query to avoid DOM-redraw

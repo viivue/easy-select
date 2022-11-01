@@ -10,7 +10,7 @@ import {getOptionData, val} from "./data";
  */
 export function getCurrentHTML(context){
     let html = '';
-    html += `<div class="${context.classes.current}">`;
+    html += `<div class="${context.classes.current}" tabindex="0">`;
     html += getOptionHTML(context);
     html += `</div>`;
     return html;

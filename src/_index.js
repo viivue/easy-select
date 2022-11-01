@@ -1,5 +1,5 @@
 import {getSelectData, val} from "./data";
-import {eventData, fireOnChangeEvent, getID, getOptions, init} from "./methods";
+import {a11yControl, eventData, fireOnChangeEvent, getID, getOptions, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 
@@ -277,6 +277,8 @@ class EasySelect{
             // Event: on enable
             this.config.onEnable(eventData(this, 'onEnable'));
         }
+
+        a11yControl(this);
     }
 
     /**

@@ -235,7 +235,12 @@
   background: var(--es-bg-hover);
 }
 
-/* current hover */
+/* a11y */
+.easy-select:not(.es-disabled) .es-current:focus-visible,
+  /* current hover */
 .easy-select:not(.es-disabled):hover .es-current {
   border: var(--es-border-hover);
+  outline:none;
 }
+
+.es-current:focus-visible {outline:none;}
