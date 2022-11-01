@@ -1,4 +1,4 @@
-import {createEl, insertAfter, isEmptyString, isJSON, wrapAll} from "./utils";
+import {createEl, insertAfter, isEmptyString, isJSON, onKeyUp, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 
 /****************************************************
@@ -95,6 +95,14 @@ export function create(context){
 
     // on current click
     context.current.addEventListener('click', () => context.toggle());
+
+    // on current keyup control
+    onKeyUp(context.current, {
+        'Enter': () => context.toggle(),
+        'Escape': () => context.close(),
+        'Esc': () => context.close(),
+        'Tab': () => context.open(),
+    });
 }
 
 

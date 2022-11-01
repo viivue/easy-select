@@ -113,3 +113,20 @@ export function isJSON(string){
         return false;
     }
 }
+
+
+/**
+ * https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
+ * @param el
+ * @param keys
+ */
+export function onKeyUp(el, keys = {}){
+    el.addEventListener('keyup', e => {
+        for(const key in keys){
+            if(e.key === key && typeof keys[key] === 'function') {
+                console.log(key)
+                keys[key]();
+            }
+        }
+    });
+}
