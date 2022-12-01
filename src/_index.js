@@ -77,7 +77,7 @@ class EasySelect{
         this.current = this.wrapper.querySelector(`.${this.classes.current}`);
 
         this.isOpen = false;
-        this.isDisabled = false;
+        this.isDisabled = this.selectTag.disabled;
         this.value = val(this);
         this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
         this.selectTagData = getSelectData(this);

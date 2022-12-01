@@ -10,6 +10,7 @@ import '@/_index';
 import {testInit} from "./js/test-init";
 import {testLayout} from "./js/test-layout";
 import {testMethods} from "./js/test-methods";
+import {testDisabled} from "./js/test-disabled";
 
 // import package info
 const packageInfo = require('../package.json');
@@ -31,3 +32,4 @@ const root = document.querySelector('#root');
 testMethods(root);
 testLayout(root);
 testInit(root);
+testDisabled(root);

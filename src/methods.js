@@ -61,8 +61,10 @@ export function create(context){
     if(wrapper && wrapper.length) return;
 
     // create wrapper
+    let wrapperClass = context.classes.wrapper;
+    wrapperClass += context.isDisabled ? ' ' + context.classes.disabled : '';
     wrapper = createEl({
-        className: `${context.classes.wrapper}`
+        className: wrapperClass
     });
     wrapper.setAttribute(context.atts.wrapperID, context.id);
 
