@@ -103,14 +103,18 @@ export function create(context){
  * @returns {*|string}
  */
 export function getID(context){
-    // id (priority: attribute > options > auto-generate)
+    // id from data attribute
     let id = context.selectTag.getAttribute(context.atts.init);
 
     // string from init attribute always be treated as ID
     if(isJSON(id)) return context.config.id;
 
-    // ID priority: attribute > js object > default
+    // respect select#id
+    id = id !== null && !isEmptyString(id) ? id : context.selectTag.id;
+
+    // default unique id
     id = id !== null && !isEmptyString(id) ? id : context.config.id;
+
     return id;
 }
 
