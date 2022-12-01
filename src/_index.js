@@ -385,10 +385,28 @@ window.EasySelectController = new Controller();
 window.EasySelect = {
     // init new instances
     init: (el = undefined, options = {}) => {
-        // init with multiple elements via attributes
+        // empty => init with multiple elements via attributes
         if(typeof el === 'undefined'){
             document.querySelectorAll(`[${atts.init}]:not(.${classes.enabled})`).forEach(el => {
                 window.EasySelectController.add(new EasySelect(el, options));
+            });
+            return;
+        }
+
+
+        // string => multiple elements
+        if(typeof el === 'string'){
+            document.querySelectorAll(el).forEach(item => {
+                window.EasySelectController.add(new EasySelect(item, options));
+            });
+            return;
+        }
+
+        // array =>  multiple elements
+        if(typeof el.forEach !== 'undefined'){
+            el.forEach(item => {
+                // init single element
+                window.EasySelectController.add(new EasySelect(item, options));
             });
             return;
         }
