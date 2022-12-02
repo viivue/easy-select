@@ -1,5 +1,6 @@
 import {createEl, insertAfter, isEmptyString, isJSON, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
+import {val} from "./data";
 
 /****************************************************
  ********************** Methods *********************
@@ -16,6 +17,9 @@ export function init(context){
 
     // alignment
     checkAlignmentOption(context);
+
+    // update value attribute
+    context.selectTag.setAttribute(context.atts.value, val(context));
 
     context.config.onInit(eventData(context, 'onInit'));
 }

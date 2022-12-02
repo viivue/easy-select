@@ -20,6 +20,7 @@ const atts = {
     init: 'data-easy-select',
     wrapperID: 'data-es-id',
     optionAttr: 'data-es-option',
+    value: 'data-es-value',
 };
 const defaults = {
     id: uniqueId('es-'),
@@ -204,6 +205,9 @@ class EasySelect{
             // close on change
             if(this.config.closeOnChange) this.close();
         }
+
+        // update value attribute
+        this.selectTag.setAttribute(this.atts.value, val(this));
 
         // Event: on change
         this.config.onChange(eventData(this, 'onChange', {type}));
