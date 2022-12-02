@@ -36,7 +36,11 @@ export function updateDropdownHTML(context){
     }
     context.dropdown.querySelectorAll(`[${context.atts.optionAttr}]`).forEach(option => {
         option.addEventListener('click', () => {
-            context.select(option.getAttribute(context.atts.optionAttr));
+            const value = option.getAttribute(context.atts.optionAttr);
+            const optionData = context.selectTagData.filter(e => e.value === value)[0];
+            if(optionData.isDisabled) return;
+
+            context.select(value);
         });
     });
 }

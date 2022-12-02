@@ -148,28 +148,15 @@ EasySelect.init('#my-select', {
 
 ## Deployment
 
-Run dev server
-
 ```shell
+# Run dev server
 npm run dev
-```
 
-Build dev site
-
-```shell
+# Build dev site
 npm run build
-```
 
-Generate production files
-
-```shell
+# Generate production files
 npm run prod
-```
-
-Generate production files and publish NPM package
-
-```shell
-npm run publish
 ```
 
 ## License

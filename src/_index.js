@@ -20,6 +20,7 @@ const atts = {
     init: 'data-easy-select',
     wrapperID: 'data-es-id',
     optionAttr: 'data-es-option',
+    value: 'data-es-value',
 };
 const defaults = {
     id: uniqueId('es-'),
@@ -77,7 +78,7 @@ class EasySelect{
         this.current = this.wrapper.querySelector(`.${this.classes.current}`);
 
         this.isOpen = false;
-        this.isDisabled = false;
+        this.isDisabled = this.selectTag.disabled;
         this.value = val(this);
         this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
         this.selectTagData = getSelectData(this);
@@ -204,6 +205,9 @@ class EasySelect{
             // close on change
             if(this.config.closeOnChange) this.close();
         }
+
+        // update value attribute
+        this.selectTag.setAttribute(this.atts.value, val(this));
 
         // Event: on change
         this.config.onChange(eventData(this, 'onChange', {type}));
@@ -385,10 +389,28 @@ window.EasySelectController = new Controller();
 window.EasySelect = {
     // init new instances
     init: (el = undefined, options = {}) => {
-        // init with multiple elements via attributes
+        // empty => init with multiple elements via attributes
         if(typeof el === 'undefined'){
             document.querySelectorAll(`[${atts.init}]:not(.${classes.enabled})`).forEach(el => {
                 window.EasySelectController.add(new EasySelect(el, options));
+            });
+            return;
+        }
+
+
+        // string => multiple elements
+        if(typeof el === 'string'){
+            document.querySelectorAll(el).forEach(item => {
+                window.EasySelectController.add(new EasySelect(item, options));
+            });
+            return;
+        }
+
+        // array =>  multiple elements
+        if(typeof el.forEach !== 'undefined'){
+            el.forEach(item => {
+                // init single element
+                window.EasySelectController.add(new EasySelect(item, options));
             });
             return;
         }
