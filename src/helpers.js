@@ -2,6 +2,7 @@ import {isJSON} from "@/utils";
 
 /**
  * Get JSON options
+ * ID priority: data-attribute > selector#id > unique id
  * @version 0.0.1
  * @returns {object}
  */
