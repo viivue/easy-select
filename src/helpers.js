@@ -7,7 +7,11 @@ import {isJSON} from "@/utils";
  * @returns {object}
  */
 export function getOptions(context, defaultOptions){
-    const numeric = []; // convert these props to float
+    if(!defaultOptions){
+        defaultOptions = context.options || context.config || {};
+    }
+
+    const numeric = ['autoShow']; // convert these props to float
     const wrapper = context.selectTag;
 
     // options from attribute
@@ -15,24 +19,26 @@ export function getOptions(context, defaultOptions){
     let options = {};
 
     // data attribute doesn't exist or not JSON format -> string
-    if(!dataAttribute || !isJSON(dataAttribute)){
-        // reassign id
-        const id = dataAttribute || wrapper.id || defaultOptions.id;
-        context.id = id;
-        defaultOptions.id = id;
+    const attributeIsNotJSON = !dataAttribute || !isJSON(dataAttribute);
 
-        return defaultOptions;
-    }
+    // data attribute is not json format or string
+    if(attributeIsNotJSON){
+        options = defaultOptions;
 
-    options = JSON.parse(dataAttribute);
+        // data attribute exist => string
+        if(dataAttribute) options.id = dataAttribute;
+        else options.id = '';
+    }else{
+        options = JSON.parse(dataAttribute);
 
-    for(const [key, value] of Object.entries(options)){
-        // convert boolean string to real boolean
-        if(value === "false") options[key] = false;
-        else if(value === "true") options[key] = true;
-        // convert string to float
-        else if(numeric.includes(key) && typeof value === 'string' && value.length > 0) options[key] = parseFloat(value);
-        else options[key] = value;
+        for(const [key, value] of Object.entries(options)){
+            // convert boolean string to real boolean
+            if(value === "false") options[key] = false;
+            else if(value === "true") options[key] = true;
+            // convert string to float
+            else if(numeric.includes(key) && typeof value === 'string' && value.length > 0) options[key] = parseFloat(value);
+            else options[key] = value;
+        }
     }
 
     // reassign id
