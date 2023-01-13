@@ -1,4 +1,4 @@
-import {isJSON} from "@/utils";
+import {isJSON} from "./utils";
 
 /**
  * Get JSON options

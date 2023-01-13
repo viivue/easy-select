@@ -2,7 +2,7 @@ import {getSelectData, val} from "./data";
 import {eventData, fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
-import {getOptions} from "@/helpers";
+import {getOptions} from "./helpers";
 
 const pluginName = "easySelect";
 const classes = {
