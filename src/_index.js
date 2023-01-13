@@ -1,7 +1,8 @@
 import {getSelectData, val} from "./data";
-import {eventData, fireOnChangeEvent, getID, getOptions, init} from "./methods";
+import {eventData, fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
+import {getOptions} from "@/helpers";
 
 const pluginName = "easySelect";
 const classes = {
@@ -71,8 +72,9 @@ class EasySelect{
         // avoid duplicate init
         if(this.selectTag.classList.contains(this.classes.enabled)) return;
 
+        // get options and assign ID
         this.config = getOptions(this, {...defaults, ...options});
-        this.id = getID(this);
+
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdown}`);
         this.current = this.wrapper.querySelector(`.${this.classes.current}`);
