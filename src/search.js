@@ -1,21 +1,20 @@
-import {createEl} from "./utils";
+import {createEl, debounce} from "./utils";
 
 /**
  *  Init search inside dropdown
  *  @param {object} context
  * */
 export function intSearchDropdown(context){
-    console.log(context);
     const searchEl = createSearchElement({classes: context.classes.searchInDropdown});
 
     // append to the dropdown
     context.dropdown.appendChild(searchEl);
 
-    // toggle wrapper attribute
+    // add search enabled class for wrapper
     context.wrapper.classList.add(context.classes.searchEnabled);
 
     // handle search change
-
+    searchEl.addEventListener('input', debounce(() => handleSearchChange(context, searchEl.value)));
 }
 
 
@@ -31,3 +30,13 @@ function createSearchElement({classes = ''}){
 /**
  * Handle Search
  * */
+function handleSearchChange(context, value){
+    context.selectTagData.forEach(data => {
+        // contain search value
+        if(data.value.includes(value)){
+            context.dropdown.querySelector(`li:nth-child(${data.index + 1})`).style.display = 'block';
+        }else{
+            context.dropdown.querySelector(`li:nth-child(${data.index + 1})`).style.display = 'none';
+        }
+    });
+}
