@@ -24,6 +24,9 @@
   --es-border-hover: 1px solid #445870;
   --es-radius: 5px;
 
+  /* search inside dropdown */
+  --es-search-height: 40px;
+
   display: inline-block;
   position: relative;
   z-index: 1;
@@ -238,4 +241,16 @@
 /* current hover */
 .easy-select:not(.es-disabled):hover .es-current {
   border: var(--es-border-hover);
+}
+
+/* search inside dropdown */
+.easy-select.es-search-enabled .es-dropdown {
+  padding-top: var(--es-search-height);
+}
+
+.easy-select .es-search {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
