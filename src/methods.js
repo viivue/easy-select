@@ -1,7 +1,7 @@
 import {createEl, insertAfter, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
-import {intSearchDropdown} from "./search";
+import {initSearchDropdown} from "./search";
 
 /****************************************************
  ********************** Methods *********************
@@ -21,7 +21,7 @@ export function init(context){
 
     // init search dropdown
     if(context.config.searchInDropdown){
-        intSearchDropdown(context);
+        initSearchDropdown(context);
     }
 
     // update value attribute
