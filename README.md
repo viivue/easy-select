@@ -97,17 +97,19 @@ Pass a valid JSON to use as options
 
 ## Methods
 
-| Usage                    | Description                                               | 
-|--------------------------|-----------------------------------------------------------|
-| `instance.toggle()`      | Toggle open/close                                         |
-| `instance.open()`        | Open dropdown                                             |
-| `instance.close()`       | Close dropdown                                            |
-| `instance.disable()`     | Disable select                                            |
-| `instance.enable()`      | Enable select                                             |
-| `instance.refresh()`     | Refresh select when original select changes with new HTML |
-| `instance.destroy()`     | Destroy select, return original HTML                      |
-| `instance.select(value)` | Select a value                                            |
-| `instance.add(value)`    | Add new option with value                                 |
+| Usage                                           | Description                                               | 
+|-------------------------------------------------|-----------------------------------------------------------|
+| `instance.toggle()`                             | Toggle open/close                                         |
+| `instance.open()`                               | Open dropdown                                             |
+| `instance.close()`                              | Close dropdown                                            |
+| `instance.disable()`                            | Disable select                                            |
+| `instance.disableOption(optionValue, disabled)` | Disable/enable an option                                  |
+| `instance.enable()`                             | Enable select                                             |
+| `instance.refresh()`                            | Refresh select when original select changes with new HTML |
+| `instance.destroy()`                            | Destroy select, return original HTML                      |
+| `instance.select(value)`                        | Select a value                                            |
+| `instance.add(value)`                           | Add new option with value                                 |
+| `instance.on(eventName, callback)`              | Assign events                                             |
 
 ```js
 // init

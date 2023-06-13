@@ -132,6 +132,9 @@ class EasySelect{
             case 'toggle':
                 this.toggle();
                 break;
+            case 'disableOption':
+                this.disableOption(param, param2);
+                break;
             case 'disabled':
                 this.disable(param);
                 break;
@@ -142,6 +145,24 @@ class EasySelect{
                 this.on(param, param2);
                 break;
         }
+    }
+
+
+    /**
+     * Toggle option disable/enable
+     * @param optionValue
+     * @param disabled
+     */
+    disableOption(optionValue, disabled){
+        const option = this.selectTag.querySelector(`option[value="${optionValue}"]`);
+
+        if(!option){
+            console.warn(`Option with value "${optionValue}" is not found.`);
+            return;
+        }
+
+        option.disabled = disabled;
+        this.refresh();
     }
 
 
