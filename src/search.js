@@ -29,6 +29,7 @@ function createSearchElement({classes = ''}){
 
 /**
  * Remove accents in UNICODE
+ * https://www.tunglt.com/2018/11/bo-dau-tieng-viet-javascript-es6/
  * */
 function removeAccents(str){
     return str.normalize('NFD')
