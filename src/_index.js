@@ -222,6 +222,7 @@ class EasySelect{
 
         // update current HTML
         this.current.innerHTML = getOptionHTML(this);
+        const newValue = val(this);
 
         /** Dropdown **/
         if(!this.config.nativeSelect){
@@ -229,17 +230,17 @@ class EasySelect{
             this.dropdown.querySelectorAll(`[${this.atts.optionAttr}]`).forEach(item => {
                 item.classList.remove(this.classes.active);
             });
-            this.dropdown.querySelector(`[${this.atts.optionAttr}="${val(this)}"]`).classList.add(this.classes.active);
+            this.dropdown.querySelector(`[${this.atts.optionAttr}="${newValue}"]`).classList.add(this.classes.active);
 
             // close on change
             if(this.config.closeOnChange) this.close();
         }
 
         // update value attribute
-        this.selectTag.setAttribute(this.atts.value, val(this));
+        this.selectTag.setAttribute(this.atts.value, newValue);
 
         // Event: on change
-        fireEvent(this, 'onChange', {type});
+        fireEvent(this, 'onChange', {type, value: newValue});
     }
 
     /**
