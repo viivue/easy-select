@@ -1,7 +1,7 @@
 import html from "../html/methods.html";
 
 function highlightLabel(data){
-    console.log(data.eventName, data)
+    //console.log(data.eventName, data)
 
     const label = document.querySelector(`[data-event=${data.eventName}]`);
 
