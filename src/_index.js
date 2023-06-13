@@ -16,6 +16,8 @@ const classes = {
     nativeSelect: 'es-native',
     enabled: 'es-enabled',
     ignore: 'es-ignore',
+    search: 'es-search',
+    searchEnabled: 'es-search-enabled'
 };
 const atts = {
     init: 'data-easy-select',
@@ -31,6 +33,10 @@ const defaults = {
     wrapDefaultSelect: true,
     closeOnChange: true,
     align: "left",
+
+    // show search input inside dropdown
+    search: false,
+
     customDropDownOptionHTML: option => {
     },
     beforeInit: data => {
@@ -343,7 +349,7 @@ if(typeof jQuery !== 'undefined'){
                 window.EasySelect.init(el, options);
             }
         });
-    }
+    };
 }
 
 /**

@@ -24,6 +24,9 @@
   --es-border-hover: 1px solid #445870;
   --es-radius: 5px;
 
+  /* search inside dropdown */
+  --es-search-height: var(--es-height);
+
   display: inline-block;
   position: relative;
   z-index: 1;
@@ -238,4 +241,19 @@
 /* current hover */
 .easy-select:not(.es-disabled):hover .es-current {
   border: var(--es-border-hover);
+}
+
+/* search inside dropdown */
+.easy-select.es-search-enabled .es-dropdown {
+  padding-top: calc(var(--es-search-height) + 10px);
+}
+
+.easy-select .es-search {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100%;
+  min-height: var(--es-search-height);
+  border: var(--es-border);
+  padding: 0 20px;
 }
