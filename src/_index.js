@@ -143,8 +143,12 @@ class EasySelect{
      * Assign late-events
      */
     on(eventName, callback){
-        if(this.eventNames.contains(eventName)){
-            this.eventList[eventName] = callback;
+        if(this.eventNames.includes(eventName)){
+            // initial array
+            if(typeof this.eventList[eventName] === 'undefined') this.eventList[eventName] = [];
+
+            // save callback
+            this.eventList[eventName].push(callback);
         }else{
             console.warn(`Event "${eventName}" is not recognized!`);
         }
