@@ -92,14 +92,22 @@ class EasySelect{
         init(this);
 
         this.selectTag.classList.add(this.classes.enabled);
+
+        // save late-assign events
+        this.eventList = [];
+        this.eventNames = [
+            'beforeInit', 'onInit', 'onRefresh', 'onChange', 'onDestroy', 'onDisable',
+            'onEnable', 'onOpen', 'onClose', 'onToggle', 'onAdded'
+        ];
     }
 
     /**
      * Execute public methods
      * @param options
      * @param param
+     * @param param2
      */
-    execPublicMethods(options, param){
+    execPublicMethods(options, param, param2 = ''){
         if(typeof options !== 'string') return;
 
         switch(options){
@@ -124,6 +132,21 @@ class EasySelect{
             case 'select':
                 this.select(param);
                 break;
+            case 'on':
+                this.on(param, param2);
+                break;
+        }
+    }
+
+
+    /**
+     * Assign late-events
+     */
+    on(eventName, callback){
+        if(this.eventNames.contains(eventName)){
+            this.eventList[eventName] = callback;
+        }else{
+            console.warn(`Event "${eventName}" is not recognized!`);
         }
     }
 
