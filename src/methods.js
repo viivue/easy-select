@@ -20,7 +20,7 @@ export function init(context){
     checkAlignmentOption(context);
 
     // init search dropdown
-    if(context.config.searchInDropdown){
+    if(context.config.search){
         initSearchDropdown(context);
     }
 

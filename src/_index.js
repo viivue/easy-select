@@ -16,7 +16,7 @@ const classes = {
     nativeSelect: 'es-native',
     enabled: 'es-enabled',
     ignore: 'es-ignore',
-    searchInDropdown: 'es-search',
+    search: 'es-search',
     searchEnabled: 'es-search-enabled'
 };
 const atts = {
@@ -35,7 +35,7 @@ const defaults = {
     align: "left",
 
     // show search input inside dropdown
-    searchInDropdown: false,
+    search: false,
 
     customDropDownOptionHTML: option => {
     },

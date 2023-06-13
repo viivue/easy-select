@@ -46,7 +46,7 @@ export function updateDropdownHTML(context){
     });
 
     // update search inside dropdown
-    if(context.config.searchInDropdown){
+    if(context.config.search){
         initSearchDropdown(context);
     }
 }

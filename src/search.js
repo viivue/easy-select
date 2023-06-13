@@ -5,7 +5,7 @@ import {createEl, debounce} from "./utils";
  *  @param {object} context
  * */
 export function initSearchDropdown(context){
-    const searchEl = createSearchElement({classes: context.classes.searchInDropdown});
+    const searchEl = createSearchElement({classes: context.classes.search});
 
     // append to the dropdown
     context.dropdown.appendChild(searchEl);
