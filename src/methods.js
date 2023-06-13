@@ -1,6 +1,7 @@
 import {createEl, insertAfter, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
+import {fireEvent} from "./helpers";
 
 /****************************************************
  ********************** Methods *********************
@@ -10,7 +11,7 @@ import {val} from "./data";
  * @param context
  */
 export function init(context){
-    context.config.beforeInit(eventData(context, 'beforeInit'));
+    fireEvent(context, 'beforeInit');
 
     // create HTML
     create(context);
@@ -21,7 +22,7 @@ export function init(context){
     // update value attribute
     context.selectTag.setAttribute(context.atts.value, val(context));
 
-    context.config.onInit(eventData(context, 'onInit'));
+    fireEvent(context, 'onInit');
 }
 
 

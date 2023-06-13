@@ -1,8 +1,8 @@
 import {getSelectData, val} from "./data";
-import {eventData, fireOnChangeEvent, init} from "./methods";
+import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
-import {getOptions} from "./helpers";
+import {fireEvent, getOptions} from "./helpers";
 
 const pluginName = "easySelect";
 const classes = {
@@ -75,6 +75,13 @@ class EasySelect{
         // get options and assign ID
         this.config = getOptions(this, {...defaults, ...options});
 
+        // save late-assign events
+        this.eventList = [];
+        this.eventNames = [
+            'beforeInit', 'onInit', 'onRefresh', 'onChange', 'onDestroy', 'onDisable',
+            'onEnable', 'onOpen', 'onClose', 'onToggle', 'onAdded'
+        ];
+
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdown}`);
         this.current = this.wrapper.querySelector(`.${this.classes.current}`);
@@ -92,13 +99,6 @@ class EasySelect{
         init(this);
 
         this.selectTag.classList.add(this.classes.enabled);
-
-        // save late-assign events
-        this.eventList = [];
-        this.eventNames = [
-            'beforeInit', 'onInit', 'onRefresh', 'onChange', 'onDestroy', 'onDisable',
-            'onEnable', 'onOpen', 'onClose', 'onToggle', 'onAdded'
-        ];
     }
 
     /**
@@ -168,7 +168,7 @@ class EasySelect{
         }
 
         // Event: on refresh
-        this.config.onRefresh(eventData(this, 'onRefresh'));
+        fireEvent(this, 'onRefresh');
     }
 
     /**
@@ -185,7 +185,7 @@ class EasySelect{
         window.EasySelectController.remove(this.id);
 
         // Event: on destroy
-        this.config.onDestroy(eventData(this, 'onDestroy'));
+        fireEvent(this, 'onDestroy');
     }
 
     /**
@@ -235,7 +235,7 @@ class EasySelect{
         this.selectTag.setAttribute(this.atts.value, val(this));
 
         // Event: on change
-        this.config.onChange(eventData(this, 'onChange', {type}));
+        fireEvent(this, 'onChange', {type});
     }
 
     /**
@@ -253,7 +253,7 @@ class EasySelect{
         this.wrapper.classList.add(this.classes.dropdownOpen);
 
         // Event: on open
-        this.config.onOpen(eventData(this, 'onOpen'));
+        fireEvent(this, 'onOpen');
     }
 
     /**
@@ -267,7 +267,7 @@ class EasySelect{
         this.wrapper.classList.remove(this.classes.dropdownOpen);
 
         // Event: on close
-        this.config.onClose(eventData(this, 'onClose'));
+        fireEvent(this, 'onClose');
     }
 
     /**
@@ -278,7 +278,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
 
         // Event: on toggle
-        this.config.onToggle(eventData(this, 'onToggle', {isOpen: !this.isOpen}));
+        fireEvent(this, 'onToggle', {isOpen: !this.isOpen});
 
         if(this.isOpen){
             this.close();
@@ -299,12 +299,12 @@ class EasySelect{
             this.wrapper.classList.add(this.classes.disabled);
 
             // Event: on disable
-            this.config.onDisable(eventData(this, 'onDisable'));
+            fireEvent(this, 'onDisable');
         }else{
             this.wrapper.classList.remove(this.classes.disabled);
 
             // Event: on enable
-            this.config.onEnable(eventData(this, 'onEnable'));
+            fireEvent(this, 'onEnable');
         }
     }
 
@@ -336,7 +336,7 @@ class EasySelect{
         this.refresh();
 
         // Event: on add
-        this.config.onAdded(eventData(this, 'onAdded', {newValue: value}));
+        fireEvent(this, 'onAdded', {newValue: value});
 
         return this;
     }

@@ -1,4 +1,5 @@
 import {isJSON} from "./utils";
+import {eventData} from "./methods";
 
 /**
  * Get JSON options
@@ -49,4 +50,22 @@ export function getOptions(context, defaultOptions){
     options = {...defaultOptions, ...options};
 
     return options;
+}
+
+
+/**
+ * Fire an event
+ * @param context
+ * @param eventName
+ * @param obj
+ */
+export function fireEvent(context, eventName, obj){
+    if(!context.eventNames.includes(eventName)){
+        console.warn(`Event "${eventName}" is not recognized!`);
+        return;
+    }
+
+    // fire event from option
+    const eventFromOption = context.config[eventName];
+    if(typeof eventFromOption === 'function') eventFromOption(eventData(context, eventName, obj));
 }
