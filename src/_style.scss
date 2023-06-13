@@ -10,6 +10,7 @@
   /* dropdown */
   --es-dropdown-width: 300px;
   --es-dropdown-height: 300px;
+  --es-option-min-width: 250px;
   --es-dropdown-width-mobile: 100%;
   --es-scrollbar-width: 3px;
   --es-scrollbar-track: #f6f7f9;
@@ -220,6 +221,11 @@
   &.es-active {
     font-weight: 700;
   }
+}
+
+/* option inside dropdown */
+.es-dropdown .es-option {
+  min-width: var(--es-option-min-width);
 }
 
 /* dropdown hover: off */
