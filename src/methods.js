@@ -1,7 +1,6 @@
 import {createEl, insertAfter, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
-import {initSearchDropdown} from "./search";
 
 /****************************************************
  ********************** Methods *********************
@@ -18,11 +17,6 @@ export function init(context){
 
     // alignment
     checkAlignmentOption(context);
-
-    // init search dropdown
-    if(context.config.searchInDropdown){
-        initSearchDropdown(context);
-    }
 
     // update value attribute
     context.selectTag.setAttribute(context.atts.value, val(context));
@@ -57,7 +51,7 @@ export function eventData(context, eventName, obj){
         instance: context,
         eventName,
         ...obj
-    };
+    }
 }
 
 
