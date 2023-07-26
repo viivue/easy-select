@@ -9,9 +9,13 @@
 
 ## Getting started
 
-### Download
+### CDN
 
-👉 Self hosted - [Download the latest release](https://github.com/viivue/easy-select)
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.0.2/dist/easy-select.min.css">
+
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.0.2/dist/easy-select.min.js"></script>
+```
 
 ## Initialize
 
