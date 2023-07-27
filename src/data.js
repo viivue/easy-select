@@ -1,4 +1,4 @@
-import {getIndex, getSelectedOption, stringToSlug} from "./utils";
+import { getIndex, getSelectedOption, stringToSlug } from './utils'
 
 /****************************************************
  ********************** Data *********************
@@ -9,8 +9,8 @@ import {getIndex, getSelectedOption, stringToSlug} from "./utils";
  * @returns {*}
  */
 export function val(context){
-    context.value = context.selectTag.value;
-    return context.value;
+    context.value = context.selectTag.value
+    return context.value
 }
 
 /**
@@ -18,11 +18,11 @@ export function val(context){
  * @returns {*[]}
  */
 export function getSelectData(context){
-    const data = [];
+    const data = []
     context.selectTag.querySelectorAll('option').forEach(option => {
-        data.push(getOptionData(context, option));
-    });
-    return data;
+        data.push(getOptionData(context, option))
+    })
+    return data
 }
 
 /**
@@ -32,16 +32,15 @@ export function getSelectData(context){
 export function getOptionData(context, option = undefined){
     if(typeof option === 'undefined'){
         // return selected option
-        option = getSelectedOption(context.selectTag);
+        option = getSelectedOption(context.selectTag)
     }
+    const label = option.innerText
+    const value = option.value
+    const index = getIndex(option)
+    const id = stringToSlug(value) + '-' + index
+    const isSelected = value === val(context)
+    const el = option
+    const isDisabled = option.disabled
 
-    const label = option.innerText;
-    const value = option.value;
-    const index = getIndex(option);
-    const id = stringToSlug(value) + '-' + index;
-    const isSelected = value === val(context);
-    const el = option;
-    const isDisabled = option.disabled;
-
-    return {id, label, value, isSelected, isDisabled, index, el};
+    return { id, label, value, isSelected, isDisabled, index, el }
 }

@@ -10,9 +10,9 @@
  */
 export function stringToSlug(string = ''){
     return string
-        .toLowerCase()
-        .replace(/[^\w ]+/g, '')
-        .replace(/ +/g, '-');
+      .toLowerCase()
+      .replace(/[^\w ]+/g, '')
+      .replace(/ +/g, '-')
 }
 
 /**
@@ -20,7 +20,7 @@ export function stringToSlug(string = ''){
  */
 export function uniqueId(prefix = ''){
     return prefix + (+new Date()).toString(16) +
-        (Math.random() * 100000000 | 0).toString(16);
+      (Math.random() * 100000000 | 0).toString(16)
 }
 
 /**
@@ -31,7 +31,7 @@ export function uniqueId(prefix = ''){
  * @returns {*}
  */
 export function findObjectInArray(array, key, value){
-    return array.find(x => x[key] === value);
+    return array.find(x => x[key] === value)
 }
 
 
@@ -41,54 +41,54 @@ export function findObjectInArray(array, key, value){
  * @returns {boolean}
  */
 export function isjQueryElement(element){
-    return typeof jQuery !== 'undefined' && element instanceof jQuery;
+    return typeof jQuery !== 'undefined' && element instanceof jQuery
 }
 
 
 export function getIndex(element){
-    return Array.prototype.findIndex.call(element.parentElement.children, (c) => c === element);
+    return Array.prototype.findIndex.call(element.parentElement.children, (c) => c === element)
 }
 
 export function insertAfter(newNode, referenceNode){
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    return newNode;
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling)
+    return newNode
 }
 
 export function wrapAll(innerNode, outerNode){
-    const outer = insertAfter(outerNode, innerNode);
-    outer.innerHTML = innerNode.outerHTML;
-    innerNode.remove();
+    const outer = insertAfter(outerNode, innerNode)
+    outer.innerHTML = innerNode.outerHTML
+    innerNode.remove()
 
-    return outer;
+    return outer
 }
 
-export function createEl({tag = 'div', className = ''}){
-    const el = document.createElement(tag);
+export function createEl({ tag = 'div', className = '' }){
+    const el = document.createElement(tag)
 
     className.split(' ').forEach(classItem => {
         if(classItem.length){
-            el.classList.add(classItem);
+            el.classList.add(classItem)
         }
-    });
+    })
 
-    return el;
+    return el
 }
 
 export function prepend(innerEl, outerEl){
-    outerEl.insertBefore(innerEl, outerEl.children[0]);
-    return outerEl;
+    outerEl.insertBefore(innerEl, outerEl.children[0])
+    return outerEl
 }
 
 export function getSelectedOption(selectTag){
-    return selectTag.options[selectTag.selectedIndex];
+    return selectTag.options[selectTag.selectedIndex]
 }
 
 export function getSelectTag(el){
-    if(isjQueryElement(el)) return el.get()[0];
+    if(isjQueryElement(el)) return el.get()[0]
 
-    if(typeof el === 'string') return document.querySelector(el);
+    if(typeof el === 'string') return document.querySelector(el)
 
-    return el;
+    return el
 }
 
 /**
@@ -97,7 +97,7 @@ export function getSelectTag(el){
  * @returns {boolean}
  */
 export function isEmptyString(value){
-    return typeof value === 'string' && value.length === 0;
+    return typeof value === 'string' && value.length === 0
 }
 
 /**
@@ -108,9 +108,9 @@ export function isEmptyString(value){
  */
 export function isJSON(string){
     try{
-        return (JSON.parse(string) && !!string);
+        return (JSON.parse(string) && !!string)
     }catch(e){
-        return false;
+        return false
     }
 }
 
@@ -123,11 +123,11 @@ export function isJSON(string){
  * @returns {(function(...[*]): void)|*}
  */
 export function debounce(func, timeout = 150){
-    let timer;
+    let timer
     return (...args) => {
-        clearTimeout(timer);
+        clearTimeout(timer)
         timer = setTimeout(() => {
-            func.apply(this, args);
-        }, timeout);
-    };
+            func.apply(this, args)
+        }, timeout)
+    }
 }
