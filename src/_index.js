@@ -347,7 +347,6 @@ class EasySelect{
 
     // add new option to select tag
     const addNewOption = (value, label) => {
-      // add new option to select tag
       if(typeof value === 'object'){
         return this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${label}</option>`)
       }else if(typeof value === 'string'){
