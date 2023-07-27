@@ -345,22 +345,28 @@ class EasySelect{
       }
     }
 
+    // add new option to select tag
+    const addNewOption = (value, label) => {
+      // add new option to select tag
+      if(typeof value === 'object'){
+        return this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${label}</option>`)
+      }else if(typeof value === 'string'){
+        return this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${value}</option>`)
+      }
+    }
+
+
     if(typeof value === 'object'){
       const { value, label } = value
-
       if(isDuplicate(value)){
         return false
       }
-      // add new option to select tag
-      this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${label}</option>`)
-
+      addNewOption(value, label)
     }else if(typeof value === 'string'){
       if(isDuplicate(value)){
         return false
       }
-
-      // add new option to select tag
-      this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${value}</option>`)
+      addNewOption(value)
     }
 
     // refresh
@@ -376,9 +382,17 @@ class EasySelect{
 /****************************************************
  ************** Export jQuery plugin ****************
  ***************************************************/
-if(typeof jQuery !== 'undefined'){
+if(
+
+  typeof
+    jQuery
+  !==
+  'undefined'
+){
   // init plugin
-  jQuery.fn[pluginName] = function(options, param){
+  jQuery
+    .fn
+    [pluginName] = function(options, param){
     return this.each(function(){
       const el = this
       let id = ''
