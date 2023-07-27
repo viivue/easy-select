@@ -338,13 +338,30 @@ class EasySelect{
     if(this.isDisabled) return false
 
     // avoid duplicate value
-    if(this.selectTagData.filter(option => option.value === value).length > 0){
-      if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`)
-      return false
+    const isDuplicate = (value) => {
+      return this.selectTagData.filter(option => option.value === value)
     }
 
-    // add new option to select tag
-    this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${value}</option>`)
+    if(typeof value === 'object'){
+      const { value: val, label } = value
+
+      if(isDuplicate(val).length > 0){
+        if(this.config.warning) console.warn(`[ES] ${val} will not be added due to duplicating`)
+        return false
+      }
+
+      // add new option to select tag
+      this.selectTag.insertAdjacentHTML('beforeend', `<option value='${val}'>${label}</option>`)
+
+    }else if(typeof value === 'string'){
+      if(isDuplicate(value).length > 0){
+        if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`)
+        return false
+      }
+
+      // add new option to select tag
+      this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${value}</option>`)
+    }
 
     // refresh
     this.refresh()
