@@ -1,5 +1,6 @@
-import {getOptionData, val} from "./data";
-import {initSearchDropdown} from "./search";
+import { getOptionData, val } from './data'
+import { initSearchDropdown } from './search'
+import { CLASSES, ATTRS } from './config'
 
 /****************************************************
  ********************** HTML *********************
@@ -10,45 +11,44 @@ import {initSearchDropdown} from "./search";
  * @returns {string}
  */
 export function getCurrentHTML(context){
-    let html = '';
-    html += `<div class="${context.classes.current}">`;
-    html += getOptionHTML(context);
-    html += `</div>`;
-    return html;
+  let html = ''
+  html += `<div class='${CLASSES.current}'>`
+  html += getOptionHTML(context)
+  html += `</div>`
+  return html
 }
 
 /**
  * Add/update dropdown HTML based on original select
  */
 export function updateDropdownHTML(context){
-    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdown}`);
-    if(context.dropdown) context.dropdown.remove();
+  context.dropdown = context.wrapper.querySelector(`.${CLASSES.dropdown}`)
+  if(context.dropdown) context.dropdown.remove()
 
-    // new dropdown HTML
-    context.wrapper.insertAdjacentHTML('beforeend', getDropdownHTML(context));
+  // new dropdown HTML
+  context.wrapper.insertAdjacentHTML('beforeend', getDropdownHTML(context))
 
-    // save new dropdown element
-    context.dropdown = context.wrapper.querySelector(`.${context.classes.dropdown}`);
+  // save new dropdown element
+  context.dropdown = context.wrapper.querySelector(`.${CLASSES.dropdown}`)
 
-    // on option click
-    if(!context.dropdown){
-        console.error('Dropdown not found!');
-        return;
-    }
-    context.dropdown.querySelectorAll(`[${context.atts.optionAttr}]`).forEach(option => {
-        option.addEventListener('click', () => {
-            const value = option.getAttribute(context.atts.optionAttr);
-            const optionData = context.selectTagData.filter(e => e.value === value)[0];
-            if(optionData.isDisabled) return;
+  // on option click
+  if(!context.dropdown){
+    console.error('Dropdown not found!')
+    return
+  }
+  context.dropdown.querySelectorAll(`[${ATTRS.optionAttr}]`).forEach(option => {
+    option.addEventListener('click', () => {
+      const value = option.getAttribute(ATTRS.optionAttr)
+      const optionData = context.selectTagData.filter(e => e.value === value)[0]
+      if(optionData.isDisabled) return
+      context.select(value)
+    })
+  })
 
-            context.select(value);
-        });
-    });
-
-    // update search inside dropdown
-    if(context.config.search){
-        initSearchDropdown(context);
-    }
+  // update search inside dropdown
+  if(context.config.search){
+    initSearchDropdown(context)
+  }
 }
 
 /**
@@ -56,20 +56,20 @@ export function updateDropdownHTML(context){
  * @returns {string}
  */
 export function getDropdownHTML(context){
-    let html = '';
+  let html = ''
 
-    // generate html
-    html += `<div class="${context.classes.dropdown}">`;
-    html += `<ul>`;
-    for(const option of context.selectTagData){
-        html += `<li>`;
-        html += getOptionHTML(context, option);
-        html += `</li>`;
-    }
-    html += `</ul>`;
-    html += `</div>`;
+  // generate html
+  html += `<div class='${CLASSES.dropdown}'>`
+  html += `<ul>`
+  for(const option of context.selectTagData){
+    html += `<li>`
+    html += getOptionHTML(context, option)
+    html += `</li>`
+  }
+  html += `</ul>`
+  html += `</div>`
 
-    return html;
+  return html
 }
 
 /**
@@ -79,23 +79,23 @@ export function getDropdownHTML(context){
  * @returns {string}
  */
 export function getOptionHTML(context, option = undefined){
-    // is active
-    const isActive = typeof option !== 'undefined' && option['value'] === val(context);
+  // is active
+  const isActive = typeof option !== 'undefined' && option['value'] === val(context)
 
-    // return selected option
-    if(typeof option === 'undefined'){
-        option = getOptionData(context);
-    }
+  // return selected option
+  if(typeof option === 'undefined'){
+    option = getOptionData(context)
+  }
 
-    let classList = context.classes.option;
-    classList += ' ' + (isActive ? context.classes.active : '');
-    classList += ' ' + (option['isDisabled'] ? context.classes.disabled : '');
+  let classList = CLASSES.option
+  classList += ' ' + (isActive ? CLASSES.active : '')
+  classList += ' ' + (option['isDisabled'] ? CLASSES.disabled : '')
 
-    let html = '';
-    html += `<div class="${classList}" ${context.atts.optionAttr}="${option['value']}">`;
-    html += getOptionInnerHTML(context, option);
-    html += `</div>`;
-    return html;
+  let html = ''
+  html += `<div class='${classList}' ${ATTRS.optionAttr}='${option['value']}'>`
+  html += getOptionInnerHTML(context, option)
+  html += `</div>`
+  return html
 }
 
 /**
@@ -105,11 +105,11 @@ export function getOptionHTML(context, option = undefined){
  * @returns {string}
  */
 export function getOptionInnerHTML(context, option){
-    let html = context.config.customDropDownOptionHTML(option);
+  let html = context.config.customDropDownOptionHTML(option)
 
-    if(typeof html === 'undefined'){
-        html = `<span>${option['label']}</span>`;
-    }
+  if(typeof html === 'undefined'){
+    html = `<span>${option['label']}</span>`
+  }
 
-    return html;
+  return html
 }
