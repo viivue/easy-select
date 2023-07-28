@@ -1,8 +1,9 @@
-import {createEl, insertAfter, wrapAll} from "./utils";
-import {getCurrentHTML, updateDropdownHTML} from "./layout";
-import {val} from "./data";
-import {fireEvent} from "./helpers";
-import {initSearchDropdown} from "./search";
+import { createEl, insertAfter, wrapAll } from './utils'
+import { getCurrentHTML, updateDropdownHTML } from './layout'
+import { val } from './data'
+import { fireEvent } from './helpers'
+import { initSearchDropdown } from './search'
+import { CLASSES, ATTRS } from './config'
 
 /****************************************************
  ********************** Methods *********************
@@ -12,23 +13,23 @@ import {initSearchDropdown} from "./search";
  * @param context
  */
 export function init(context){
-    fireEvent(context, 'beforeInit');
+    fireEvent(context, 'beforeInit')
 
     // create HTML
-    create(context);
+    create(context)
 
     // alignment
-    checkAlignmentOption(context);
+    checkAlignmentOption(context)
 
     // init search dropdown
     if(context.config.search){
-        initSearchDropdown(context);
+        initSearchDropdown(context)
     }
 
     // update value attribute
-    context.selectTag.setAttribute(context.atts.value, val(context));
+    context.selectTag.setAttribute(ATTRS.value, val(context))
 
-    fireEvent(context, 'onInit');
+    fireEvent(context, 'onInit')
 }
 
 
@@ -38,11 +39,11 @@ export function init(context){
  */
 function checkAlignmentOption(context){
     // native select will have no alignment
-    if(context.config.nativeSelect) return;
+    if(context.config.nativeSelect) return
 
     context.config.align.split(' ').forEach(align => {
-        if(align !== 'left') context.wrapper.classList.add(`es-align-${align}`);
-    });
+        if(align !== 'left') context.wrapper.classList.add(`es-align-${align}`)
+    })
 }
 
 
@@ -57,7 +58,7 @@ export function eventData(context, eventName, obj){
     return {
         instance: context,
         eventName,
-        ...obj
+        ...obj,
     }
 }
 
@@ -68,43 +69,43 @@ export function eventData(context, eventName, obj){
  */
 export function create(context){
     // check valid HTML: exit if already created
-    let wrapper = context.selectTag.closest(`.${context.classes.wrapper}`);
-    if(wrapper && wrapper.length) return;
+    let wrapper = context.selectTag.closest(`.${CLASSES.wrapper}`)
+    if(wrapper && wrapper.length) return
 
     // create wrapper
-    let wrapperClass = context.classes.wrapper;
-    wrapperClass += context.isDisabled ? ' ' + context.classes.disabled : '';
+    let wrapperClass = CLASSES.wrapper
+    wrapperClass += context.isDisabled ? ' ' + CLASSES.disabled : ''
     wrapper = createEl({
-        className: wrapperClass
-    });
-    wrapper.setAttribute(context.atts.wrapperID, context.id);
+        className: wrapperClass,
+    })
+    wrapper.setAttribute(ATTRS.wrapperID, context.id)
 
     if(context.isWrapped){
-        wrapAll(context.selectTag, wrapper);
+        wrapAll(context.selectTag, wrapper)
     }else{
-        insertAfter(wrapper, context.selectTag);
+        insertAfter(wrapper, context.selectTag)
     }
-    context.wrapper = wrapper;
+    context.wrapper = wrapper
 
     // add current HTML
-    context.wrapper.insertAdjacentHTML('beforeend', getCurrentHTML(context));
+    context.wrapper.insertAdjacentHTML('beforeend', getCurrentHTML(context))
 
     // exit if is native select
     if(context.config.nativeSelect){
-        context.wrapper.classList.add(context.classes.nativeSelect);
-        assignSelectOnChange(context);
-        return;
+        context.wrapper.classList.add(CLASSES.nativeSelect)
+        assignSelectOnChange(context)
+        return
     }
 
     /** Dropdown **/
-    updateDropdownHTML(context);
+    updateDropdownHTML(context)
 
     // hide default select
-    assignSelectOnChange(context);
-    context.selectTag.style.display = 'none';
+    assignSelectOnChange(context)
+    context.selectTag.style.display = 'none'
 
     // on current click
-    context.current.addEventListener('click', () => context.toggle());
+    context.current.addEventListener('click', () => context.toggle())
 }
 
 
@@ -113,7 +114,7 @@ export function create(context){
  * @param context
  */
 export function fireOnChangeEvent(context){
-    context.selectTag.dispatchEvent(new Event('change', {bubbles: true}));
+    context.selectTag.dispatchEvent(new Event('change', { bubbles: true }))
 }
 
 
@@ -123,18 +124,18 @@ export function fireOnChangeEvent(context){
  */
 function updateElements(context){
     // select tag
-    context.selectTag = context.wrapper.querySelector('select');
+    context.selectTag = context.wrapper.querySelector('select')
 
     // current element
-    context.current = context.wrapper.querySelector(`.${context.classes.current}`);
+    context.current = context.wrapper.querySelector(`.${CLASSES.current}`)
 }
 
 function assignSelectOnChange(context){
     // re-query elements
-    updateElements(context);
+    updateElements(context)
 
     // on select change
     context.selectTag.addEventListener('change', event => {
-        context.change(context, typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent');
-    });
+        context.change(context, typeof event.originalEvent !== 'undefined' ? 'originalEvent' : 'easySelectEvent')
+    })
 }
