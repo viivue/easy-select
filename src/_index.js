@@ -353,24 +353,46 @@ class EasySelect{
      * @returns {boolean|EasySelect}
      */
     add(value){
-        if(this.isDisabled) return false;
+        if(this.isDisabled) return false
 
         // avoid duplicate value
-        if(this.selectTagData.filter(option => option.value === value).length > 0){
-            if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
-            return false;
+        const isDuplicate = (value) => {
+            if(this.selectTagData.filter(option => option.value === value).length > 0){
+                if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`)
+                return true
+            }
         }
 
         // add new option to select tag
-        this.selectTag.insertAdjacentHTML('beforeend', `<option value="${value}">${value}</option>`);
+        const addNewOption = (value, label) => {
+            if(typeof value === 'object'){
+                return this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${label}</option>`)
+            }else if(typeof value === 'string'){
+                return this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${value}</option>`)
+            }
+        }
+
+
+        if(typeof value === 'object'){
+            const { value, label } = value
+            if(isDuplicate(value)){
+                return false
+            }
+            addNewOption(value, label)
+        }else if(typeof value === 'string'){
+            if(isDuplicate(value)){
+                return false
+            }
+            addNewOption(value)
+        }
 
         // refresh
-        this.refresh();
+        this.refresh()
 
         // Event: on add
-        fireEvent(this, 'onAdded', {newValue: value});
+        fireEvent(this, 'onAdded', { newValue: value })
 
-        return this;
+        return this
     }
 }
 
