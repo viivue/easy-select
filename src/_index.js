@@ -3,28 +3,10 @@ import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 import {fireEvent, getOptions} from "./helpers";
+import { CLASSES, ATTRS } from './config'
 
 const pluginName = "easySelect";
-const classes = {
-    wrapper: 'easy-select',
-    dropdownOpen: 'es-dropdown-open',
-    current: 'es-current',
-    dropdown: 'es-dropdown',
-    option: 'es-option',
-    active: 'es-active',
-    disabled: 'es-disabled',
-    nativeSelect: 'es-native',
-    enabled: 'es-enabled',
-    ignore: 'es-ignore',
-    search: 'es-search',
-    searchEnabled: 'es-search-enabled'
-};
-const atts = {
-    init: 'data-easy-select',
-    wrapperID: 'data-es-id',
-    optionAttr: 'data-es-option',
-    value: 'data-es-value',
-};
+
 const defaults = {
     id: uniqueId('es-'),
     nativeSelect: false,
@@ -69,8 +51,8 @@ const defaults = {
  */
 class EasySelect{
     constructor(el, options){
-        this.classes = {...classes};
-        this.atts = {...atts};
+        this.classes = {...CLASSES};
+        this.atts = {...ATTRS};
 
         this.selectTag = getSelectTag(el);
         this.originalSelectTag = this.selectTag;
@@ -383,11 +365,11 @@ if(typeof jQuery !== 'undefined'){
         return this.each(function(){
             const el = this;
             let id = '';
-            if(el.hasAttribute(atts.wrapperID)){
-                id = el.getAttribute(atts.wrapperID);
+            if(el.hasAttribute(ATTRS.wrapperID)){
+                id = el.getAttribute(ATTRS.wrapperID);
             }else{
                 const wrapper = el.closest('[data-easy-select-id]');
-                id = wrapper ? wrapper.getAttribute(atts.wrapperID) : id;
+                id = wrapper ? wrapper.getAttribute(ATTRS.wrapperID) : id;
             }
 
             if(id){
@@ -448,7 +430,7 @@ window.EasySelect = {
     init: (el = undefined, options = {}) => {
         // empty => init with multiple elements via attributes
         if(typeof el === 'undefined'){
-            document.querySelectorAll(`[${atts.init}]:not(.${classes.enabled})`).forEach(el => {
+            document.querySelectorAll(`[${ATTRS.init}]:not(.${CLASSES.enabled})`).forEach(el => {
                 window.EasySelectController.add(new EasySelect(el, options));
             });
             return;
@@ -483,7 +465,7 @@ window.EasySelect.init();
 
 // on outside click
 document.addEventListener('click', event => {
-    const wrapper = event.target.closest(`[${atts.wrapperID}]`) || event.target.closest(`.${classes.ignore}`);
+    const wrapper = event.target.closest(`[${ATTRS.wrapperID}]`) || event.target.closest(`.${CLASSES.ignore}`);
     if(wrapper) return;
 
     // close all opening dropdown
