@@ -358,12 +358,12 @@ class EasySelect{
 
         // avoid duplicate value
         if(this.selectTagData.filter(option => option.value === value).length > 0){
-           if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
-           return false;
+            if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
+            return false;
         }
 
         // add new option to select tag
-        this.selectTag.insertAdjacentHTML('beforeend', `<option value='${value}'>${label}</option>`);
+        this.selectTag.insertAdjacentHTML('beforeend', `<option value="${value}">${label}</option>`);
 
         // refresh
         this.refresh();
