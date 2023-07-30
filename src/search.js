@@ -1,17 +1,17 @@
 import {createEl, debounce} from "./utils";
-
+import {CLASSES} from "./config"
 /**
  *  Init search inside dropdown
  *  @param {object} context
  * */
 export function initSearchDropdown(context){
-    const searchEl = createSearchElement({classes: context.classes.search});
+    const searchEl = createSearchElement({classes: CLASSES.search});
 
     // append to the dropdown
     context.dropdown.appendChild(searchEl);
 
     // add search enabled class for wrapper
-    context.wrapper.classList.add(context.classes.searchEnabled);
+    context.wrapper.classList.add(CLASSES.searchEnabled);
 
     // handle search change
     searchEl.addEventListener('input', debounce(() => handleSearchChange(context, searchEl.value)));
