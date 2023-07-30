@@ -358,7 +358,7 @@ class EasySelect{
 
         // avoid duplicate value
         if(this.selectTagData.filter(option => option.value === value).length > 0){
-           if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`)
+           if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
            return false;
         }
 
