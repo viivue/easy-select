@@ -8,7 +8,7 @@ export function initSearchDropdown(context){
     const searchEl = createSearchElement({classes: CLASSES.search});
 
     // append to the dropdown
-    context.dropdown.appendChild(searchEl);
+    context.dropdown?.appendChild(searchEl);
 
     // add search enabled class for wrapper
     context.wrapper.classList.add(CLASSES.searchEnabled);

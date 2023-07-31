@@ -18,7 +18,7 @@ const defaults = {
     align: "left",
 
     // show search input inside dropdown
-    search: false,
+    search: true,
 
     customDropDownOptionHTML: option => {
     },
