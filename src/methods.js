@@ -3,6 +3,7 @@ import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
 import {fireEvent} from "./helpers";
 import {initSearchDropdown} from "./search";
+import {CLASSES, ATTRS} from './configs'
 
 /****************************************************
  ********************** Methods *********************
@@ -26,7 +27,7 @@ export function init(context){
     }
 
     // update value attribute
-    context.selectTag.setAttribute(context.atts.value, val(context));
+    context.selectTag.setAttribute(ATTRS.value, val(context));
 
     fireEvent(context, 'onInit');
 }
@@ -68,16 +69,16 @@ export function eventData(context, eventName, obj){
  */
 export function create(context){
     // check valid HTML: exit if already created
-    let wrapper = context.selectTag.closest(`.${context.classes.wrapper}`);
+    let wrapper = context.selectTag.closest(`.${CLASSES.wrapper}`);
     if(wrapper && wrapper.length) return;
 
     // create wrapper
-    let wrapperClass = context.classes.wrapper;
-    wrapperClass += context.isDisabled ? ' ' + context.classes.disabled : '';
+    let wrapperClass = CLASSES.wrapper;
+    wrapperClass += context.isDisabled ? ' ' + CLASSES.disabled : '';
     wrapper = createEl({
         className: wrapperClass
     });
-    wrapper.setAttribute(context.atts.wrapperID, context.id);
+    wrapper.setAttribute(ATTRS.wrapperID, context.id);
 
     if(context.isWrapped){
         wrapAll(context.selectTag, wrapper);
@@ -91,7 +92,7 @@ export function create(context){
 
     // exit if is native select
     if(context.config.nativeSelect){
-        context.wrapper.classList.add(context.classes.nativeSelect);
+        context.wrapper.classList.add(CLASSES.nativeSelect);
         assignSelectOnChange(context);
         return;
     }
@@ -126,7 +127,7 @@ function updateElements(context){
     context.selectTag = context.wrapper.querySelector('select');
 
     // current element
-    context.current = context.wrapper.querySelector(`.${context.classes.current}`);
+    context.current = context.wrapper.querySelector(`.${CLASSES.current}`);
 }
 
 function assignSelectOnChange(context){
