@@ -2,11 +2,48 @@ import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
-import {getOptions} from "./helpers";
-import {EventsManager} from "@phucbm/os-util";
+import {fireEvent, getOptions} from "./helpers";
 import {CLASSES, ATTRS} from './configs'
 
 const pluginName = "easySelect";
+
+const defaults = {
+    id: uniqueId('es-'),
+    nativeSelect: false,
+    warning: true,
+    log: true,
+    wrapDefaultSelect: true,
+    closeOnChange: true,
+    align: "left",
+
+    // show search input inside dropdown
+    search: false,
+
+    customDropDownOptionHTML: option => {
+    },
+    beforeInit: data => {
+    },
+    onInit: data => {
+    },
+    onRefresh: data => {
+    },
+    onChange: data => {
+    },
+    onDestroy: data => {
+    },
+    onDisable: data => {
+    },
+    onEnable: data => {
+    },
+    onOpen: data => {
+    },
+    onClose: data => {
+    },
+    onToggle: data => {
+    },
+    onAdded: data => {
+    },
+};
 
 
 /**
@@ -20,53 +57,16 @@ class EasySelect{
         // avoid duplicate init
         if(this.selectTag.classList.contains(CLASSES.enabled)) return;
 
-        // init events manager
-        this.events = new EventsManager(this, {
-            names: ['beforeInit', 'onInit', 'onRefresh', 'onChange', 'onDestroy', 'onDisable',
-                'onEnable', 'onOpen', 'onClose', 'onToggle', 'onAdded']
-        });
+        // get options and assign ID
+        this.config = getOptions(this, {...defaults, ...options});
 
-        this.config = {
-            id: uniqueId('es-'),
-            nativeSelect: false,
-            warning: true,
-            log: true,
-            wrapDefaultSelect: true,
-            closeOnChange: true,
-            align: "left",
+        // save late-assign events
+        this.eventList = [];
+        this.eventNames = [
+            'beforeInit', 'onInit', 'onRefresh', 'onChange', 'onDestroy', 'onDisable',
+            'onEnable', 'onOpen', 'onClose', 'onToggle', 'onAdded'
+        ];
 
-            // show search input inside dropdown
-            search: false,
-
-            customDropDownOptionHTML: option => {
-            },
-            beforeInit: data => {
-            },
-            onInit: data => {
-            },
-            onRefresh: data => {
-            },
-            onChange: data => {
-            },
-            onDestroy: data => {
-            },
-            onDisable: data => {
-            },
-            onEnable: data => {
-            },
-            onOpen: data => {
-            },
-            onClose: data => {
-            },
-            onToggle: data => {
-            },
-            onAdded: data => {
-            },
-
-            ...options
-        };
-
-        this.id = this.config.id;
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
         this.current = this.wrapper.querySelector(`.${CLASSES.current}`);
@@ -127,17 +127,6 @@ class EasySelect{
     }
 
 
-    /******************************
-     * EVENTS
-     ******************************/
-    /**
-     * Assign late-events
-     */
-    on(eventName, callback){
-        this.events.add(eventName, callback);
-    }
-
-
     /**
      * Toggle option disable/enable
      * @param optionValue
@@ -153,6 +142,22 @@ class EasySelect{
 
         option.disabled = disabled;
         this.refresh();
+    }
+
+
+    /**
+     * Assign late-events
+     */
+    on(eventName, callback){
+        if(this.eventNames.includes(eventName)){
+            // initial array
+            if(typeof this.eventList[eventName] === 'undefined') this.eventList[eventName] = [];
+
+            // save callback
+            this.eventList[eventName].push(callback);
+        }else{
+            console.warn(`Event "${eventName}" is not recognized!`);
+        }
     }
 
 
@@ -173,7 +178,7 @@ class EasySelect{
         }
 
         // Event: on refresh
-        this.events.fire('onRefresh', this);
+        fireEvent(this, 'onRefresh');
     }
 
     /**
@@ -190,7 +195,7 @@ class EasySelect{
         window.EasySelectController.remove(this.id);
 
         // Event: on destroy
-        this.events.fire('onDestroy', this);
+        fireEvent(this, 'onDestroy');
     }
 
     /**
@@ -241,7 +246,7 @@ class EasySelect{
         this.selectTag.setAttribute(ATTRS.value, newValue);
 
         // Event: on change
-        this.events.fire('onChange',{type, value: newValue});
+        fireEvent(this, 'onChange', {type, value: newValue});
     }
 
     /**
@@ -259,7 +264,7 @@ class EasySelect{
         this.wrapper.classList.add(CLASSES.dropdownOpen);
 
         // Event: on open
-        this.events.fire('onOpen', this);
+        fireEvent(this, 'onOpen');
     }
 
     /**
@@ -273,7 +278,7 @@ class EasySelect{
         this.wrapper.classList.remove(CLASSES.dropdownOpen);
 
         // Event: on close
-        this.events.fire('onClose', this);
+        fireEvent(this, 'onClose');
     }
 
     /**
@@ -284,7 +289,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
 
         // Event: on toggle
-        this.events.fire('onToggle', {isOpen: !this.isOpen});
+        fireEvent(this, 'onToggle', {isOpen: !this.isOpen});
 
         if(this.isOpen){
             this.close();
@@ -305,12 +310,12 @@ class EasySelect{
             this.wrapper.classList.add(CLASSES.disabled);
 
             // Event: on disable
-            this.events.fire('onDisable', this);
+            fireEvent(this, 'onDisable');
         }else{
             this.wrapper.classList.remove(CLASSES.disabled);
 
             // Event: on enable
-            this.events.fire('onEnable', this);
+            fireEvent(this, 'onEnable');
         }
     }
 
@@ -343,7 +348,7 @@ class EasySelect{
         this.refresh();
 
         // Event: on add
-        this.events.fire('onAdded', {newValue: value});
+        fireEvent(this, 'onAdded', {newValue: value});
 
         return this;
     }

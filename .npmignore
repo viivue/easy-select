@@ -8,4 +8,4 @@ jsconfig.json
 /examples
 /config
 /public
-postcss.configs.js
+postcss.config.js
