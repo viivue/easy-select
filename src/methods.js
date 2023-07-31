@@ -1,7 +1,6 @@
 import {createEl, insertAfter, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
-import {fireEvent} from "./helpers";
 import {initSearchDropdown} from "./search";
 import {CLASSES, ATTRS} from './configs'
 
@@ -13,7 +12,7 @@ import {CLASSES, ATTRS} from './configs'
  * @param context
  */
 export function init(context){
-    fireEvent(context, 'beforeInit');
+    context.events.fire('beforeInit');
 
     // create HTML
     create(context);
@@ -29,7 +28,8 @@ export function init(context){
     // update value attribute
     context.selectTag.setAttribute(ATTRS.value, val(context));
 
-    fireEvent(context, 'onInit');
+    // Event: onInit
+    context.events.fire('onInit');
 }
 
 
