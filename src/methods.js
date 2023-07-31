@@ -3,7 +3,7 @@ import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
 import {fireEvent} from "./helpers";
 import {initSearchDropdown} from "./search";
-import {CLASSES, ATTRS} from '@/configs'
+import {CLASSES, ATTRS} from './configs'
 
 /****************************************************
  ********************** Methods *********************
