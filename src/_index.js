@@ -67,7 +67,6 @@ class EasySelect{
         // get options and assign ID
         this.config = getOptions(this, {...defaults, ...options});
 
-        this.id = this.config.id;
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
         this.current = this.wrapper.querySelector(`.${CLASSES.current}`);
