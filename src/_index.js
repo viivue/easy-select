@@ -350,9 +350,10 @@ class EasySelect{
     /**
      * Add new option
      * @param value
+     * @param label
      * @returns {boolean|EasySelect}
      */
-    add(value){
+    add(value, label = value){
         if(this.isDisabled) return false;
 
         // avoid duplicate value
@@ -362,7 +363,7 @@ class EasySelect{
         }
 
         // add new option to select tag
-        this.selectTag.insertAdjacentHTML('beforeend', `<option value="${value}">${value}</option>`);
+        this.selectTag.insertAdjacentHTML('beforeend', `<option value="${value}">${label}</option>`);
 
         // refresh
         this.refresh();
