@@ -52,31 +52,3 @@ export function getOptions(context, defaultOptions){
 
     return options;
 }
-
-
-/**
- * Fire an event
- * @param context
- * @param eventName
- * @param obj
- */
-export function fireEvent(context, eventName, obj){
-    // only when event exists
-    if(!context.eventNames.includes(eventName)){
-        console.warn(`Event "${eventName}" is not recognized!`);
-        return;
-    }
-    const response = eventData(context, eventName, obj);
-
-    // fire event from option
-    const eventFromOption = context.config[eventName];
-    if(typeof eventFromOption === 'function') eventFromOption(response);
-
-    // fire event from late-assign list
-    const eventFromList = context.eventList[eventName];
-    if(!!eventFromList?.length){
-        eventFromList.forEach(callback => {
-            if(typeof callback === 'function') callback(response);
-        });
-    }
-}
