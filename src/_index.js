@@ -1,51 +1,12 @@
 import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
-import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
+import {findObjectInArray, getSelectTag} from "./utils";
 import {getOptions} from "./helpers";
 import {EventsManager} from "@phucbm/os-util";
-import {CLASSES, ATTRS} from './configs'
+import {CLASSES, ATTRS, DEFAULTS} from './configs'
 
 const pluginName = "easySelect";
-
-const defaults = {
-    id: uniqueId('es-'),
-    nativeSelect: false,
-    warning: true,
-    log: true,
-    wrapDefaultSelect: true,
-    closeOnChange: true,
-    align: "left",
-
-    // show search input inside dropdown
-    search: false,
-
-    customDropDownOptionHTML: option => {
-    },
-    beforeInit: data => {
-    },
-    onInit: data => {
-    },
-    onRefresh: data => {
-    },
-    onChange: data => {
-    },
-    onDestroy: data => {
-    },
-    onDisable: data => {
-    },
-    onEnable: data => {
-    },
-    onOpen: data => {
-    },
-    onClose: data => {
-    },
-    onToggle: data => {
-    },
-    onAdded: data => {
-    },
-};
-
 
 /**
  * Private class
@@ -74,10 +35,10 @@ class EasySelect{
         this.isOpen = false;
         this.isDisabled = this.selectTag.disabled;
         this.value = val(this);
-        this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
+        this.isWrapped = DEFAULTS.wrapDefaultSelect && !DEFAULTS.nativeSelect;
         this.selectTagData = getSelectData(this);
 
-        if(this.config.nativeSelect && this.config.wrapDefaultSelect){
+        if(DEFAULTS.nativeSelect && DEFAULTS.wrapDefaultSelect){
             this.isWrapped = true;
         }
 
@@ -167,7 +128,7 @@ class EasySelect{
         this.current.innerHTML = getOptionHTML(this);
 
         // if not native select
-        if(!this.config.nativeSelect){
+        if(!DEFAULTS.nativeSelect){
             // update dropdown
             updateDropdownHTML(this);
         }
@@ -211,7 +172,7 @@ class EasySelect{
         }
 
         // warning
-        if(this.config.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
+        if(DEFAULTS.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
     }
 
     /**
@@ -226,7 +187,7 @@ class EasySelect{
         const newValue = val(this);
 
         /** Dropdown **/
-        if(!this.config.nativeSelect){
+        if(!DEFAULTS.nativeSelect){
             // active option
             this.dropdown.querySelectorAll(`[${ATTRS.optionAttr}]`).forEach(item => {
                 item.classList.remove(CLASSES.active);
@@ -234,7 +195,7 @@ class EasySelect{
             this.dropdown.querySelector(`[${ATTRS.optionAttr}="${newValue}"]`).classList.add(CLASSES.active);
 
             // close on change
-            if(this.config.closeOnChange) this.close();
+            if(DEFAULTS.closeOnChange) this.close();
         }
 
         // update value attribute
@@ -249,7 +210,7 @@ class EasySelect{
      */
     open(){
         if(this.isDisabled) return;
-        if(this.config.nativeSelect) return;
+        if(DEFAULTS.nativeSelect) return;
         if(this.isOpen) return;
 
         // close all opening dropdown
@@ -267,7 +228,7 @@ class EasySelect{
      */
     close(){
         if(this.isDisabled) return;
-        if(this.config.nativeSelect) return;
+        if(DEFAULTS.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
         this.wrapper.classList.remove(CLASSES.dropdownOpen);
@@ -281,7 +242,7 @@ class EasySelect{
      */
     toggle(){
         if(this.isDisabled) return;
-        if(this.config.nativeSelect) return;
+        if(DEFAULTS.nativeSelect) return;
 
         // Event: on toggle
         this.events.fire('onToggle', {isOpen: !this.isOpen});
@@ -332,7 +293,7 @@ class EasySelect{
 
         // avoid duplicate value
         if(this.selectTagData.filter(option => option.value === value).length > 0){
-            if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
+            if(DEFAULTS.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
             return false;
         }
 
