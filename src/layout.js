@@ -1,6 +1,6 @@
 import {getOptionData, val} from "./data";
 import {initSearchDropdown} from "./search";
-import {CLASSES, ATTRS, DEFAULTS} from "./configs"
+import {CLASSES, ATTRS} from "./configs"
 /****************************************************
  ********************** HTML *********************
  ***************************************************/
@@ -105,7 +105,7 @@ export function getOptionHTML(context, option = undefined){
  * @returns {string}
  */
 export function getOptionInnerHTML(context, option){
-    let html = DEFAULTS.customDropDownOptionHTML(option);
+    let html = context.config.customDropDownOptionHTML(option);
 
     if(typeof html === 'undefined'){
         html = `<span>${option['label']}</span>`;

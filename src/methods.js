@@ -2,7 +2,7 @@ import {createEl, insertAfter, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
 import {initSearchDropdown} from "./search";
-import {CLASSES, ATTRS, DEFAULTS} from './configs'
+import {CLASSES, ATTRS} from './configs'
 
 /****************************************************
  ********************** Methods *********************
@@ -39,7 +39,7 @@ export function init(context){
  */
 function checkAlignmentOption(context){
     // native select will have no alignment
-    if(DEFAULTS.nativeSelect) return;
+    if(context.config.nativeSelect) return;
 
     context.config.align.split(' ').forEach(align => {
         if(align !== 'left') context.wrapper.classList.add(`es-align-${align}`);
@@ -91,7 +91,7 @@ export function create(context){
     context.wrapper.insertAdjacentHTML('beforeend', getCurrentHTML(context));
 
     // exit if is native select
-    if(DEFAULTS.nativeSelect){
+    if(context.config.nativeSelect){
         context.wrapper.classList.add(CLASSES.nativeSelect);
         assignSelectOnChange(context);
         return;
