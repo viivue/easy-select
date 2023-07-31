@@ -12,7 +12,7 @@ import {CLASSES, ATTRS} from './configs'
  * @param context
  */
 export function init(context){
-    context.events.fire('beforeInit', context);
+    context.events.fire('beforeInit');
 
     // create HTML
     create(context);
@@ -29,7 +29,7 @@ export function init(context){
     context.selectTag.setAttribute(ATTRS.value, val(context));
 
     // Event: onInit
-    context.events.fire('onInit', context);
+    context.events.fire('onInit');
 }
 
 

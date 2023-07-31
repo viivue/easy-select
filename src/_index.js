@@ -8,6 +8,44 @@ import {CLASSES, ATTRS} from './configs'
 
 const pluginName = "easySelect";
 
+const defaults = {
+    id: uniqueId('es-'),
+    nativeSelect: false,
+    warning: true,
+    log: true,
+    wrapDefaultSelect: true,
+    closeOnChange: true,
+    align: "left",
+
+    // show search input inside dropdown
+    search: false,
+
+    customDropDownOptionHTML: option => {
+    },
+    beforeInit: data => {
+    },
+    onInit: data => {
+    },
+    onRefresh: data => {
+    },
+    onChange: data => {
+    },
+    onDestroy: data => {
+    },
+    onDisable: data => {
+    },
+    onEnable: data => {
+    },
+    onOpen: data => {
+    },
+    onClose: data => {
+    },
+    onToggle: data => {
+    },
+    onAdded: data => {
+    },
+};
+
 
 /**
  * Private class
@@ -26,45 +64,8 @@ class EasySelect{
                 'onEnable', 'onOpen', 'onClose', 'onToggle', 'onAdded']
         });
 
-        this.config = {
-            id: uniqueId('es-'),
-            nativeSelect: false,
-            warning: true,
-            log: true,
-            wrapDefaultSelect: true,
-            closeOnChange: true,
-            align: "left",
-
-            // show search input inside dropdown
-            search: false,
-
-            customDropDownOptionHTML: option => {
-            },
-            beforeInit: data => {
-            },
-            onInit: data => {
-            },
-            onRefresh: data => {
-            },
-            onChange: data => {
-            },
-            onDestroy: data => {
-            },
-            onDisable: data => {
-            },
-            onEnable: data => {
-            },
-            onOpen: data => {
-            },
-            onClose: data => {
-            },
-            onToggle: data => {
-            },
-            onAdded: data => {
-            },
-
-            ...options
-        };
+        // get options and assign ID
+        this.config = getOptions(this, {...defaults, ...options});
 
         this.id = this.config.id;
         this.wrapper = this.selectTag.parentElement;
@@ -173,7 +174,7 @@ class EasySelect{
         }
 
         // Event: on refresh
-        this.events.fire('onRefresh', this);
+        this.events.fire('onRefresh');
     }
 
     /**
@@ -190,7 +191,7 @@ class EasySelect{
         window.EasySelectController.remove(this.id);
 
         // Event: on destroy
-        this.events.fire('onDestroy', this);
+        this.events.fire('onDestroy');
     }
 
     /**
@@ -259,7 +260,7 @@ class EasySelect{
         this.wrapper.classList.add(CLASSES.dropdownOpen);
 
         // Event: on open
-        this.events.fire('onOpen', this);
+        this.events.fire('onOpen');
     }
 
     /**
@@ -273,7 +274,7 @@ class EasySelect{
         this.wrapper.classList.remove(CLASSES.dropdownOpen);
 
         // Event: on close
-        this.events.fire('onClose', this);
+        this.events.fire('onClose');
     }
 
     /**
@@ -305,12 +306,12 @@ class EasySelect{
             this.wrapper.classList.add(CLASSES.disabled);
 
             // Event: on disable
-            this.events.fire('onDisable', this);
+            this.events.fire('onDisable');
         }else{
             this.wrapper.classList.remove(CLASSES.disabled);
 
             // Event: on enable
-            this.events.fire('onEnable', this);
+            this.events.fire('onEnable');
         }
     }
 
