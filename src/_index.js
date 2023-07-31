@@ -3,28 +3,10 @@ import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 import {fireEvent, getOptions} from "./helpers";
+import {CLASSES, ATTRS} from './configs'
 
 const pluginName = "easySelect";
-const classes = {
-    wrapper: 'easy-select',
-    dropdownOpen: 'es-dropdown-open',
-    current: 'es-current',
-    dropdown: 'es-dropdown',
-    option: 'es-option',
-    active: 'es-active',
-    disabled: 'es-disabled',
-    nativeSelect: 'es-native',
-    enabled: 'es-enabled',
-    ignore: 'es-ignore',
-    search: 'es-search',
-    searchEnabled: 'es-search-enabled'
-};
-const atts = {
-    init: 'data-easy-select',
-    wrapperID: 'data-es-id',
-    optionAttr: 'data-es-option',
-    value: 'data-es-value',
-};
+
 const defaults = {
     id: uniqueId('es-'),
     nativeSelect: false,
@@ -69,14 +51,11 @@ const defaults = {
  */
 class EasySelect{
     constructor(el, options){
-        this.classes = {...classes};
-        this.atts = {...atts};
-
         this.selectTag = getSelectTag(el);
         this.originalSelectTag = this.selectTag;
 
         // avoid duplicate init
-        if(this.selectTag.classList.contains(this.classes.enabled)) return;
+        if(this.selectTag.classList.contains(CLASSES.enabled)) return;
 
         // get options and assign ID
         this.config = getOptions(this, {...defaults, ...options});
@@ -89,8 +68,8 @@ class EasySelect{
         ];
 
         this.wrapper = this.selectTag.parentElement;
-        this.dropdown = this.wrapper.querySelector(`.${this.classes.dropdown}`);
-        this.current = this.wrapper.querySelector(`.${this.classes.current}`);
+        this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
+        this.current = this.wrapper.querySelector(`.${CLASSES.current}`);
 
         this.isOpen = false;
         this.isDisabled = this.selectTag.disabled;
@@ -104,7 +83,7 @@ class EasySelect{
 
         init(this);
 
-        this.selectTag.classList.add(this.classes.enabled);
+        this.selectTag.classList.add(CLASSES.enabled);
     }
 
     /**
@@ -254,17 +233,17 @@ class EasySelect{
         /** Dropdown **/
         if(!this.config.nativeSelect){
             // active option
-            this.dropdown.querySelectorAll(`[${this.atts.optionAttr}]`).forEach(item => {
-                item.classList.remove(this.classes.active);
+            this.dropdown.querySelectorAll(`[${ATTRS.optionAttr}]`).forEach(item => {
+                item.classList.remove(CLASSES.active);
             });
-            this.dropdown.querySelector(`[${this.atts.optionAttr}="${newValue}"]`).classList.add(this.classes.active);
+            this.dropdown.querySelector(`[${ATTRS.optionAttr}="${newValue}"]`).classList.add(CLASSES.active);
 
             // close on change
             if(this.config.closeOnChange) this.close();
         }
 
         // update value attribute
-        this.selectTag.setAttribute(this.atts.value, newValue);
+        this.selectTag.setAttribute(ATTRS.value, newValue);
 
         // Event: on change
         fireEvent(this, 'onChange', {type, value: newValue});
@@ -282,7 +261,7 @@ class EasySelect{
         window.EasySelectController.closeAll();
 
         this.isOpen = true;
-        this.wrapper.classList.add(this.classes.dropdownOpen);
+        this.wrapper.classList.add(CLASSES.dropdownOpen);
 
         // Event: on open
         fireEvent(this, 'onOpen');
@@ -296,7 +275,7 @@ class EasySelect{
         if(this.config.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
-        this.wrapper.classList.remove(this.classes.dropdownOpen);
+        this.wrapper.classList.remove(CLASSES.dropdownOpen);
 
         // Event: on close
         fireEvent(this, 'onClose');
@@ -328,12 +307,12 @@ class EasySelect{
         this.isDisabled = boolean;
 
         if(boolean){
-            this.wrapper.classList.add(this.classes.disabled);
+            this.wrapper.classList.add(CLASSES.disabled);
 
             // Event: on disable
             fireEvent(this, 'onDisable');
         }else{
-            this.wrapper.classList.remove(this.classes.disabled);
+            this.wrapper.classList.remove(CLASSES.disabled);
 
             // Event: on enable
             fireEvent(this, 'onEnable');
@@ -384,11 +363,11 @@ if(typeof jQuery !== 'undefined'){
         return this.each(function(){
             const el = this;
             let id = '';
-            if(el.hasAttribute(atts.wrapperID)){
-                id = el.getAttribute(atts.wrapperID);
+            if(el.hasAttribute(ATTRS.wrapperID)){
+                id = el.getAttribute(ATTRS.wrapperID);
             }else{
                 const wrapper = el.closest('[data-easy-select-id]');
-                id = wrapper ? wrapper.getAttribute(atts.wrapperID) : id;
+                id = wrapper ? wrapper.getAttribute(ATTRS.wrapperID) : id;
             }
 
             if(id){
@@ -449,7 +428,7 @@ window.EasySelect = {
     init: (el = undefined, options = {}) => {
         // empty => init with multiple elements via attributes
         if(typeof el === 'undefined'){
-            document.querySelectorAll(`[${atts.init}]:not(.${classes.enabled})`).forEach(el => {
+            document.querySelectorAll(`[${ATTRS.init}]:not(.${CLASSES.enabled})`).forEach(el => {
                 window.EasySelectController.add(new EasySelect(el, options));
             });
             return;
@@ -484,7 +463,7 @@ window.EasySelect.init();
 
 // on outside click
 document.addEventListener('click', event => {
-    const wrapper = event.target.closest(`[${atts.wrapperID}]`) || event.target.closest(`.${classes.ignore}`);
+    const wrapper = event.target.closest(`[${ATTRS.wrapperID}]`) || event.target.closest(`.${CLASSES.ignore}`);
     if(wrapper) return;
 
     // close all opening dropdown

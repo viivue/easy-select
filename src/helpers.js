@@ -1,5 +1,6 @@
 import {isJSON} from "./utils";
 import {eventData} from "./methods";
+import {ATTRS} from './configs'
 
 /**
  * Get JSON options
@@ -16,7 +17,7 @@ export function getOptions(context, defaultOptions){
     const wrapper = context.selectTag;
 
     // options from attribute
-    let dataAttribute = wrapper.getAttribute(context.atts.init);
+    let dataAttribute = wrapper.getAttribute(ATTRS.init);
     let options = {};
 
     // data attribute doesn't exist or not JSON format -> string
