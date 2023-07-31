@@ -1,5 +1,5 @@
 import {createEl, debounce} from "./utils";
-import {CLASSES} from "./config"
+import {CLASSES} from "./configs"
 /**
  *  Init search inside dropdown
  *  @param {object} context

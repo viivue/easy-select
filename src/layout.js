@@ -1,6 +1,6 @@
 import {getOptionData, val} from "./data";
 import {initSearchDropdown} from "./search";
-import {CLASSES, ATTRS} from "./config"
+import {CLASSES, ATTRS} from "./configs"
 /****************************************************
  ********************** HTML *********************
  ***************************************************/

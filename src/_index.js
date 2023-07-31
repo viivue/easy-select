@@ -3,7 +3,7 @@ import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 import {fireEvent, getOptions} from "./helpers";
-import {CLASSES, ATTRS} from './config'
+import {CLASSES, ATTRS} from './configs'
 
 const pluginName = "easySelect";
 

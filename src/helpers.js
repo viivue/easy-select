@@ -1,6 +1,6 @@
 import {isJSON} from "./utils";
 import {eventData} from "./methods";
-import {ATTRS} from '@/config'
+import {ATTRS} from '@/configs'
 
 /**
  * Get JSON options
