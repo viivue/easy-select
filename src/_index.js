@@ -1,51 +1,12 @@
 import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
-import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
+import {findObjectInArray, getSelectTag} from "./utils";
 import {getOptions} from "./helpers";
 import {EventsManager} from "@phucbm/os-util";
-import {CLASSES, ATTRS} from './configs'
+import {CLASSES, ATTRS, DEFAULTS} from './configs'
 
 const pluginName = "easySelect";
-
-const defaults = {
-    id: uniqueId('es-'),
-    nativeSelect: false,
-    warning: true,
-    log: true,
-    wrapDefaultSelect: true,
-    closeOnChange: true,
-    align: "left",
-
-    // show search input inside dropdown
-    search: false,
-
-    customDropDownOptionHTML: option => {
-    },
-    beforeInit: data => {
-    },
-    onInit: data => {
-    },
-    onRefresh: data => {
-    },
-    onChange: data => {
-    },
-    onDestroy: data => {
-    },
-    onDisable: data => {
-    },
-    onEnable: data => {
-    },
-    onOpen: data => {
-    },
-    onClose: data => {
-    },
-    onToggle: data => {
-    },
-    onAdded: data => {
-    },
-};
-
 
 /**
  * Private class
@@ -65,7 +26,7 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.config = getOptions(this, {...defaults, ...options});
+        this.config = getOptions(this, {...DEFAULTS, ...options});
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
@@ -241,7 +202,7 @@ class EasySelect{
         this.selectTag.setAttribute(ATTRS.value, newValue);
 
         // Event: on change
-        this.events.fire('onChange',{type, value: newValue});
+        this.events.fire('onChange', {type, value: newValue});
     }
 
     /**
