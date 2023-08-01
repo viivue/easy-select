@@ -202,13 +202,6 @@
       background-color: var(--es-scrollbar-thumb);
     }
   }
-
-  /* Check if es-search is in es-dropdown */
-  &:has(.es-search) ul {
-    margin: 8px 0 0 0;
-    padding: 8px 0 0 0;
-    border-top: var(--es-border);
-  }
 }
 
 
@@ -269,4 +262,13 @@
   min-height: var(--es-search-height);
   border: var(--es-border);
   padding: 0 20px;
+}
+
+/****************************
+ * Search
+****************************/
+.es-search-enabled ul {
+  margin: 8px 0 0 0;
+  padding: 8px 0 0 0;
+  border-top: var(--es-border);
 }
