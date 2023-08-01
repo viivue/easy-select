@@ -9,7 +9,7 @@ export function testSearch(root){
         search: true,
     });
 
-    //keep dropdown open
+    // keep dropdown open
     const search = EasySelect.get('test-search');
     search.open();
 }
