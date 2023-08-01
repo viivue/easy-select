@@ -202,7 +202,7 @@ class EasySelect{
         this.selectTag.setAttribute(ATTRS.value, newValue);
 
         // Event: on change
-        this.events.fire('onChange',{type, value: newValue});
+        this.events.fire('onChange', {type, value: newValue});
     }
 
     /**
