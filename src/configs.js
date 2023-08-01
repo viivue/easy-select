@@ -39,7 +39,7 @@ export const DEFAULTS = {
   align: "left",
 
   // show search input inside dropdown
-  search: true,
+  search: false,
 
   customDropDownOptionHTML: option => {
   },
