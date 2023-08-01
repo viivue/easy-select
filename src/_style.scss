@@ -180,7 +180,6 @@
   ul {
     margin: 0;
     padding: 0;
-    border-top: var(--es-border);
     list-style: none;
     overflow: auto;
     max-height: var(--es-dropdown-height);
@@ -207,6 +206,7 @@
   &:has(.es-search) ul {
     margin: 8px 0 0 0;
     padding: 8px 0 0 0;
+    border-top: var(--es-border);
   }
 }
 
