@@ -241,7 +241,7 @@ class EasySelect{
         this.selectTag.setAttribute(ATTRS.value, newValue);
 
         // Event: on change
-        this.events.fire('onChange',{type, value: newValue});
+        this.events.fire('onChange', {type, value: newValue});
     }
 
     /**
@@ -329,6 +329,8 @@ class EasySelect{
      */
     add(value, label = value){
         if(this.isDisabled) return false;
+
+        if(label === "") label = value;
 
         // avoid duplicate value
         if(this.selectTagData.filter(option => option.value === value).length > 0){
