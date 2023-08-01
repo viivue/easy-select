@@ -178,13 +178,12 @@
   overflow: hidden;
 
   ul {
-    margin: 8px 0 0 0;
-    padding: 8px 0 0 0;
-    border-top:var(--es-border);
+    margin: 0;
+    padding: 0;
+    border-top: var(--es-border);
     list-style: none;
     overflow: auto;
     max-height: var(--es-dropdown-height);
-
     li {
       padding: 0;
     }
@@ -202,6 +201,12 @@
     &::-webkit-scrollbar-thumb {
       background-color: var(--es-scrollbar-thumb);
     }
+  }
+
+  /* Check if es-search is in es-dropdown */
+  &:has(.es-search) ul {
+    margin: 8px 0 0 0;
+    padding: 8px 0 0 0;
   }
 }
 
@@ -257,7 +262,8 @@
 .easy-select .es-search {
   position: absolute;
   top: 8px;
-  left: 50%; transform:translateX(-50%);
+  left: 50%;
+  transform: translateX(-50%);
   width: 95%;
   min-height: var(--es-search-height);
   border: var(--es-border);

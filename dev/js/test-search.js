@@ -1,15 +1,15 @@
 import html from "../html/search.html";
-import { CLASSES } from '@/configs'
 
 export function testSearch(root){
-   root.insertAdjacentHTML('beforeend', html);
+    root.insertAdjacentHTML('beforeend', html);
 
-   // Init: default attribute
-   EasySelect.init('#test-search', {
-      id: 'test-methods',
-   });
+    // Init: default attribute
+    EasySelect.init('#test-search', {
+        id: 'test-search',
+        search: true,
+    });
 
-   //keep dropdown open
-   const search = document.querySelector('div[data-es-id="test-search"]')
-   search.classList.add(CLASSES.dropdownOpen)
+    //keep dropdown open
+    const search = EasySelect.get('test-search');
+    search.open();
 }
