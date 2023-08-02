@@ -253,11 +253,33 @@
  * Search
 ****************************/
 .easy-select .es-search-wrapper {
-  padding: 10px;
+  padding: 5px;
   border-bottom: var(--es-border);
 }
+
 .es-search-empty,
-.easy-select .es-search {
+.easy-select .es-search-input {
   width: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
+}
+
+.es-search-input {
+  border: 1px solid #e0e7ee;
+  border-radius: 3px;
+  font-size: 16px;
+  outline: none;
+  transition: all .2s ease;
+}
+
+.es-search-input:hover,
+.es-search-input:focus {
+  border-color: var(--es-border-hover);
+}
+
+.es-search-empty {
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+  min-height: var(--es-height);
+  padding: 5px 20px;
 }

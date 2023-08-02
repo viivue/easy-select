@@ -42,7 +42,8 @@ export const DEFAULTS = {
 
   // show search input inside dropdown
   search: false,
-
+  emptySearchText: "There are no options", // optional, text appear when search empty
+  searchPlaceHolder: "Type to search...",
   customDropDownOptionHTML: option => {
   },
 };

@@ -9,7 +9,8 @@ export function initSearchDropdown(context){
     const searchInputEl = createEl({tag: 'input', className: CLASSES.search});
     const searchWrapperEl = createEl({className: CLASSES.searchWrapper});
     const emptySearchTextEl = createEl({className: CLASSES.searchEmpty});
-    emptySearchTextEl.textContent = "There are no options";
+    searchInputEl.placeholder = context.config.searchPlaceHolder;
+    emptySearchTextEl.textContent = context.config.emptySearchText;
     emptySearchTextEl.style.display = 'none';
 
     // append to the dropdown
