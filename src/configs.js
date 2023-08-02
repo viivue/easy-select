@@ -1,3 +1,5 @@
+import {uniqueId} from "./utils";
+
 /**
  * Classes
  * */
@@ -26,3 +28,21 @@ export const ATTRS = {
   optionAttr: 'data-es-option',
   value: 'data-es-value',
 }
+/**
+ * Defaults
+ * */
+export const DEFAULTS = {
+  id: uniqueId('es-'),
+  nativeSelect: false,
+  warning: true,
+  log: true,
+  wrapDefaultSelect: true,
+  closeOnChange: true,
+  align: "left",
+
+  // show search input inside dropdown
+  search: false,
+
+  customDropDownOptionHTML: option => {
+  },
+};
