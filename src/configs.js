@@ -14,7 +14,7 @@ export const CLASSES = {
   nativeSelect: 'es-native',
   enabled: 'es-enabled',
   ignore: 'es-ignore',
-  search: 'es-search',
+  searchInput: 'es-search-input',
   searchEnabled: 'es-search-enabled',
   searchWrapper: 'es-search-wrapper',
   searchEmpty: 'es-search-empty',

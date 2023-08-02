@@ -6,7 +6,7 @@ import {CLASSES} from "./configs"
  *  @param {object} context
  * */
 export function initSearchDropdown(context){
-    const searchInputEl = createEl({tag: 'input', className: CLASSES.search});
+    const searchInputEl = createEl({tag: 'input', className: CLASSES.searchInput});
     const searchWrapperEl = createEl({className: CLASSES.searchWrapper});
     const emptySearchTextEl = createEl({className: CLASSES.searchEmpty});
     searchInputEl.placeholder = context.config.searchPlaceHolder;
