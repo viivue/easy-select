@@ -131,3 +131,12 @@ export function debounce(func, timeout = 150){
         }, timeout);
     };
 }
+
+/**
+ * Set CSS
+ * @param el
+ * @param props
+ */
+export function setCSS(el, props){
+    (el.length ? el : [el]).forEach(item => item && item.style ? Object.assign(item.style, props) : '');
+}

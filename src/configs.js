@@ -14,6 +14,8 @@ export const CLASSES = {
   ignore: 'es-ignore',
   search: 'es-search',
   searchEnabled: 'es-search-enabled',
+  searchWrapper: 'es-search-wrapper',
+  searchEmpty: 'es-search-empty',
 }
 /**
  * Attributes

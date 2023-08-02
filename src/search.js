@@ -1,29 +1,27 @@
-import {createEl, debounce} from "./utils";
+import {createEl, debounce, setCSS} from "./utils";
 import {CLASSES} from "./configs"
+
 /**
  *  Init search inside dropdown
  *  @param {object} context
  * */
 export function initSearchDropdown(context){
-    const searchEl = createSearchElement({classes: CLASSES.search});
+    const searchInputEl = createEl({tag: 'input', className: CLASSES.search});
+    const searchWrapperEl = createEl({className: CLASSES.searchWrapper});
+    const emptySearchTextEl = createEl({className: CLASSES.searchEmpty});
+    emptySearchTextEl.textContent = "There are no options";
+    emptySearchTextEl.style.display = 'none';
 
     // append to the dropdown
-    context.dropdown?.appendChild(searchEl);
+    searchWrapperEl.appendChild(searchInputEl);
+    context.dropdown?.prepend(searchWrapperEl);
+    context.dropdown.appendChild(emptySearchTextEl);
 
     // add search enabled class for wrapper
     context.wrapper.classList.add(CLASSES.searchEnabled);
 
     // handle search change
-    searchEl.addEventListener('input', debounce(() => handleSearchChange(context, searchEl.value)));
-}
-
-
-/**
- * Create search element
- * @return HTMLElement
- * */
-function createSearchElement({classes = ''}){
-    return createEl({tag: 'input', className: classes});
+    searchInputEl.addEventListener('input', debounce(() => onSearchChange(context, searchInputEl.value, emptySearchTextEl)));
 }
 
 
@@ -38,15 +36,27 @@ function removeAccents(str){
 }
 
 /**
+ * Check if option value is including input search value
+ * */
+function isOptionIncludesInputSearch(optionValue, inputSearchValue){
+    return removeAccents(optionValue.toLowerCase()).includes(removeAccents(inputSearchValue.toLowerCase()))
+}
+
+/**
  * Handle Search
  * */
-function handleSearchChange(context, value){
+function onSearchChange(context, inputSearchValue, emptySearchTextEl){
+    const arrayShow = [];
+    const arrayHide = [];
     context.selectTagData.forEach(data => {
-        // contain search value
-        if(removeAccents(data.value.toLowerCase()).includes(removeAccents(value.toLowerCase()))){
-            context.dropdown.querySelector(`li:nth-child(${data.index + 1})`).style.display = 'block';
-        }else{
-            context.dropdown.querySelector(`li:nth-child(${data.index + 1})`).style.display = 'none';
+            const optionElement = context.dropdown.querySelector(`[data-es-option="${data.value}"]`).closest("li");
+            console.log("optionElement", optionElement)
+            isOptionIncludesInputSearch(data.value, inputSearchValue) ? arrayShow.push(optionElement) : arrayHide.push(optionElement);
         }
-    });
+    )
+    setCSS(arrayShow, {'display': ''});
+    setCSS(arrayHide, {'display': 'none'});
+
+    // show and hide empty search text element
+    setCSS(emptySearchTextEl, {'display': arrayShow.length === 0 ? '' : 'none'});
 }
