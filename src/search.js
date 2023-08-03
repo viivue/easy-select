@@ -56,7 +56,6 @@ function onSearchChange(context, inputSearchValue, emptySearchTextEl){
     const arrayHide = [];
     context.selectTagData.forEach(data => {
             const optionElement = context.dropdown.querySelector(`[data-es-option="${data.value}"]`).closest("li");
-            console.log("optionElement", optionElement)
             isOptionIncludesInputSearch(data.value, inputSearchValue) ? arrayShow.push(optionElement) : arrayHide.push(optionElement);
         }
     )
