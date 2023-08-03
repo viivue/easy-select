@@ -1,7 +1,7 @@
 import html from "../html/methods.html";
 
 function highlightLabel(data){
-    console.log(data.eventName, data)
+    //console.log(data.eventName, data)
 
     const label = document.querySelector(`[data-event=${data.eventName}]`);
 
@@ -34,12 +34,13 @@ export function testMethods(root){
     init();
 
     // add option
-    const inputAddOption = document.querySelector('input[name="add-option"]');
+    const inputAddValue = document.querySelector('input[name="add-value"]');
+    const inputAddLabel = document.querySelector('input[name="add-label"]');
     const btnAddOption = document.querySelector('button[data-btn="add"]');
     const updateAddNewOptionForm = () => {
-        btnAddOption.style.display = inputAddOption.value.length > 0 ? '' : 'none';
+        btnAddOption.style.display = inputAddValue.value.length > 0 ? '' : 'none';
     }
-    inputAddOption.addEventListener('keyup', () => updateAddNewOptionForm());
+    inputAddValue.addEventListener('keyup', () => updateAddNewOptionForm());
     updateAddNewOptionForm();
 
     // assign method event
@@ -74,7 +75,7 @@ export function testMethods(root){
                     item.select(btn.getAttribute('data-value'));
                     break;
                 case "add":
-                    item.add(inputAddOption.value);
+                    item.add(inputAddValue.value, inputAddLabel.value);
                     break;
             }
         });

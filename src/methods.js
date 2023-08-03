@@ -1,6 +1,8 @@
 import {createEl, insertAfter, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
+import {initSearchDropdown} from "./search";
+import {CLASSES, ATTRS} from './configs'
 
 /****************************************************
  ********************** Methods *********************
@@ -10,7 +12,7 @@ import {val} from "./data";
  * @param context
  */
 export function init(context){
-    context.config.beforeInit(eventData(context, 'beforeInit'));
+    context.events.fire('beforeInit');
 
     // create HTML
     create(context);
@@ -18,10 +20,16 @@ export function init(context){
     // alignment
     checkAlignmentOption(context);
 
-    // update value attribute
-    context.selectTag.setAttribute(context.atts.value, val(context));
+    // init search dropdown
+    if(context.options.search && !context.options.nativeSelect){
+        initSearchDropdown(context);
+    }
 
-    context.config.onInit(eventData(context, 'onInit'));
+    // update value attribute
+    context.selectTag.setAttribute(ATTRS.value, val(context));
+
+    // Event: onInit
+    context.events.fire('onInit');
 }
 
 
@@ -31,9 +39,9 @@ export function init(context){
  */
 function checkAlignmentOption(context){
     // native select will have no alignment
-    if(context.config.nativeSelect) return;
+    if(context.options.nativeSelect) return;
 
-    context.config.align.split(' ').forEach(align => {
+    context.options.align.split(' ').forEach(align => {
         if(align !== 'left') context.wrapper.classList.add(`es-align-${align}`);
     });
 }
@@ -61,16 +69,16 @@ export function eventData(context, eventName, obj){
  */
 export function create(context){
     // check valid HTML: exit if already created
-    let wrapper = context.selectTag.closest(`.${context.classes.wrapper}`);
+    let wrapper = context.selectTag.closest(`.${CLASSES.wrapper}`);
     if(wrapper && wrapper.length) return;
 
     // create wrapper
-    let wrapperClass = context.classes.wrapper;
-    wrapperClass += context.isDisabled ? ' ' + context.classes.disabled : '';
+    let wrapperClass = CLASSES.wrapper;
+    wrapperClass += context.isDisabled ? ' ' + CLASSES.disabled : '';
     wrapper = createEl({
         className: wrapperClass
     });
-    wrapper.setAttribute(context.atts.wrapperID, context.id);
+    wrapper.setAttribute(ATTRS.wrapperID, context.id);
 
     if(context.isWrapped){
         wrapAll(context.selectTag, wrapper);
@@ -83,8 +91,8 @@ export function create(context){
     context.wrapper.insertAdjacentHTML('beforeend', getCurrentHTML(context));
 
     // exit if is native select
-    if(context.config.nativeSelect){
-        context.wrapper.classList.add(context.classes.nativeSelect);
+    if(context.options.nativeSelect){
+        context.wrapper.classList.add(CLASSES.nativeSelect);
         assignSelectOnChange(context);
         return;
     }
@@ -119,7 +127,7 @@ function updateElements(context){
     context.selectTag = context.wrapper.querySelector('select');
 
     // current element
-    context.current = context.wrapper.querySelector(`.${context.classes.current}`);
+    context.current = context.wrapper.querySelector(`.${CLASSES.current}`);
 }
 
 function assignSelectOnChange(context){

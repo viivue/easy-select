@@ -12,9 +12,10 @@
 ### CDN
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.0.2/dist/easy-select.min.css">
 
-<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.0.2/dist/easy-select.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.1.0/dist/easy-select.min.css">
+
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.1.0/dist/easy-select.min.js"></script>
 ```
 
 ## Initialize
@@ -62,12 +63,15 @@ EasySelect.init('#my-select');
 
 All options are optional.
 
-| Attribute       | Type    | Default           | Description                                                                                      | 
-|-----------------|---------|-------------------|--------------------------------------------------------------------------------------------------|
-| `id`            | string  | Auto-generated ID | Set an ID to access this select later with `EasySelect.get()`                                    |
-| `nativeSelect`  | boolean | `false`           | Use native select instead of a custom dropdown                                                   |
-| `align`         | string  | `"left"`          | Set alignment for dropdown. Could be `"top"` or `"top right"`. Visit demo page for full options. |
-| `closeOnChange` | boolean | `true`            | Close dropdown on value changes.                                                                 |
+| Attribute           | Type    | Default                  | Description                                                                                      | 
+|---------------------|---------|--------------------------|--------------------------------------------------------------------------------------------------|
+| `id`                | string  | Auto-generated ID        | Set an ID to access this select later with `EasySelect.get()`                                    |
+| `nativeSelect`      | boolean | `false`                  | Use native select instead of a custom dropdown                                                   |
+| `align`             | string  | `"left"`                 | Set alignment for dropdown. Could be `"top"` or `"top right"`. Visit demo page for full options. |
+| `closeOnChange`     | boolean | `true`                   | Close dropdown on value changes.                                                                 |
+| `search`            | boolean | `false`                  | Show a field to search options inside the dropdown.                                              |
+| `emptySearchText`   | string  | `"There are no options"` | Text when no search results found                                                                |
+| `searchPlaceHolder` | string  | `"Type to search..."`    | Placeholder for the search input                                                                 |
 
 ```js
 EasySelect.init('#my-select', {
@@ -98,20 +102,21 @@ Pass a valid JSON to use as options
 
 > ⚠️ Options set in HTML must be valid JSON. Keys need to be quoted, for example `"align":"right"`.
 
-
 ## Methods
 
-| Usage                    | Description                                               | 
-|--------------------------|-----------------------------------------------------------|
-| `instance.toggle()`      | Toggle open/close                                         |
-| `instance.open()`        | Open dropdown                                             |
-| `instance.close()`       | Close dropdown                                            |
-| `instance.disable()`     | Disable select                                            |
-| `instance.enable()`      | Enable select                                             |
-| `instance.refresh()`     | Refresh select when original select changes with new HTML |
-| `instance.destroy()`     | Destroy select, return original HTML                      |
-| `instance.select(value)` | Select a value                                            |
-| `instance.add(value)`    | Add new option with value                                 |
+| Usage                                           | Description                                               | 
+|-------------------------------------------------|-----------------------------------------------------------|
+| `instance.toggle()`                             | Toggle open/close                                         |
+| `instance.open()`                               | Open dropdown                                             |
+| `instance.close()`                              | Close dropdown                                            |
+| `instance.disable()`                            | Disable select                                            |
+| `instance.disableOption(optionValue, disabled)` | Disable/enable an option                                  |
+| `instance.enable()`                             | Enable select                                             |
+| `instance.refresh()`                            | Refresh select when original select changes with new HTML |
+| `instance.destroy()`                            | Destroy select, return original HTML                      |
+| `instance.select(value)`                        | Select a value                                            |
+| `instance.add(value)`                           | Add new option with value                                 |
+| `instance.on(eventName, callback)`              | Assign events                                             |
 
 ```js
 // init
@@ -148,6 +153,12 @@ EasySelect.init('#my-select', {
     onChange: data => {
         console.log(data);
     }
+});
+
+// add event via method on()
+const instance = EasySelect.get('my-select');
+instance.on('change', () => {
+    // do something
 });
 ```
 
