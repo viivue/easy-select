@@ -1,4 +1,4 @@
-import {createEl, debounce, setCSS} from "./utils";
+import {createEl, debounce, setCSS, removeAccents} from "./utils";
 import {CLASSES} from "./configs"
 
 /**
@@ -33,15 +33,6 @@ export function initSearchDropdown(context){
     });
 }
 
-/**
- * Remove accents in UNICODE
- * https://www.tunglt.com/2018/11/bo-dau-tieng-viet-javascript-es6/
- * */
-function removeAccents(str){
-    return str.normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/đ/g, 'd').replace(/Đ/g, 'D');
-}
 
 /**
  * Check if option value is including input search value
