@@ -330,6 +330,7 @@ class EasySelect{
     add(value, label = value){
         if(this.isDisabled) return false;
 
+        // use value as label if label is empty
         if(label === "") label = value;
 
         // avoid duplicate value
