@@ -5,12 +5,10 @@
 .easy-select {
   /* select tag */
   --es-height: 40px;
-  --es-width: 300px;
-  --es-width-mobile: 100%;
   /* dropdown */
   --es-dropdown-width: 300px;
   --es-dropdown-height: 300px;
-  --es-dropdown-width-mobile: 100%;
+  --es-option-min-width: 250px;
   --es-scrollbar-width: 3px;
   --es-scrollbar-track: #f6f7f9;
   --es-scrollbar-thumb: #e0e7ee;
@@ -22,6 +20,8 @@
   --es-border: 1px solid #e0e7ee;
   --es-border-hover: 1px solid #445870;
   --es-radius: 5px;
+  /* search inside dropdown */
+  --es-search-height: var(--es-height);
   display: inline-block;
   position: relative;
   z-index: 1;
@@ -86,15 +86,6 @@
   opacity: 0.8;
 }
 
-/****************************
- * Responsive
-****************************/
-@media only screen and (max-width: 480px) {
-  .easy-select {
-    --es-width: var(--es-width-mobile);
-    --es-dropdown-width: var(--es-dropdown-width-mobile);
-  }
-}
 /****************************
  * Current
 ****************************/
@@ -190,10 +181,14 @@
   line-height: 1.1;
   min-height: var(--es-height);
   padding: 5px 20px;
-  white-space: nowrap;
 }
 .es-option.es-active {
   font-weight: 700;
+}
+
+/* option inside dropdown */
+.es-dropdown .es-option {
+  min-width: var(--es-option-min-width);
 }
 
 /* dropdown hover: off */
@@ -214,4 +209,43 @@
 /* current hover */
 .easy-select:not(.es-disabled):hover .es-current {
   border: var(--es-border-hover);
+}
+
+/****************************
+ * Search
+****************************/
+.easy-select .es-search-wrapper {
+  padding: 5px;
+  border-bottom: var(--es-border);
+}
+
+.es-search-enabled .es-dropdown {
+  width: var(--es-dropdown-width);
+}
+
+.es-search-empty,
+.easy-select .es-search-input {
+  width: 100%;
+  padding: 0 10px;
+}
+
+.es-search-input {
+  border: 1px solid #e0e7ee;
+  border-radius: 3px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.es-search-input:hover,
+.es-search-input:focus {
+  border-color: var(--es-border-hover);
+}
+
+.es-search-empty {
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+  min-height: var(--es-height);
+  padding: 5px 20px;
 }
