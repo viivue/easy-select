@@ -291,6 +291,9 @@ class EasySelect{
     add(value, label = value){
         if(this.isDisabled) return false;
 
+        // use value as label if label is empty
+        if(label === "") label = value;
+
         // avoid duplicate value
         if(this.selectTagData.filter(option => option.value === value).length > 0){
             if(this.options.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
