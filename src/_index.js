@@ -26,7 +26,7 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.config = getOptions(this, {...DEFAULTS, ...options});
+        this.options = getOptions(this, {...DEFAULTS, ...options});
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
@@ -35,10 +35,10 @@ class EasySelect{
         this.isOpen = false;
         this.isDisabled = this.selectTag.disabled;
         this.value = val(this);
-        this.isWrapped = this.config.wrapDefaultSelect && !this.config.nativeSelect;
+        this.isWrapped = this.options.wrapDefaultSelect && !this.options.nativeSelect;
         this.selectTagData = getSelectData(this);
 
-        if(this.config.nativeSelect && this.config.wrapDefaultSelect){
+        if(this.options.nativeSelect && this.options.wrapDefaultSelect){
             this.isWrapped = true;
         }
 
@@ -128,7 +128,7 @@ class EasySelect{
         this.current.innerHTML = getOptionHTML(this);
 
         // if not native select
-        if(!this.config.nativeSelect){
+        if(!this.options.nativeSelect){
             // update dropdown
             updateDropdownHTML(this);
         }
@@ -172,7 +172,7 @@ class EasySelect{
         }
 
         // warning
-        if(this.config.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
+        if(this.options.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
     }
 
     /**
@@ -187,7 +187,7 @@ class EasySelect{
         const newValue = val(this);
 
         /** Dropdown **/
-        if(!this.config.nativeSelect){
+        if(!this.options.nativeSelect){
             // active option
             this.dropdown.querySelectorAll(`[${ATTRS.optionAttr}]`).forEach(item => {
                 item.classList.remove(CLASSES.active);
@@ -195,7 +195,7 @@ class EasySelect{
             this.dropdown.querySelector(`[${ATTRS.optionAttr}="${newValue}"]`).classList.add(CLASSES.active);
 
             // close on change
-            if(this.config.closeOnChange) this.close();
+            if(this.options.closeOnChange) this.close();
         }
 
         // update value attribute
@@ -210,7 +210,7 @@ class EasySelect{
      */
     open(){
         if(this.isDisabled) return;
-        if(this.config.nativeSelect) return;
+        if(this.options.nativeSelect) return;
         if(this.isOpen) return;
 
         // close all opening dropdown
@@ -228,7 +228,7 @@ class EasySelect{
      */
     close(){
         if(this.isDisabled) return;
-        if(this.config.nativeSelect) return;
+        if(this.options.nativeSelect) return;
         if(!this.isOpen) return;
         this.isOpen = false;
         this.wrapper.classList.remove(CLASSES.dropdownOpen);
@@ -242,7 +242,7 @@ class EasySelect{
      */
     toggle(){
         if(this.isDisabled) return;
-        if(this.config.nativeSelect) return;
+        if(this.options.nativeSelect) return;
 
         // Event: on toggle
         this.events.fire('onToggle', {isOpen: !this.isOpen});
@@ -293,7 +293,7 @@ class EasySelect{
 
         // avoid duplicate value
         if(this.selectTagData.filter(option => option.value === value).length > 0){
-            if(this.config.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
+            if(this.options.warning) console.warn(`[ES] ${value} will not be added due to duplicating`);
             return false;
         }
 
