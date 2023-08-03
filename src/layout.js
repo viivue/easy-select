@@ -46,7 +46,7 @@ export function updateDropdownHTML(context){
     });
 
     // update search inside dropdown
-    if(context.config.search){
+    if(context.options.search){
         initSearchDropdown(context);
     }
 }
@@ -105,7 +105,7 @@ export function getOptionHTML(context, option = undefined){
  * @returns {string}
  */
 export function getOptionInnerHTML(context, option){
-    let html = context.config.customDropDownOptionHTML(option);
+    let html = context.options.customDropDownOptionHTML(option);
 
     if(typeof html === 'undefined'){
         html = `<span>${option['label']}</span>`;

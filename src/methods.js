@@ -21,7 +21,7 @@ export function init(context){
     checkAlignmentOption(context);
 
     // init search dropdown
-    if(context.config.search){
+    if(context.options.search){
         initSearchDropdown(context);
     }
 
@@ -39,9 +39,9 @@ export function init(context){
  */
 function checkAlignmentOption(context){
     // native select will have no alignment
-    if(context.config.nativeSelect) return;
+    if(context.options.nativeSelect) return;
 
-    context.config.align.split(' ').forEach(align => {
+    context.options.align.split(' ').forEach(align => {
         if(align !== 'left') context.wrapper.classList.add(`es-align-${align}`);
     });
 }
@@ -91,7 +91,7 @@ export function create(context){
     context.wrapper.insertAdjacentHTML('beforeend', getCurrentHTML(context));
 
     // exit if is native select
-    if(context.config.nativeSelect){
+    if(context.options.nativeSelect){
         context.wrapper.classList.add(CLASSES.nativeSelect);
         assignSelectOnChange(context);
         return;
