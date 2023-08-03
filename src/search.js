@@ -23,8 +23,13 @@ export function initSearchDropdown(context){
 
     // handle search change
     searchInputEl.addEventListener('input', debounce(() => onSearchChange(context, searchInputEl.value, emptySearchTextEl)));
-}
 
+    context.on('open',()=>{
+        setTimeout(() => {
+            searchInputEl.focus();
+        }, 150);
+    });
+}
 
 /**
  * Remove accents in UNICODE
