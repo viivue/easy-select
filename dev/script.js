@@ -11,6 +11,7 @@ import {testInit} from "./js/test-init";
 import {testLayout} from "./js/test-layout";
 import {testMethods} from "./js/test-methods";
 import {testDisabled} from "./js/test-disabled";
+import {testSearch} from "./js/test-search";
 
 // import package info
 const packageInfo = require('../package.json');
@@ -30,6 +31,7 @@ const root = document.querySelector('#root');
  * Test script
  */
 testMethods(root);
+testSearch(root);
 testLayout(root);
 testInit(root);
 testDisabled(root);

@@ -1,5 +1,4 @@
 import {getOptionData, val} from "./data";
-import {initSearchDropdown} from "./search";
 import {CLASSES, ATTRS} from "./configs"
 /****************************************************
  ********************** HTML *********************
@@ -44,11 +43,6 @@ export function updateDropdownHTML(context){
             context.select(value);
         });
     });
-
-    // update search inside dropdown
-    if(context.options.search){
-        initSearchDropdown(context);
-    }
 }
 
 /**

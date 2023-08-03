@@ -14,8 +14,10 @@ export const CLASSES = {
   nativeSelect: 'es-native',
   enabled: 'es-enabled',
   ignore: 'es-ignore',
-  search: 'es-search',
+  searchInput: 'es-search-input',
   searchEnabled: 'es-search-enabled',
+  searchWrapper: 'es-search-wrapper',
+  searchEmpty: 'es-search-empty',
 }
 /**
  * Attributes
@@ -39,7 +41,8 @@ export const DEFAULTS = {
 
   // show search input inside dropdown
   search: false,
-
+  emptySearchText: "There are no options", // optional, text appear when search empty
+  searchPlaceHolder: "Type to search...",
   customDropDownOptionHTML: option => {
   },
 };

@@ -131,3 +131,22 @@ export function debounce(func, timeout = 150){
         }, timeout);
     };
 }
+
+/**
+ * Set CSS
+ * @param el
+ * @param props
+ */
+export function setCSS(el, props){
+    (el.length ? el : [el]).forEach(item => item && item.style ? Object.assign(item.style, props) : '');
+}
+
+/**
+ * Remove accents in UNICODE
+ * https://www.tunglt.com/2018/11/bo-dau-tieng-viet-javascript-es6/
+ * */
+export function removeAccents(str){
+    return str.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+}
