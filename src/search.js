@@ -24,10 +24,12 @@ export function initSearchDropdown(context){
     // handle search change
     searchInputEl.addEventListener('input', debounce(() => onSearchChange(context, searchInputEl.value, emptySearchTextEl)));
 
-    context.on('open',()=>{
+    // Focus search input whenever open the select
+    context.on('open', () => {
+        // cannot focus on invisible input => wait 50ms
         setTimeout(() => {
             searchInputEl.focus();
-        }, 150);
+        }, 50)
     });
 }
 
@@ -56,7 +58,7 @@ function onSearchChange(context, inputSearchValue, emptySearchTextEl){
     const arrayHide = [];
     context.selectTagData.forEach(data => {
             const optionElement = context.dropdown.querySelector(`[data-es-option="${data.value}"]`).closest("li");
-            isOptionIncludesInputSearch(data.value, inputSearchValue) ? arrayShow.push(optionElement) : arrayHide.push(optionElement);
+            isOptionIncludesInputSearch(data.label, inputSearchValue) ? arrayShow.push(optionElement) : arrayHide.push(optionElement);
         }
     )
     setCSS(arrayShow, {'display': ''});
