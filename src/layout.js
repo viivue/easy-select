@@ -43,11 +43,6 @@ export function updateDropdownHTML(context){
             context.select(value);
         });
     });
-  
-    // update search inside dropdown
-    if(context.options.search){
-        initSearchDropdown(context);
-    }
 }
 
 /**
