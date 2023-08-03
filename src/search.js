@@ -15,7 +15,7 @@ export function initSearchDropdown(context){
 
     // append to the dropdown
     searchWrapperEl.appendChild(searchInputEl);
-    context.dropdown?.prepend(searchWrapperEl);
+    context.dropdown.prepend(searchWrapperEl);
     context.dropdown.appendChild(emptySearchTextEl);
 
     // add search enabled class for wrapper
