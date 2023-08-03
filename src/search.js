@@ -6,6 +6,11 @@ import {CLASSES} from "./configs"
  *  @param {object} context
  * */
 export function initSearchDropdown(context){
+    if(!context.dropdown){
+        console.warn(`Dropdown not found. Cannot init search.`);
+        return;
+    }
+
     const searchInputEl = createEl({tag: 'input', className: CLASSES.searchInput});
     const searchWrapperEl = createEl({className: CLASSES.searchWrapper});
     const emptySearchTextEl = createEl({className: CLASSES.searchEmpty});
@@ -27,9 +32,7 @@ export function initSearchDropdown(context){
     // Focus search input whenever open the select
     context.on('open', () => {
         // cannot focus on invisible input => wait 50ms
-        setTimeout(() => {
-            searchInputEl.focus();
-        }, 50)
+        setTimeout(() => searchInputEl.focus(), 50)
     });
 }
 

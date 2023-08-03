@@ -21,7 +21,7 @@ export function init(context){
     checkAlignmentOption(context);
 
     // init search dropdown
-    if(context.options.search){
+    if(context.options.search && !context.options.nativeSelect){
         initSearchDropdown(context);
     }
 
