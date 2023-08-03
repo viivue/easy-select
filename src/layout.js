@@ -43,6 +43,11 @@ export function updateDropdownHTML(context){
             context.select(value);
         });
     });
+  
+    // update search inside dropdown
+    if(context.options.search){
+        initSearchDropdown(context);
+    }
 }
 
 /**
@@ -99,7 +104,7 @@ export function getOptionHTML(context, option = undefined){
  * @returns {string}
  */
 export function getOptionInnerHTML(context, option){
-    let html = context.config.customDropDownOptionHTML(option);
+    let html = context.options.customDropDownOptionHTML(option);
 
     if(typeof html === 'undefined'){
         html = `<span>${option['label']}</span>`;

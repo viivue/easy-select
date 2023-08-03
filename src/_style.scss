@@ -4,14 +4,11 @@
 .easy-select {
   /* select tag */
   --es-height: 40px;
-  --es-width: 300px;
-  --es-width-mobile: 100%;
 
   /* dropdown */
   --es-dropdown-width: 300px;
   --es-dropdown-height: 300px;
   --es-option-min-width: 250px;
-  --es-dropdown-width-mobile: 100%;
   --es-scrollbar-width: 3px;
   --es-scrollbar-track: #f6f7f9;
   --es-scrollbar-thumb: #e0e7ee;
@@ -101,16 +98,6 @@
 .es-disabled {
   cursor: not-allowed;
   opacity: .8;
-}
-
-/****************************
- * Responsive
-****************************/
-@media only screen and (max-width: 480px) {
-  .easy-select {
-    --es-width: var(--es-width-mobile);
-    --es-dropdown-width: var(--es-dropdown-width-mobile);
-  }
 }
 
 /****************************
