@@ -33,7 +33,6 @@ export const DEFAULTS = {
   id: uniqueId('es-'),
   nativeSelect: false,
   warning: true,
-  log: true,
   wrapDefaultSelect: true,
   closeOnChange: true,
   align: "left",
