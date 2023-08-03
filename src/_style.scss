@@ -171,7 +171,7 @@
   min-width: 100%;
   transition: all .2s ease;
   transform-origin: top left;
-  width: var(--es-dropdown-width);
+  max-width: var(--es-dropdown-width);
   background: var(--es-bg);
   border: var(--es-border);
   border-radius: var(--es-radius);
@@ -255,6 +255,10 @@
 .easy-select .es-search-wrapper {
   padding: 5px;
   border-bottom: var(--es-border);
+}
+
+.es-search-enabled .es-dropdown {
+  width: var(--es-dropdown-width);
 }
 
 .es-search-empty,
