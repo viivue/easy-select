@@ -25,7 +25,7 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.id=options.id || this.selectTag.id || DEFAULTS.id;
+        this.id = options.id || this.selectTag.id || DEFAULTS.id;
 
         this.options = getOptionsFromAttribute({
             target: this.selectTag,
