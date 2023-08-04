@@ -2,8 +2,7 @@ import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getSelectTag} from "./utils";
-import {getOptions} from "./helpers";
-import {EventsManager} from "@phucbm/os-util";
+import {EventsManager, getOptionsFromAttribute} from "@phucbm/os-util";
 import {CLASSES, ATTRS, DEFAULTS} from './configs'
 
 const pluginName = "easySelect";
@@ -26,7 +25,14 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.options = getOptions(this, {...DEFAULTS, ...options});
+        this.id = options.id || this.selectTag.id || DEFAULTS.id;
+
+        this.options = getOptionsFromAttribute({
+            target: this.selectTag,
+            attributeName: ATTRS.init,
+            defaultOptions: {...DEFAULTS, ...options, id: this.id},
+            numericValues: ['autoShow']
+        });
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
