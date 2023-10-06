@@ -115,7 +115,7 @@ Pass a valid JSON to use as options
 | `instance.refresh()`                            | Refresh select when original select changes with new HTML |
 | `instance.destroy()`                            | Destroy select, return original HTML                      |
 | `instance.select(value)`                        | Select a value                                            |
-| `instance.add(value)`                           | Add new option with value                                 |
+| `instance.add(value, label)`                    | Add new option with value and label                       |
 | `instance.on(eventName, callback)`              | Assign events                                             |
 
 ```js
