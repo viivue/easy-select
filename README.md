@@ -30,6 +30,7 @@ Import
 
 ```js
 import "@viivue/easy-select";
+import "@viivue/easy-select/dist/easy-select.min.css";
 ```
 
 ## Initialize
