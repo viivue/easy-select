@@ -13,9 +13,23 @@
 
 ```html
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.1.1/dist/easy-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.1.2/dist/easy-select.min.css">
 
-<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.1.1/dist/easy-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.1.2/dist/easy-select.min.js"></script>
+```
+
+### NPM Package
+
+Install NPM package
+
+```shell
+npm i @viivue/easy-select
+```
+
+Import
+
+```js
+import "@viivue/easy-select";
 ```
 
 ## Initialize

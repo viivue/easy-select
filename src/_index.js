@@ -124,19 +124,32 @@ class EasySelect{
 
 
     /**
-     * Refresh
+     * Remove all options and refresh
+     */
+    removeAllOptions(){
+        this.selectTag.innerHTML = '';
+        this.refresh();
+    }
+
+
+    /**
+     * Refresh based on the select tag options
      */
     refresh(){
         if(this.isDisabled) return;
         this.selectTagData = getSelectData(this);
 
-        // update current
-        this.current.innerHTML = getOptionHTML(this);
+        if(this.selectTagData.length){
+            // update current
+            this.current.innerHTML = getOptionHTML(this);
 
-        // if not native select
-        if(!this.options.nativeSelect){
-            // update dropdown
-            updateDropdownHTML(this);
+            // if not native select
+            if(!this.options.nativeSelect){
+                // update dropdown
+                updateDropdownHTML(this);
+            }
+        }else{
+            // select with no option
         }
 
         // Event: on refresh
