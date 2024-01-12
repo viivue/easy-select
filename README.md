@@ -18,6 +18,20 @@
 <script src="https://cdn.jsdelivr.net/gh/viivue/easy-select@4.1.2/dist/easy-select.min.js"></script>
 ```
 
+### NPM Package
+
+Install NPM package
+
+```shell
+npm i @viivue/easy-select
+```
+
+Import
+
+```js
+import "@viivue/easy-select";
+```
+
 ## Initialize
 
 ### With HTML
