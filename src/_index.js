@@ -87,6 +87,9 @@ class EasySelect{
             case 'select':
                 this.select(param);
                 break;
+            case 'select-by-index':
+                this.selectByIndex(param);
+                break;
             case 'on':
                 this.on(param, param2);
                 break;
@@ -192,6 +195,23 @@ class EasySelect{
 
         // warning
         if(this.options.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
+    }
+
+    /**
+     * Select option with index value
+     * @param index
+     */
+    selectByIndex(index){
+
+        // value not found => return
+        if(!this.selectTagData[parseInt(index)]){
+            console.warn(`Option[index="${index}"] is not found!`)
+            return;
+        }
+
+        const value = this.selectTagData[index].value;
+
+        this.select(value);
     }
 
     /**
