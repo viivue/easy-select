@@ -20,6 +20,8 @@ export function init(context){
     // alignment
     checkAlignmentOption(context);
 
+    // todo: multiple true => closeOnChange false
+
     // init search dropdown
     if(context.options.search && !context.options.nativeSelect){
         initSearchDropdown(context);

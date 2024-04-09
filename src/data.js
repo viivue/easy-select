@@ -10,6 +10,23 @@ import {getIndex, getSelectedOption, stringToSlug} from "./utils";
  */
 export function val(context){
     context.value = context.selectTag.value;
+
+    // todo: get multiple values
+    if(context.options.multiple){
+        let result = [];
+        let options = context.selectTag && context.selectTag.options;
+        let opt;
+
+        for(let i = 0, iLen = options.length; i < iLen; i++){
+            opt = options[i];
+
+            if(opt.selected){
+                result.push(opt.value || opt.text);
+            }
+        }
+        console.log("result: ", result);
+        return result;
+    }
     return context.value;
 }
 

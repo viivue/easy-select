@@ -74,6 +74,13 @@ export function getDropdownHTML(context){
  * @returns {string}
  */
 export function getOptionHTML(context, option = undefined){
+
+
+    if(typeof option === 'undefined' && context.options.multiple){
+        return "multiple";
+    }
+
+    console.log("option: ", option)
     // is active
     const isActive = typeof option !== 'undefined' && option['value'] === val(context);
 
@@ -100,11 +107,26 @@ export function getOptionHTML(context, option = undefined){
  * @returns {string}
  */
 export function getOptionInnerHTML(context, option){
-    let html = context.options.customDropDownOptionHTML(option);
+    let customHTML = context.options.customDropDownOptionHTML(option);
 
-    if(typeof html === 'undefined'){
-        html = `<span>${option['label']}</span>`;
+    if(customHTML){
+        return customHTML;
     }
+
+    let html = '';
+
+    // multiple options
+    if(context.options.multiple){
+
+        // todo: detect checkbox
+        html += `<span>[]</span>`;
+        html += `<span>${option['label']}</span>`;
+
+        return html;
+    }
+
+    // default HTML
+    html = `<span>${option['label']}</span>`;
 
     return html;
 }

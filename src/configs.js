@@ -39,6 +39,9 @@ export const DEFAULTS = {
     closeOnChange: true,
     align: "left",
 
+    multiple: false,
+    multipleLabel: "Select",
+
     // show search input inside dropdown
     search: false,
     emptySearchText: "There are no options", // optional, text appear when search empty
