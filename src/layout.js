@@ -119,7 +119,7 @@ export function getOptionInnerHTML(context, option, isMultipleCurrent = false){
             html += context.options.multipleLabel;
         }else{
             // option
-            html += `<span>[ ]</span>`;
+            html += `<i class="es-checkbox"></i>`;
             html += `<span>${option['label']}</span>`;
         }
         return html;
