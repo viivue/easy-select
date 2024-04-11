@@ -74,13 +74,9 @@ export function getDropdownHTML(context){
  * @returns {string}
  */
 export function getOptionHTML(context, option = undefined){
+    // is current of multiple select
+    const isMultipleCurrent = typeof option === 'undefined' && context.options.multiple;
 
-
-    if(typeof option === 'undefined' && context.options.multiple){
-        return "multiple";
-    }
-
-    console.log("option: ", option)
     // is active
     const isActive = typeof option !== 'undefined' && option['value'] === val(context);
 
@@ -95,7 +91,7 @@ export function getOptionHTML(context, option = undefined){
 
     let html = '';
     html += `<div class="${classList}" ${ATTRS.optionAttr}="${option['value']}">`;
-    html += getOptionInnerHTML(context, option);
+    html += getOptionInnerHTML(context, option, isMultipleCurrent);
     html += `</div>`;
     return html;
 }
@@ -104,28 +100,31 @@ export function getOptionHTML(context, option = undefined){
  * Option inner HTML
  * @param context
  * @param option
+ * @param isMultipleCurrent
  * @returns {string}
  */
-export function getOptionInnerHTML(context, option){
-    let customHTML = context.options.customDropDownOptionHTML(option);
+export function getOptionInnerHTML(context, option, isMultipleCurrent = false){
+    // return custom HTML if any
+    let customHTML = context.options.customDropDownOptionHTML(option, isMultipleCurrent);
+    if(customHTML) return customHTML;
 
-    if(customHTML){
-        return customHTML;
-    }
 
     let html = '';
 
-    // multiple options
+    // multiple select
     if(context.options.multiple){
-
-        // todo: detect checkbox
-        html += `<span>[]</span>`;
-        html += `<span>${option['label']}</span>`;
-
+        if(isMultipleCurrent){
+            // current
+            html += context.options.multipleLabel;
+        }else{
+            // option
+            html += `<span>[ ]</span>`;
+            html += `<span>${option['label']}</span>`;
+        }
         return html;
     }
 
-    // default HTML
+    // single select
     html = `<span>${option['label']}</span>`;
 
     return html;

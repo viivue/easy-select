@@ -40,7 +40,7 @@ export const DEFAULTS = {
     align: "left",
 
     multiple: false,
-    multipleLabel: "Select",
+    multipleLabel: "Select multiple options",
 
     // show search input inside dropdown
     search: false,
