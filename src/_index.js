@@ -234,7 +234,9 @@ class EasySelect{
             this.dropdown.querySelector(`[${ATTRS.optionAttr}="${newValue}"]`).classList.add(CLASSES.active);
 
             // close on change
-            if(this.options.closeOnChange) this.close();
+            let isCloseOnChange = this.options.closeOnChange;
+            if(this.options.multiple) isCloseOnChange = false; // not close in multi select
+            if(isCloseOnChange) this.close();
         }
 
         // update value attribute
