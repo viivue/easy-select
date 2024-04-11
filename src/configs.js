@@ -18,6 +18,9 @@ export const CLASSES = {
     searchEnabled: 'es-search-enabled',
     searchWrapper: 'es-search-wrapper',
     searchEmpty: 'es-search-empty',
+
+    // multi select
+    multipleSelect: 'es-multi-select'
 }
 /**
  * Attributes
