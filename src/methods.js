@@ -32,6 +32,7 @@ export function init(context){
     }
 
     // update value attribute
+    // tested with multi select
     context.selectTag.setAttribute(ATTRS.value, val(context));
 
     // Event: onInit

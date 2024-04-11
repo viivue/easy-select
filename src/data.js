@@ -59,7 +59,7 @@ export function getOptionData(context, option = undefined){
     const value = option.value;
     const index = getIndex(option);
     const id = stringToSlug(value) + '-' + index;
-    const isSelected = value === val(context);
+    const isSelected = val(context, 'array').includes(value); // tested with multi select
     const el = option;
     const isDisabled = option.disabled;
 

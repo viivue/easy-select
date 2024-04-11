@@ -78,7 +78,8 @@ export function getOptionHTML(context, option = undefined){
     const isMultipleCurrent = typeof option === 'undefined' && context.options.multiple;
 
     // is active
-    const isActive = typeof option !== 'undefined' && option['value'] === val(context);
+    // tested with multi select
+    const isActive = typeof option !== 'undefined' && val(context, 'array').includes(option['value']);
 
     // return selected option
     if(typeof option === 'undefined'){
