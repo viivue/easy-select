@@ -6,10 +6,30 @@ import {getIndex, getMultipleSelectedValues, getSelectedOption, stringToSlug} fr
 
 /**
  * Get value
+ * @param context
+ * @param type
  * @returns {*}
  */
-export function val(context){
-    context.value = getMultipleSelectedValues(context.selectTag);
+export function val(context, type = 'string'){
+    const valueArray = getMultipleSelectedValues(context.selectTag);
+    let value;
+
+    switch(type){
+        case "array":
+            value = valueArray;
+            break;
+        default:
+            // string
+            if(valueArray.length === 1){
+                value = valueArray[0]; // => "value"
+            }else if(valueArray.length > 1){
+                value = valueArray.join(','); // => "value1,value2"
+            }else{
+                value = ''; // => ""
+            }
+    }
+
+    context.value = value;
     return context.value;
 }
 
