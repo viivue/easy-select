@@ -109,7 +109,7 @@ export function create(context){
 
     // hide default select
     assignSelectOnChange(context);
-    context.selectTag.style.display = 'none';
+    //context.selectTag.style.display = 'none';
 
     // on current click
     context.current.addEventListener('click', () => context.toggle());

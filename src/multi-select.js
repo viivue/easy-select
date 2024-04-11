@@ -6,7 +6,4 @@ export function initMultiSelect(context){
 
     // set multiple attribute
     context.selectTag.setAttribute('multiple', 'true');
-
-    // todo: remove before release
-    context.selectTag.style.display = '';
 }

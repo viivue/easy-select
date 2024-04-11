@@ -169,3 +169,14 @@ export function getMultipleSelectedValues(selectTag){
 
     return result;
 }
+
+
+/**
+ * Get option element by value
+ * @param context
+ * @param optionValue
+ * @returns {Element}
+ */
+export function getOptionByValue(context, optionValue){
+    return context.selectTag.querySelector(`option[value="${optionValue}"]`);
+}
