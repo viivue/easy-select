@@ -280,6 +280,13 @@
  * Checkbox
 ****************************/
 .easy-select.es-multi-select {
+  .es-current-label {
+    max-width: var(--es-dropdown-width);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .es-dropdown {
     .es-option {
       position: relative;

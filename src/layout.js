@@ -1,3 +1,4 @@
+import {getOptionByValue} from "@/utils";
 import {getOptionData, val} from "./data";
 import {CLASSES, ATTRS} from "./configs"
 
@@ -116,7 +117,15 @@ export function getOptionInnerHTML(context, option, isMultipleCurrent = false){
     if(context.options.multiple){
         if(isMultipleCurrent){
             // current
-            html += context.options.multipleLabel;
+            const selectedValues = val(context, 'array');
+            const labels = [];
+            selectedValues.forEach(value => {
+                const option = getOptionData(context, getOptionByValue(context, value));
+                labels.push(option.label);
+            });
+            html += `<span class="es-current-label">`;
+            html += labels.join(', ');
+            html += `</span>`;
         }else{
             // option
             html += `<i class="es-checkbox"></i>`;
