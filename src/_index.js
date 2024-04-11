@@ -224,14 +224,17 @@ class EasySelect{
         // update current HTML
         this.current.innerHTML = getOptionHTML(this);
         const newValue = val(this);
+        const newValueArray = val(this, 'array');
 
         /** Dropdown **/
         if(!this.options.nativeSelect){
-            // active option
+            // update active class
             this.dropdown.querySelectorAll(`[${ATTRS.optionAttr}]`).forEach(item => {
                 item.classList.remove(CLASSES.active);
             });
-            this.dropdown.querySelector(`[${ATTRS.optionAttr}="${newValue}"]`).classList.add(CLASSES.active);
+            newValueArray.forEach(val => {
+                this.dropdown.querySelector(`[${ATTRS.optionAttr}="${val}"]`).classList.add(CLASSES.active);
+            });
 
             // close on change
             let isCloseOnChange = this.options.closeOnChange;
