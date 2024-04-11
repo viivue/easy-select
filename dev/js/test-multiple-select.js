@@ -1,6 +1,6 @@
-import html from "../html/multiple-options.html";
+import html from "../html/multiple-select.html";
 
-export function testMultipleOptions(root){
+export function testMultipleSelect(root){
     root.insertAdjacentHTML('beforeend', html);
 
     // Init: default layout
