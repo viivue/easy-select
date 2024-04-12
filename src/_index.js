@@ -1,6 +1,6 @@
 import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, init} from "./methods";
-import {getOptionHTML, updateDropdownHTML} from "./layout";
+import {getCurrentInnerHTML, getOptionHTML, updateDropdownHTML} from "./layout";
 import {findObjectInArray, getOptionByValue, getSelectTag} from "./utils";
 import {EventsManager, getOptionsFromAttribute} from "@phucbm/os-util";
 import {CLASSES, ATTRS, DEFAULTS} from './configs'
@@ -144,7 +144,7 @@ class EasySelect{
 
         if(this.selectTagData.length){
             // update current
-            this.current.innerHTML = getOptionHTML(this);
+            this.current.innerHTML = getCurrentInnerHTML(this);
 
             // if not native select
             if(!this.options.nativeSelect){
@@ -256,7 +256,7 @@ class EasySelect{
         if(this.isDisabled) return;
 
         // update current HTML
-        this.current.innerHTML = getOptionHTML(this);
+        this.current.innerHTML = getCurrentInnerHTML(this);
         const newValue = val(this);
         const newValueArray = val(this, 'array');
 

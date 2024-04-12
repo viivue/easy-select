@@ -47,7 +47,9 @@ export function getSelectData(context){
 
 /**
  * Get option data
- * @returns {{isSelected: boolean, index: *, id: string, label: *, value: (*|string|number|string[])}}
+ * @param context
+ * @param option
+ * @returns {{el: *, isSelected: *, index: *, id: string, label: string, isDisabled: (*|(() => boolean)|((setting: string) => boolean)|string|boolean), value: *}}
  */
 export function getOptionData(context, option = undefined){
     if(typeof option === 'undefined'){
@@ -55,13 +57,13 @@ export function getOptionData(context, option = undefined){
         option = getSelectedOption(context.selectTag);
     }
 
-    const label = option.innerText;
-    const value = option.value;
+    const label = option?.innerText;
+    const value = option?.value;
     const index = getIndex(option);
     const id = stringToSlug(value) + '-' + index;
     const isSelected = val(context, 'array').includes(value); // tested with multi select
     const el = option;
-    const isDisabled = option.disabled;
+    const isDisabled = option?.disabled;
 
     return {id, label, value, isSelected, isDisabled, index, el};
 }
