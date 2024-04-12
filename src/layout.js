@@ -1,4 +1,4 @@
-import {getOptionByValue} from "@/utils";
+import {getOptionByValue} from "./utils";
 import {getOptionData, val} from "./data";
 import {CLASSES, ATTRS} from "./configs"
 
@@ -27,7 +27,7 @@ export function getCurrentInnerHTML(context){
         });
         html += `<div class="${CLASSES.option}">`;
         html += `<span class="es-current-label">`;
-        html += labels.join(', ');
+        html += labels.length ? labels.join(', ') : context.options.multipleLabel;
         html += `</span>`;
         html += `</div>`;
     }else{
