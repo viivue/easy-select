@@ -25,14 +25,31 @@ class EasySelect{
         });
 
         // get options and assign ID
-        const tempId = options.id || this.selectTag.id || uniqueId('es-');
+        this.id = this.selectTag.id;
+        this.idType = 'select-tag-id';
+        if(!this.id){
+            this.id = uniqueId('es-');
+            this.idType = 'auto-id';
+        }
+
         this.options = getOptionsFromAttribute({
             target: this.selectTag,
             attributeName: ATTRS.init,
-            defaultOptions: {...DEFAULTS, ...options, id: tempId},
-            numericValues: ['autoShow']
+            defaultOptions: {...DEFAULTS, id: this.id, ...options},
+            numericValues: ['autoShow'],
+            onIsString: (id) => {
+                this.id = id;
+                this.idType = 'attr-json-id';
+            }
         });
-        this.id = this.options.id;
+
+        // found id from user options
+        if(this.options.id !== this.id && this.idType !== 'attr-json-id'){
+            this.id = this.options.id;
+            this.idType = 'json-id';
+        }
+
+        // console.log(this.idType, this.id, this.selectTag)
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
