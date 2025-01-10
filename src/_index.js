@@ -1,7 +1,7 @@
 import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, init} from "./methods";
 import {getOptionHTML, updateDropdownHTML} from "./layout";
-import {findObjectInArray, getSelectTag} from "./utils";
+import {findObjectInArray, getSelectTag, uniqueId} from "./utils";
 import {EventsManager, getOptionsFromAttribute} from "@phucbm/os-util";
 import {CLASSES, ATTRS, DEFAULTS} from './configs'
 
@@ -25,14 +25,14 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.id = options.id || this.selectTag.id || DEFAULTS.id;
-
+        const tempId = options.id || this.selectTag.id || uniqueId('es-');
         this.options = getOptionsFromAttribute({
             target: this.selectTag,
             attributeName: ATTRS.init,
-            defaultOptions: {...DEFAULTS, ...options, id: this.id},
+            defaultOptions: {...DEFAULTS, ...options, id: tempId},
             numericValues: ['autoShow']
         });
+        this.id = this.options.id;
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
