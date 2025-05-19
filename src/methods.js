@@ -92,7 +92,7 @@ export function create(context){
 
     // add wrapperClass option
     const wrapperClassOption = context.options.wrapperClass?.trim();
-    if(wrapperClassOption.length > 0){
+    if(wrapperClassOption?.length > 0){
         context.wrapper.classList.add(wrapperClassOption);
     }
 
