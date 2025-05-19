@@ -37,7 +37,14 @@ class EasySelect{
             }
         });
 
-        // priority: options.id > selectTag.id > options.id > this.id > DEFAULTS.id; this.id in case data-easy-select="my-id"
+        /*
+        * Priority:
+        * options.id : get from script init
+        * selectTag.id : get from <select id="my-id">
+        * this.options.id : get from data-easy-select='{"id": "my-id"}'
+        * this.id : get from data-easy-select="my-id"
+        * DEFAULTS.id : get auto generated ID.
+        * */
         this.options.id = options.id || this.selectTag.id || this.options.id || this.id || DEFAULTS.id;
         this.id = this.options.id;
 
