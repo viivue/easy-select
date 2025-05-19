@@ -25,14 +25,28 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.id = options.id || this.selectTag.id || DEFAULTS.id;
-
         this.options = getOptionsFromAttribute({
             target: this.selectTag,
             attributeName: ATTRS.init,
-            defaultOptions: {...DEFAULTS, ...options, id: this.id},
-            numericValues: ['autoShow']
+            defaultOptions: {...DEFAULTS, ...options, id: null},
+            numericValues: ['autoShow'],
+            onIsString: value => {
+                if(!this.id) {
+                    this.id = value;
+                }
+            }
         });
+
+        /*
+        * Priority:
+        * 1. options.id : get from script init
+        * 2. selectTag.id : get from <select id="my-id">
+        * 3. this.options.id : get from data-easy-select='{"id": "my-id"}'
+        * 4. this.id : get from data-easy-select="my-id"
+        * 5. DEFAULTS.id : get auto generated ID.
+        * */
+        this.options.id = options.id || this.selectTag.id || this.options.id || this.id || DEFAULTS.id;
+        this.id = this.options.id;
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
