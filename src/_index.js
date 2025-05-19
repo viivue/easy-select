@@ -39,11 +39,11 @@ class EasySelect{
 
         /*
         * Priority:
-        * options.id : get from script init
-        * selectTag.id : get from <select id="my-id">
-        * this.options.id : get from data-easy-select='{"id": "my-id"}'
-        * this.id : get from data-easy-select="my-id"
-        * DEFAULTS.id : get auto generated ID.
+        * 1. options.id : get from script init
+        * 2. selectTag.id : get from <select id="my-id">
+        * 3. this.options.id : get from data-easy-select='{"id": "my-id"}'
+        * 4. this.id : get from data-easy-select="my-id"
+        * 5. DEFAULTS.id : get auto generated ID.
         * */
         this.options.id = options.id || this.selectTag.id || this.options.id || this.id || DEFAULTS.id;
         this.id = this.options.id;
