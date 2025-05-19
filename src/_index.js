@@ -25,8 +25,6 @@ class EasySelect{
         });
 
         // get options and assign ID
-        // this.id = options.id || this.selectTag.id;
-
         this.options = getOptionsFromAttribute({
             target: this.selectTag,
             attributeName: ATTRS.init,
@@ -36,10 +34,10 @@ class EasySelect{
                 if(!this.id) {
                     this.id = value;
                 }
-                console.log(value); // => "hello-world"
             }
         });
 
+        // priority: options.id > selectTag.id > options.id > this.id > DEFAULTS.id; this.id in case data-easy-select="my-id"
         this.options.id = options.id || this.selectTag.id || this.options.id || this.id || DEFAULTS.id;
         this.id = this.options.id;
 
