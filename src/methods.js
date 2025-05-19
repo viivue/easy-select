@@ -90,6 +90,11 @@ export function create(context){
     // add current HTML
     context.wrapper.insertAdjacentHTML('beforeend', getCurrentHTML(context));
 
+    // add wrapperClass option
+    if(context.options.wrapperClass?.trim().length > 0){
+        context.wrapper.classList.add(context.options.wrapperClass?.trim());
+    }
+
     // exit if is native select
     if(context.options.nativeSelect){
         context.wrapper.classList.add(CLASSES.nativeSelect);

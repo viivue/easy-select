@@ -25,14 +25,23 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.id = options.id || this.selectTag.id || DEFAULTS.id;
+        // this.id = options.id || this.selectTag.id;
 
         this.options = getOptionsFromAttribute({
             target: this.selectTag,
             attributeName: ATTRS.init,
-            defaultOptions: {...DEFAULTS, ...options, id: this.id},
-            numericValues: ['autoShow']
+            defaultOptions: {...DEFAULTS, ...options, id: null},
+            numericValues: ['autoShow'],
+            onIsString: value => {
+                if(!this.id) {
+                    this.id = value;
+                }
+                console.log(value); // => "hello-world"
+            }
         });
+
+        this.options.id = options.id || this.selectTag.id || this.options.id || this.id || DEFAULTS.id;
+        this.id = this.options.id;
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
