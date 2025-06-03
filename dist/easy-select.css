@@ -249,3 +249,37 @@
   min-height: var(--es-height);
   padding: 5px 20px;
 }
+
+/****************************
+ * Checkbox
+****************************/
+.easy-select.es-multi-select .es-current-label {
+  max-width: var(--es-dropdown-width);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.easy-select.es-multi-select .es-dropdown .es-option {
+  position: relative;
+  padding-left: 45px;
+}
+.easy-select.es-multi-select .es-dropdown .es-option:not(.es-active) .es-checkbox:before {
+  opacity: 0;
+}
+.easy-select.es-multi-select .es-dropdown .es-checkbox {
+  position: absolute;
+  top: 0.65em;
+  left: 20px;
+  width: 18px;
+  aspect-ratio: 1;
+  background-color: #e0e7ee;
+  border-radius: 3px;
+}
+.easy-select.es-multi-select .es-dropdown .es-checkbox:before {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7em;
+}
