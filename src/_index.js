@@ -1,7 +1,7 @@
 import {getSelectData, val} from "./data";
 import {fireOnChangeEvent, init} from "./methods";
-import {getOptionHTML, updateDropdownHTML} from "./layout";
-import {findObjectInArray, getSelectTag} from "./utils";
+import {getCurrentInnerHTML, getOptionHTML, updateDropdownHTML} from "./layout";
+import {findObjectInArray, getOptionByValue, getSelectTag} from "./utils";
 import {EventsManager, getOptionsFromAttribute} from "@phucbm/os-util";
 import {CLASSES, ATTRS, DEFAULTS} from './configs'
 
@@ -25,14 +25,28 @@ class EasySelect{
         });
 
         // get options and assign ID
-        this.id = options.id || this.selectTag.id || DEFAULTS.id;
-
         this.options = getOptionsFromAttribute({
             target: this.selectTag,
             attributeName: ATTRS.init,
-            defaultOptions: {...DEFAULTS, ...options, id: this.id},
-            numericValues: ['autoShow']
+            defaultOptions: {...DEFAULTS, ...options, id: null},
+            numericValues: ['autoShow'],
+            onIsString: value => {
+                if(!this.id) {
+                    this.id = value;
+                }
+            }
         });
+
+        /*
+        * Priority:
+        * 1. options.id : get from script init
+        * 2. selectTag.id : get from <select id="my-id">
+        * 3. this.options.id : get from data-easy-select='{"id": "my-id"}'
+        * 4. this.id : get from data-easy-select="my-id"
+        * 5. DEFAULTS.id : get auto generated ID.
+        * */
+        this.options.id = options.id || this.selectTag.id || this.options.id || this.id || DEFAULTS.id;
+        this.id = this.options.id;
 
         this.wrapper = this.selectTag.parentElement;
         this.dropdown = this.wrapper.querySelector(`.${CLASSES.dropdown}`);
@@ -87,6 +101,9 @@ class EasySelect{
             case 'select':
                 this.select(param);
                 break;
+            case 'select-by-index':
+                this.selectByIndex(param);
+                break;
             case 'on':
                 this.on(param, param2);
                 break;
@@ -111,7 +128,7 @@ class EasySelect{
      * @param disabled
      */
     disableOption(optionValue, disabled){
-        const option = this.selectTag.querySelector(`option[value="${optionValue}"]`);
+        const option = getOptionByValue(this, optionValue);
 
         if(!option){
             console.warn(`Option with value "${optionValue}" is not found.`);
@@ -141,7 +158,7 @@ class EasySelect{
 
         if(this.selectTagData.length){
             // update current
-            this.current.innerHTML = getOptionHTML(this);
+            this.current.innerHTML = getCurrentInnerHTML(this);
 
             // if not native select
             if(!this.options.nativeSelect){
@@ -180,18 +197,69 @@ class EasySelect{
     select(value){
         if(this.isDisabled) return;
 
-        // skip duplicate value
-        if(value === val(this)) return;
+        // todo: create isSelectedOption()
+        const isSelected = val(this, 'array').includes(value);
 
-        // value exists in data object => update value
-        if(typeof findObjectInArray(this.selectTagData, 'value', value) !== 'undefined'){
-            this.selectTag.value = value;
-            fireOnChangeEvent(this);
+        // treat selected option
+        if(isSelected){
+            if(this.options.multiple) this.deselect(value);
             return;
         }
 
-        // warning
-        if(this.options.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
+
+        // value not exists in data object => update value
+        if(typeof findObjectInArray(this.selectTagData, 'value', value) === 'undefined'){
+            // warning
+            if(this.options.warning) console.warn(`Option[value="${value}"] is not found in this select!`);
+            return;
+        }
+
+
+        // set selected value to select tag (single select only)
+        // with multi select, update select tag will lead to missing previous selected values
+        if(!this.options.multiple) this.selectTag.value = value;
+
+        // make the option selected
+        const option = getOptionByValue(this, value);
+        option.selected = true;
+
+        fireOnChangeEvent(this);
+    }
+
+
+    /**
+     * Deselect by value
+     * @param value
+     */
+    deselect(value){
+        // todo: bug multi deselect
+        if(this.isDisabled) return;
+
+        // get option
+        const option = getOptionByValue(this, value);
+        if(!option) return;
+
+        // deselect
+        option.selected = false;
+
+        fireOnChangeEvent(this);
+    }
+
+    /**
+     * Select option with index value
+     * @param index
+     */
+    selectByIndex(index){
+
+        // value not found => return
+        if(!this.selectTagData[parseInt(index)]){
+            console.warn(`Option[index="${index}"] is not found!`)
+            return;
+        }
+
+        const value = this.selectTagData[index].value;
+
+        this.select(value);
     }
 
     /**
@@ -202,19 +270,31 @@ class EasySelect{
         if(this.isDisabled) return;
 
         // update current HTML
-        this.current.innerHTML = getOptionHTML(this);
+        this.current.innerHTML = getCurrentInnerHTML(this);
         const newValue = val(this);
+        const newValueArray = val(this, 'array');
 
         /** Dropdown **/
         if(!this.options.nativeSelect){
-            // active option
-            this.dropdown.querySelectorAll(`[${ATTRS.optionAttr}]`).forEach(item => {
-                item.classList.remove(CLASSES.active);
+            // todo: this.selectTagData not updated
+            //console.log(this.selectTagData)
+
+            // update active class
+            this.selectTagData.forEach(option => {
+                const isSelected = newValueArray.includes(option.value);
+                if(isSelected){
+                    // activate selected values
+                    // todo: save dropdown el to selectTagData
+                    this.dropdown.querySelector(`[${ATTRS.optionAttr}="${option.value}"]`).classList.add(CLASSES.active);
+                }else{
+                    this.dropdown.querySelector(`[${ATTRS.optionAttr}="${option.value}"]`).classList.remove(CLASSES.active);
+                }
             });
-            this.dropdown.querySelector(`[${ATTRS.optionAttr}="${newValue}"]`).classList.add(CLASSES.active);
 
             // close on change
-            if(this.options.closeOnChange) this.close();
+            let isCloseOnChange = this.options.closeOnChange;
+            if(this.options.multiple) isCloseOnChange = false; // not close in multi select
+            if(isCloseOnChange) this.close();
         }
 
         // update value attribute

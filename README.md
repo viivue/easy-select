@@ -1,7 +1,7 @@
 # Easy Select
 
 [![release](https://badgen.net/github/release/viivue/easy-select/)](https://github.com/viivue/easy-select/releases/latest)
-[![minified](https://badgen.net/badge/minified/9KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
+[![minified](https://badgen.net/badge/minified/13KB/cyan)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
 [![jsdelivr](https://data.jsdelivr.com/v1/package/gh/viivue/easy-select/badge?style=rounded)](https://www.jsdelivr.com/package/gh/viivue/easy-select)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/84c6ed49-b3f3-450b-857a-ec904db724b7/deploy-status)](https://app.netlify.com/sites/easy-select/deploys)
 

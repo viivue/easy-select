@@ -80,4 +80,10 @@ export function testMethods(root){
             }
         });
     });
+    const inputIndex = document.querySelector('input[name="add-index"]');
+
+    inputIndex.addEventListener('keyup', (e) => {
+        const item = EasySelect.get(inputIndex.getAttribute('data-id'));
+        item.selectByIndex(e.target.value);
+    });
 }

@@ -150,3 +150,33 @@ export function removeAccents(str){
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd').replace(/Đ/g, 'D');
 }
+
+
+/**
+ * Get selected values from a select tag (support multiple select)
+ * @param selectTag
+ * @returns {*[]}
+ */
+export function getMultipleSelectedValues(selectTag){
+    let result = [];
+    let options = selectTag && selectTag.options;
+
+    for(const option of options){
+        if(option.selected){
+            result.push(option.value || option.text);
+        }
+    }
+
+    return result;
+}
+
+
+/**
+ * Get option element by value
+ * @param context
+ * @param optionValue
+ * @returns {Element}
+ */
+export function getOptionByValue(context, optionValue){
+    return context.selectTag.querySelector(`option[value="${optionValue}"]`);
+}
