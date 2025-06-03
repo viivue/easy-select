@@ -1,3 +1,4 @@
+import {initMultiSelect} from "./multi-select";
 import {createEl, insertAfter, wrapAll} from "./utils";
 import {getCurrentHTML, updateDropdownHTML} from "./layout";
 import {val} from "./data";
@@ -25,7 +26,13 @@ export function init(context){
         initSearchDropdown(context);
     }
 
+    // init multi select
+    if(context.options.multiple && !context.options.nativeSelect){
+        initMultiSelect(context);
+    }
+
     // update value attribute
+    // tested with multi select
     context.selectTag.setAttribute(ATTRS.value, val(context));
 
     // Event: onInit

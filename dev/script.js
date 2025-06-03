@@ -12,6 +12,7 @@ import {testLayout} from "./js/test-layout";
 import {testMethods} from "./js/test-methods";
 import {testDisabled} from "./js/test-disabled";
 import {testSearch} from "./js/test-search";
+import {testMultipleSelect} from "./js/test-multiple-select";
 
 // import package info
 const packageInfo = require('../package.json');
@@ -35,3 +36,4 @@ testSearch(root);
 testLayout(root);
 testInit(root);
 testDisabled(root);
+testMultipleSelect(root);

@@ -274,3 +274,48 @@
   min-height: var(--es-height);
   padding: 5px 20px;
 }
+
+
+/****************************
+ * Checkbox
+****************************/
+.easy-select.es-multi-select {
+  .es-current-label {
+    max-width: var(--es-dropdown-width);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .es-dropdown {
+    .es-option {
+      position: relative;
+      padding-left: 45px;
+
+      &:not(.es-active) {
+        .es-checkbox:before {
+          opacity: 0;
+        }
+      }
+    }
+
+    .es-checkbox {
+      position: absolute;
+      top: .65em;
+      left: 20px;
+      width: 18px;
+      aspect-ratio: 1;
+      background-color: #e0e7ee;
+      border-radius: 3px;
+
+      &:before {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: .7em;
+      }
+    }
+  }
+}

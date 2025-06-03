@@ -1,3 +1,4 @@
+import {getOptionByValue} from "./utils";
 import {getOptionData, val} from "./data";
 import {CLASSES, ATTRS} from "./configs"
 
@@ -10,10 +11,30 @@ import {CLASSES, ATTRS} from "./configs"
  * @returns {string}
  */
 export function getCurrentHTML(context){
+    return `<div class="${CLASSES.current}">${getCurrentInnerHTML(context)}</div>`;
+}
+
+export function getCurrentInnerHTML(context){
     let html = '';
-    html += `<div class="${CLASSES.current}">`;
-    html += getOptionHTML(context);
-    html += `</div>`;
+
+    if(context.options.multiple){
+        // current multiple
+        const selectedValues = val(context, 'array');
+        const labels = [];
+        selectedValues.forEach(value => {
+            const option = getOptionData(context, getOptionByValue(context, value));
+            labels.push(option.label);
+        });
+        html += `<div class="${CLASSES.option}">`;
+        html += `<span class="es-current-label">`;
+        html += labels.length ? labels.join(', ') : context.options.multipleLabel;
+        html += `</span>`;
+        html += `</div>`;
+    }else{
+        // current single
+        html += getOptionHTML(context);
+    }
+
     return html;
 }
 
@@ -75,7 +96,8 @@ export function getDropdownHTML(context){
  */
 export function getOptionHTML(context, option = undefined){
     // is active
-    const isActive = typeof option !== 'undefined' && option['value'] === val(context);
+    // tested with multi select
+    const isActive = typeof option !== 'undefined' && val(context, 'array').includes(option['value']);
 
     // return selected option
     if(typeof option === 'undefined'){
@@ -100,11 +122,22 @@ export function getOptionHTML(context, option = undefined){
  * @returns {string}
  */
 export function getOptionInnerHTML(context, option){
-    let html = context.options.customDropDownOptionHTML(option);
+    // return custom HTML if any
+    let customHTML = context.options.customDropDownOptionHTML(option);
+    if(customHTML) return customHTML;
 
-    if(typeof html === 'undefined'){
-        html = `<span>${option['label']}</span>`;
+    let html = '';
+
+    // multiple select
+    if(context.options.multiple){
+        // option
+        html += `<i class="es-checkbox"></i>`;
+        html += `<span>${option['label']}</span>`;
+        return html;
     }
+
+    // single select
+    html = `<span>${option['label']}</span>`;
 
     return html;
 }

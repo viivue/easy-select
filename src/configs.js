@@ -18,6 +18,9 @@ export const CLASSES = {
     searchEnabled: 'es-search-enabled',
     searchWrapper: 'es-search-wrapper',
     searchEmpty: 'es-search-empty',
+
+    // multi select
+    multipleSelect: 'es-multi-select'
 }
 /**
  * Attributes
@@ -38,6 +41,9 @@ export const DEFAULTS = {
     wrapDefaultSelect: true,
     closeOnChange: true,
     align: "left",
+
+    multiple: false,
+    multipleLabel: "Select multiple options",
 
     // show search input inside dropdown
     search: false,
